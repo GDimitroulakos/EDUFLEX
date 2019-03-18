@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Parser</RootNamespace>
     <AssemblyName>Parser</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,8 +40,13 @@
     <Reference Include="Antlr4.Runtime, Version=4.6.0.0, Culture=neutral, PublicKeyToken=09abb75b9ed49849, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr4.Runtime.4.6.5\lib\net45\Antlr4.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="GraphLibrary">
-      <HintPath>..\..\..\MyLibraries\GraphLibrary\GraphLibrary\bin\Debug\GraphLibrary.dll</HintPath>
+    <Reference Include="GraphLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\GraphLibrary\GraphLibrary\bin\Debug\GraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RangeIntervals, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RangeIntervals\bin\Debug\RangeIntervals.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -117,12 +123,6 @@
     <Content Include="bin\Debug\text1.gif" />
     <Content Include="bin\Debug\text1.txt" />
     <Content Include="bin\Debug\text1AST.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RangeIntervals\RangeIntervals.csproj">
-      <Project>{9f2260a4-5a18-4248-bf80-dbf32b274dd5}</Project>
-      <Name>RangeIntervals</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
