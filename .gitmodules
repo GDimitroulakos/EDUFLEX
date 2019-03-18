@@ -1,0 +1,6 @@
+[submodule "GraphLibrary"]
+	path = GraphLibrary
+	url = https://github.com/dhmhgre/GraphLibrary
+[submodule "RangeIntervals"]
+	path = RangeIntervals
+	url = https://github.com/dhmhgre/RangeIntervals
