@@ -70,7 +70,7 @@ namespace Parser.SubsetConstruction
                                 m_workList.Enqueue(qprime);
                                 Qprime = m_configurations.CreateDFANode(qprime);
                             }
-                            e= m_DFA.AddGraphEdge(Q, Qprime, GraphType.GT_DIRECTED);
+                            e= m_DFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
                             set = new CCharRangeSet(false);
                             set.AddRange(range);
                             e[FA.m_TRANSITIONSKEY] = set;
@@ -123,7 +123,7 @@ namespace Parser.SubsetConstruction
             DFAnode = GetDFANode(q);
 
             if (DFAnode == null) {
-                DFAnode = m_DFA.CreateGraphNode();
+                DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
                 if (ContainsFinalState(q)) {
                     m_DFA.SetFinalState(DFAnode);
                 }

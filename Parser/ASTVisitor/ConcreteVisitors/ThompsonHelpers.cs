@@ -18,18 +18,18 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
 
 
-        CGraphNode il = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
-        CGraphNode fl = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(merged.GetMirrorNode(synth.GetFinalStates()[0]) , fl, GraphType.GT_DIRECTED);
+        CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge,CGraphNode>(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
+        CGraphNode fl = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(merged.GetMirrorNode(synth.GetFinalStates()[0]) , fl, GraphType.GT_DIRECTED);
 
         //4.Create the initial and the final node
         tempFA.M_Initial = il;
         tempFA.SetFinalState(fl);
         tempFA.UpdateAlphabet();
 
-        tempFA.AddGraphEdge(il, fl, GraphType.GT_DIRECTED);
-        tempFA.AddGraphEdge(merged.GetMirrorNode(synth.GetFinalStates()[0]), merged.GetMirrorNode(synth.M_Initial),
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(il, fl, GraphType.GT_DIRECTED);
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(merged.GetMirrorNode(synth.GetFinalStates()[0]), merged.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
 
         //7.Return result
@@ -43,17 +43,17 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
 
 
-        CGraphNode il = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
-        CGraphNode fl = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(merged.GetMirrorNode(synth.GetFinalStates()[0]), fl, GraphType.GT_DIRECTED);
+        CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
+        CGraphNode fl = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(merged.GetMirrorNode(synth.GetFinalStates()[0]), fl, GraphType.GT_DIRECTED);
 
         //4.Create the initial and the final node
         tempFA.M_Initial = il;
         tempFA.SetFinalState(fl);
         tempFA.UpdateAlphabet();
 
-        tempFA.AddGraphEdge(merged.GetMirrorNode(synth.GetFinalStates()[0]), merged.GetMirrorNode(synth.M_Initial),
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(merged.GetMirrorNode(synth.GetFinalStates()[0]), merged.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
 
         //7.Return result
@@ -67,17 +67,17 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
 
 
-        CGraphNode il = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
-        CGraphNode fl = tempFA.CreateGraphNode();
-        tempFA.AddGraphEdge(merged.GetMirrorNode(synth.GetFinalStates()[0]), fl, GraphType.GT_DIRECTED);
+        CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
+        CGraphNode fl = tempFA.CreateGraphNode<CGraphNode>();
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(merged.GetMirrorNode(synth.GetFinalStates()[0]), fl, GraphType.GT_DIRECTED);
 
         //4.Create the initial and the final node
         tempFA.M_Initial = il;
         tempFA.SetFinalState(fl);
         tempFA.UpdateAlphabet();
 
-        tempFA.AddGraphEdge(il, fl, GraphType.GT_DIRECTED);
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(il, fl, GraphType.GT_DIRECTED);
 
         //7.Return result
         return tempFA;
@@ -105,7 +105,7 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
         tempFA.M_Initial = il;
         tempFA.SetFinalState(fr);
 
-        tempFA.AddGraphEdge(fl, ir, GraphType.GT_DIRECTED);
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(fl, ir, GraphType.GT_DIRECTED);
 
         //7.Return result
         return tempFA;
@@ -134,17 +134,17 @@ internal class CThompsonAlternationTemplate : CThompsonTemplates
         CGraphNode fr = rmerge.GetMirrorNode(r.GetFinalStates()[0]);
 
         //4.Create the initial and the final node
-        CGraphNode FAinit = templateFA.CreateGraphNode();
-        CGraphNode FAfinal = templateFA.CreateGraphNode();
+        CGraphNode FAinit = templateFA.CreateGraphNode<CGraphNode>();
+        CGraphNode FAfinal = templateFA.CreateGraphNode<CGraphNode>();
         templateFA.M_Initial = FAinit;
         templateFA.SetFinalState(FAfinal);
         templateFA.UpdateAlphabet();
 
 
-        templateFA.AddGraphEdge(FAinit, il, GraphType.GT_DIRECTED);
-        templateFA.AddGraphEdge(FAinit, ir, GraphType.GT_DIRECTED);
-        templateFA.AddGraphEdge(fr, FAfinal, GraphType.GT_DIRECTED);
-        templateFA.AddGraphEdge(fl, FAfinal, GraphType.GT_DIRECTED);
+        templateFA.AddGraphEdge<CGraphEdge, CGraphNode>(FAinit, il, GraphType.GT_DIRECTED);
+        templateFA.AddGraphEdge<CGraphEdge, CGraphNode>(FAinit, ir, GraphType.GT_DIRECTED);
+        templateFA.AddGraphEdge<CGraphEdge, CGraphNode>(fr, FAfinal, GraphType.GT_DIRECTED);
+        templateFA.AddGraphEdge<CGraphEdge, CGraphNode>(fl, FAfinal, GraphType.GT_DIRECTED);
 
         //7.Return result
         return templateFA;

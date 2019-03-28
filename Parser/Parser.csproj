@@ -82,13 +82,13 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Hopcroft\HopcroftAlgorithm.cs" />
-    <Compile Include="UOPCore\HelperTypes.cs" />
     <Compile Include="obj\Debug\RegExpLexer.cs" />
     <Compile Include="obj\Debug\RegExpParser.cs" />
     <Compile Include="obj\Debug\RegExpParserBaseListener.cs" />
     <Compile Include="obj\Debug\RegExpParserBaseVisitor.cs" />
     <Compile Include="obj\Debug\RegExpParserListener.cs" />
     <Compile Include="obj\Debug\RegExpParserVisitor.cs" />
+    <Compile Include="UOPCore\HelperTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PTPrinter.cs" />
@@ -101,10 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\Debug\merge.dot" />
-    <None Include="bin\Debug\mergeDFA.dot" />
-    <None Include="bin\Debug\text1.dot" />
-    <None Include="bin\Debug\text1AST.dot" />
     <None Include="packages.config" />
     <Antlr4 Include="RegExpLexer.g4">
       <Generator>MSBuild:Compile</Generator>
@@ -116,17 +112,14 @@
     </Antlr4>
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
     <Content Include="bin\Debug\merge.gif" />
     <Content Include="bin\Debug\mergeDFA.gif" />
     <Content Include="bin\Debug\minimizedDFA.gif" />
-    <Content Include="bin\Debug\text.txt" />
-    <Content Include="bin\Debug\text1.gif" />
-    <Content Include="bin\Debug\text1.txt" />
-    <Content Include="bin\Debug\text1AST.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
-    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

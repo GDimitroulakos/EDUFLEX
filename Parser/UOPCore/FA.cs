@@ -7,6 +7,39 @@ using GraphLibrary;
 
 namespace Parser.UOPCore
 {
+    public enum FAStateType {
+        FT_NA,FT_ACCEPTED,FT_NONACCEPTED
+    }
+    public class FAState : CGraphNode {
+        private FAStateType m_stateType;
+
+        public FAStateType MStateType {
+            get => m_stateType;
+            set => m_stateType = value;
+        }
+    }
+
+    /*public class FATransition : CGraphEdge {
+        private FAState m_source;
+        private FAState m_target;
+        private CCharRangeSet m_transitionCharacters;
+
+        public FAState MSource {
+            get => m_source;
+            set => m_source = value;
+        }
+
+        public FAState MTarget {
+            get => m_target;
+            set => m_target = value;
+        }
+
+        public CCharRangeSet MTransitionCharacters {
+            get => m_transitionCharacters;
+            set => m_transitionCharacters = value;
+        }
+    }*/
+
     /// <summary>
     /// This class represents a finite automaton. It is a graph with additional information
     /// regarding the labels' transitions.
@@ -14,7 +47,7 @@ namespace Parser.UOPCore
     /// <seealso cref="GraphLibrary.CGraph" />
     public class FA: CGraph
     {
-        private CGraphNode m_initial=null;
+        private CGraphNode m_initial =null;
         private HashSet<CGraphNode> m_final=null;
         private CGraphQueryInfo m_transitionsAlphabetInfo=null;
         private CCharRangeSet m_alphabet;
@@ -52,10 +85,10 @@ namespace Parser.UOPCore
         public CGraphNode GetTransitionTarget(CGraphNode source, Int32 character) {
             // Search every successor of source node and find the one with
             // with an edge labeled by the given character
-            foreach (CGraphEdge edge in source.OutgoingEdges) {
-                CCharRangeSet set = GetEdgeInfo(edge);
+            foreach (CGraphEdge transition in source.OutgoingEdges) {
+                CCharRangeSet set = GetEdgeInfo(transition);
                 if (set.IsCharInSet(character)) {
-                    return edge.M_Target;
+                    return transition.M_Target;
                 }
             }
             return null;
