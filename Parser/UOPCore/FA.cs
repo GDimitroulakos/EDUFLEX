@@ -60,11 +60,12 @@ namespace Parser.UOPCore
         // The key by which we can access edge transition info
         public const string m_TRANSITIONSKEY = "transitions";
 
+        public HashSet<CGraphNode> MFinal => m_final;
 
         public CGraphNode M_Initial
         {
             get { return m_initial; }
-            set { m_initial = value; }
+            set { m_initial = value; } 
         }
 
         public CGraphNode InitialState() {
@@ -72,7 +73,7 @@ namespace Parser.UOPCore
         }
 
         public List<CGraphNode> GetFinalStates() {
-            return new List<CGraphNode>(m_final);
+            return new List<CGraphNode>(m_final); 
         }
 
         public void SetFinalState(CGraphNode node) {
