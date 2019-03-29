@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeIntervals", "RangeInte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLibrary", "GraphLibrary\GraphLibrary\GraphLibrary.csproj", "{D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFASimulator", "DFASimulator\DFASimulator.csproj", "{369865DA-C49F-450A-A76C-33E501399E63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{369865DA-C49F-450A-A76C-33E501399E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{369865DA-C49F-450A-A76C-33E501399E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{369865DA-C49F-450A-A76C-33E501399E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{369865DA-C49F-450A-A76C-33E501399E63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

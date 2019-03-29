@@ -37,10 +37,10 @@ namespace Parser.Hopcroft {
             List<CGraphNode> configurationAcc,configurationNonAcc;
 
             // Create two distinct configurations for accepted and non-accepted nodes
-            CGraphNode acceptedConf= m_minimizedDFA.CreateGraphNode();
+            CGraphNode acceptedConf= m_minimizedDFA.CreateGraphNode<CGraphNode>();
             configurationAcc = new List<CGraphNode>();
             SetMinDFANodeConfiguration(acceptedConf,configurationAcc);
-            CGraphNode non_acceptedConf = m_minimizedDFA.CreateGraphNode();
+            CGraphNode non_acceptedConf = m_minimizedDFA.CreateGraphNode<CGraphNode>();
             configurationNonAcc = new List<CGraphNode>();
             SetMinDFANodeConfiguration(non_acceptedConf, configurationNonAcc);
 
@@ -86,7 +86,7 @@ namespace Parser.Hopcroft {
                                 // Disallow dublicate edges between nodes of the minimized DFA
                                 newedge = m_minimizedDFA.Edge(minit1.M_CurrentItem, minit2.M_CurrentItem);
                                 if (newedge == null) {
-                                    newedge = m_minimizedDFA.AddGraphEdge(minit1.M_CurrentItem, minit2.M_CurrentItem, GraphType.GT_DIRECTED);
+                                    newedge = m_minimizedDFA.AddGraphEdge<CGraphEdge, CGraphNode>(minit1.M_CurrentItem, minit2.M_CurrentItem, GraphType.GT_DIRECTED);
                                 }
 
                                 // Add transition characters
@@ -145,7 +145,7 @@ namespace Parser.Hopcroft {
 
             Dictionary<CGraphNode,CGraphNode> m_  = new Dictionary<CGraphNode, CGraphNode>();
 
-            CGraphNode sourcePartition,targetPartition, NULLPartition = m_minimizedDFA.CreateGraphNode();
+            CGraphNode sourcePartition,targetPartition, NULLPartition = m_minimizedDFA.CreateGraphNode<CGraphNode>();
 
             foreach (CCharRange range in m_DFA.M_Alphabet) {
                 foreach (Int32 ch in range) {
@@ -181,7 +181,7 @@ namespace Parser.Hopcroft {
                         if (m_CharConfigurationMappings[n] != m_CharConfigurationMappings[currentConfiguration[0]]) {
                             if (!m_NodeConfigurationMappings.ContainsKey(m_CharConfigurationMappings[n])){
                                 // a. Create a new node in the minimized DFA
-                                CGraphNode newp = m_minimizedDFA.CreateGraphNode();
+                                CGraphNode newp = m_minimizedDFA.CreateGraphNode<CGraphNode>();
                                 newConfiguration = new List<CGraphNode>();
                                 SetMinDFANodeConfiguration(newp, newConfiguration);
 

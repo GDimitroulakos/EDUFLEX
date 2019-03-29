@@ -113,14 +113,14 @@ namespace Parser.ASTVisitor.ConcreteVisitors
             m_NFA = new FA();
             
             //2.Create nodes initial-final
-            CGraphNode init = m_NFA.CreateGraphNode();
-            CGraphNode final = m_NFA.CreateGraphNode();
+            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
             m_NFA.M_Initial = init;
             m_NFA.SetFinalState(final);
             m_NFA.M_Alphabet.AddSet(charNode.M_CharRangeSet);
             
             //3.Draw the edge including the character
-            CGraphEdge newEdge = m_NFA.AddGraphEdge(init, final,GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final,GraphType.GT_DIRECTED);
             newEdge[FA.m_TRANSITIONSKEY] = charNode.M_CharRangeSet;
             //newEdge.SetLabel(charNode.M_TokenLiteral);
             //4.Pass FA to the predecessor
@@ -133,13 +133,13 @@ namespace Parser.ASTVisitor.ConcreteVisitors
             //Create FA
             m_NFA = new FA();
 
-            CGraphNode init = m_NFA.CreateGraphNode();
-            CGraphNode final = m_NFA.CreateGraphNode();
+            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
             m_NFA.M_Initial = init;
             m_NFA.SetFinalState(final);
             m_NFA.M_Alphabet.AddSet(setNode.MSet);
 
-            CGraphEdge newEdge = m_NFA.AddGraphEdge(init, final, GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
 
             newEdge[FA.m_TRANSITIONSKEY] = setNode.MSet;
             //4.Pass FA to the predecessor
@@ -154,14 +154,14 @@ namespace Parser.ASTVisitor.ConcreteVisitors
             m_NFA = new FA();
 
             //2.Create nodes initial-final
-            CGraphNode init = m_NFA.CreateGraphNode();
-            CGraphNode final = m_NFA.CreateGraphNode();
+            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
             m_NFA.M_Initial = init;
             m_NFA.SetFinalState(final);
             m_NFA.M_Alphabet.AddRange(rangeNode.MRange);
 
             //3.Draw the edge including the character
-            CGraphEdge newEdge = m_NFA.AddGraphEdge(init, final, GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             newEdge[FA.m_TRANSITIONSKEY] = rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
             //4.Pass FA to the predecessor
