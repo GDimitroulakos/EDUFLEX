@@ -25,6 +25,8 @@ namespace Parser.Hopcroft {
         // per Hopecoft algorithm instance
         public readonly string m_CONFIGURATIONKEY = "configuration";
 
+        public FA MinimizedDfa => m_minimizedDFA;
+
         public CHopcroftAlgorithm(FA dfa) {
             m_DFA = dfa;
             m_minimizedDFA = new FA();
@@ -110,6 +112,17 @@ namespace Parser.Hopcroft {
                 foreach (CGraphNode node in configuration) {
                     if (finals.Contains(node)) {
                         m_minimizedDFA.SetFinalState(it1.M_CurrentItem);
+                    }
+                }
+            }
+
+            // Detect initial state of minimized DFA
+            for (it1.Begin(); !it1.End(); it1.Next()) {
+                List<CGraphNode> configuration = GetMinDFANodeConfiguration(it1.M_CurrentItem);
+                CGraphNode initial = m_DFA.M_Initial;
+                foreach (CGraphNode node in configuration) {
+                    if (initial == node) {
+                        m_minimizedDFA.M_Initial = node;
                     }
                 }
             }

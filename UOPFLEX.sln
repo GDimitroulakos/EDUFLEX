@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{264E9674-11E2-4ADE-9AFE-198E4699F33C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782} = {D0E52A9B-DFDA-4EC2-90C5-8C3BB41FE782}
+		{E75325BB-1BFD-4C7B-BA5B-B17881531A5B} = {E75325BB-1BFD-4C7B-BA5B-B17881531A5B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeIntervals", "RangeIntervals\RangeIntervals.csproj", "{E75325BB-1BFD-4C7B-BA5B-B17881531A5B}"
 EndProject

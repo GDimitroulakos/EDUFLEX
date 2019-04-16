@@ -127,6 +127,10 @@ namespace Parser.SubsetConstruction
                 if (ContainsFinalState(q)) {
                     m_DFA.SetFinalState(DFAnode);
                 }
+
+                if (ContainsInitialState(q)) {
+                    m_DFA.M_Initial = DFAnode;
+                }
                 m_mappings[DFAnode] = q;
             }
 
@@ -147,6 +151,16 @@ namespace Parser.SubsetConstruction
             List<CGraphNode> finalStates = m_NFA.GetFinalStates();
             foreach (CGraphNode node in q) {
                 if (finalStates.Contains(node)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool ContainsInitialState(HashSet<CGraphNode> q) {
+            CGraphNode initiaNFAState = m_NFA.M_Initial;
+            foreach (CGraphNode node in q) {
+                if (initiaNFAState == node) {
                     return true;
                 }
             }

@@ -10,14 +10,15 @@ using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.ASTVisitor.Visitors;
 using Parser.Hopcroft;
 using Parser.SubsetConstruction;
+using Parser.UOPCore;
 
 //kefalaio 20 File Info klaseis Directory,DirectoryInfo , File, FileInfo
 // IEnumerable<T> interface, IEnumerator<T>,  foreach sel 297-300 +google msdn
 namespace Parser {
     public static class Facade {
+        private static FA ms_minDFA;
 
-        public static void GenerateNFA() { }
-        public static void GenerateDFA() { }
+        public static FA MsMinDfa => ms_minDFA;
 
         public static void VerifyRegExp(string[] args)//Validate the reg exp
         {
@@ -77,6 +78,7 @@ namespace Parser {
 
             CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetcontruction.Dfa);
             hopcroftAlgorithm.Init();
+            ms_minDFA = hopcroftAlgorithm.MinimizedDfa;
             
 
             return parser.NumberOfSyntaxErrors;
