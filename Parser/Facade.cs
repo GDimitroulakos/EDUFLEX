@@ -47,8 +47,6 @@ namespace Parser {
                 i++;
             }
             Console.WriteLine("\n\nTotal {0} errors", errors);
-
-
         }
 
         // Parses the given file

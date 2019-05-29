@@ -122,7 +122,7 @@ namespace Parser.Hopcroft {
                 CGraphNode initial = m_DFA.M_Initial;
                 foreach (CGraphNode node in configuration) {
                     if (initial == node) {
-                        m_minimizedDFA.M_Initial = node;
+                        m_minimizedDFA.M_Initial = it1.M_CurrentItem;
                     }
                 }
             }
