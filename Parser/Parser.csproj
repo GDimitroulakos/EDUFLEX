@@ -81,6 +81,7 @@
     <Compile Include="ASTVisitor\ConcreteVisitors\ThompsonVisitor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Facade.cs" />
+    <Compile Include="Hopcroft\DFASerializer.cs" />
     <Compile Include="Hopcroft\HopcroftAlgorithm.cs" />
     <Compile Include="obj\Debug\RegExpLexer.cs" />
     <Compile Include="obj\Debug\RegExpParser.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="obj\Debug\RegExpParserBaseVisitor.cs" />
     <Compile Include="obj\Debug\RegExpParserListener.cs" />
     <Compile Include="obj\Debug\RegExpParserVisitor.cs" />
+    <Compile Include="UOPCore\FASerializer.cs" />
     <Compile Include="UOPCore\HelperTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +123,7 @@
     <Content Include="bin\Debug\mergeDFA.gif" />
     <Content Include="bin\Debug\minimizedDFA.gif" />
     <Content Include="bin\Debug\test1.txt" />
+    <Content Include="bin\Debug\test1AST.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

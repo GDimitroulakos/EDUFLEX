@@ -24,6 +24,34 @@ namespace Parser.ASTVisitor.ConcreteVisitors
             
         }
 
+        public override FA VisitLexerDescription(CASTElement currentNode) {
+            int i = 0;
+            FA leftFa=null, rightFa;
+            CLexerDescription lexerDescription=currentNode as CLexerDescription;
+            List<CASTElement> rExpStatements=lexerDescription.GetContextChildren(ContextType.CT_LEXERDESCRIPTION_BODY);
+            //1. Create FA 
+            
+            foreach (var rExpStatement in rExpStatements) {
+                if (i > 0) {
+                    rightFa = Visit(rExpStatement);
+                    //2.Synthesize the two FAs to a new one
+                    CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
+                    leftFa = alttempSyn.Sythesize(leftFa, rightFa);
+                }
+                else {
+                    leftFa = Visit(rExpStatement);
+                }
+
+                i++;
+            }
+
+            m_NFA = leftFa;
+            m_NFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_NFA));
+            m_NFA.Generate(@"../Debug/merge.dot", true);
+            //return the final-synthesized FA
+            return m_NFA;
+        }
+
         public override FA VisitRegexpbasicParen(CASTElement currentNode){
             CASTComposite curNode = currentNode as CASTComposite;
 
@@ -39,9 +67,8 @@ namespace Parser.ASTVisitor.ConcreteVisitors
         public override FA VisitRegexpStatement(CASTElement currentNode)
         {
             FA fa =  base.VisitRegexpStatement(currentNode);
-            fa.RegisterGraphPrinter(new ThompsonGraphVizPrinter(fa));
-            fa.Generate(@"../Debug/merge.dot", true);
-            return null;
+            
+            return fa;
         }
 
         public override FA VisitRegexpAlternation(CASTElement currentNode)

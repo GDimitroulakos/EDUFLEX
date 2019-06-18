@@ -86,7 +86,7 @@ namespace Parser.UOPCore
         public CGraphNode GetTransitionTarget(CGraphNode source, Int32 character) {
             // Search every successor of source node and find the one with
             // with an edge labeled by the given character
-            foreach (CGraphEdge transition in source.OutgoingEdges) {
+              foreach (CGraphEdge transition in source.OutgoingEdges) {
                 CCharRangeSet set = GetEdgeInfo(transition);
                 if (set.IsCharInSet(character)) {
                     return transition.M_Target;

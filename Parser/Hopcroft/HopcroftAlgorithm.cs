@@ -127,6 +127,8 @@ namespace Parser.Hopcroft {
                 }
             }
 
+            FASerializer serializer =new FASerializer(m_minimizedDFA);
+            serializer.Print();
 
             m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_minimizedDFA));
             m_DFA.Generate(@"../Debug/minimizedDFA.dot", true);
