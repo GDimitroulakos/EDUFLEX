@@ -114,22 +114,22 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
 }
 internal class CThompsonAlternationTemplate : CThompsonTemplates
 {
-    internal FA Sythesize(FA l, FA r)
+    internal FA Sythesize(FA l, FA r, GraphLibrary.Options<CGraph.CMergeGraphOperation.MergeOptions> options=null)
     {
         //1.Create FA
         FA templateFA = new FA();
-
-
+        
         //2.Merge left graph
-        CGraph.CMergeGraphOperation lmerge =templateFA.Merge(l);
+        CGraph.CMergeGraphOperation lmerge =templateFA.Merge(l,options);
         lmerge.MergeGraphInfo(l,GraphElementType.ET_EDGE,FA.m_TRANSITIONSKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_EDGE, FA.m_FAGENERATIONINFOKEY);
         CGraphNode il = lmerge.GetMirrorNode(l.M_Initial);
         CGraphNode fl = lmerge.GetMirrorNode(l.GetFinalStates()[0]);
 
         //3.Merge right graph
-        CGraph.CMergeGraphOperation rmerge = templateFA.Merge(r);
+        CGraph.CMergeGraphOperation rmerge = templateFA.Merge(r,options);
         rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
-
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_FAGENERATIONINFOKEY);
         CGraphNode ir = rmerge.GetMirrorNode(r.M_Initial);
         CGraphNode fr = rmerge.GetMirrorNode(r.GetFinalStates()[0]);
 

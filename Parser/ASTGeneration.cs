@@ -530,6 +530,13 @@ namespace Parser {
                     }
 
                     break;
+                case RegExpLexer.ID:
+                    if (m_currentContext.Peek() == ContextType.CT_REGEXPSTATEMENT_TOKENNAME) {
+                        CRegexpID id = new CRegexpID(node.GetText(),parent);
+                        ((CRegexpStatement) m_parents.Peek()).M_StatementID = node.GetText();
+                        m_parents.Peek().AddChild(id, m_currentContext.Peek());
+                    }
+                    break;
             }
 /*
             if (parent is CRange){

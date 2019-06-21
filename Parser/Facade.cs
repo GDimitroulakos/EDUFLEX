@@ -10,6 +10,7 @@ using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.ASTVisitor.Visitors;
 using Parser.Hopcroft;
 using Parser.SubsetConstruction;
+using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
 //kefalaio 20 File Info klaseis Directory,DirectoryInfo , File, FileInfo

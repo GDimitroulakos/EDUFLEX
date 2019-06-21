@@ -76,9 +76,10 @@
     <Compile Include="ASTVisitor\AbstractASTVisitor.cs" />
     <Compile Include="ASTVisitor\ASTConcreteVisitor.cs" />
     <Compile Include="ASTVisitor\ConcreteVisitors\ASTPrinter.cs" />
-    <Compile Include="ASTVisitor\ConcreteVisitors\ThompsonGraphVizPrinter.cs" />
-    <Compile Include="ASTVisitor\ConcreteVisitors\ThompsonHelpers.cs" />
-    <Compile Include="ASTVisitor\ConcreteVisitors\ThompsonVisitor.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonLabelling.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonVisitor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Hopcroft\DFASerializer.cs" />
@@ -100,9 +101,11 @@
     <Compile Include="RegExpParser.g4.cs" />
     <Compile Include="SubsetConstruction\SubsetConstruction.cs" />
     <Compile Include="UOPCore\FA.cs" />
+    <Compile Include="UOPCore\Options.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\test1AST.dot" />
     <None Include="packages.config" />
     <Antlr4 Include="RegExpLexer.g4">
       <Generator>MSBuild:Compile</Generator>

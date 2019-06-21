@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphLibrary;
+using GraphLibrary.Generics;
 
 namespace Parser.UOPCore
 {
@@ -40,6 +41,17 @@ namespace Parser.UOPCore
         }
     }*/
 
+    public class FAGenerationInfo {
+        private string m_nodeLabelsPrefix;
+
+        public string M_NodeLabelsPrefix {
+            get => m_nodeLabelsPrefix;
+            set => m_nodeLabelsPrefix = value;
+        }
+
+
+    }
+
     /// <summary>
     /// This class represents a finite automaton. It is a graph with additional information
     /// regarding the labels' transitions.
@@ -50,8 +62,9 @@ namespace Parser.UOPCore
         private CGraphNode m_initial =null;
         private HashSet<CGraphNode> m_final=null;
         private CGraphQueryInfo m_transitionsAlphabetInfo=null;
+        private CGraphQueryInfo m_faGenerationInfo = null;
         private CCharRangeSet m_alphabet;
-
+        
         public CCharRangeSet M_Alphabet {
             get { return m_alphabet; }
             set { m_alphabet = value; }
@@ -59,6 +72,7 @@ namespace Parser.UOPCore
 
         // The key by which we can access edge transition info
         public const string m_TRANSITIONSKEY = "transitions";
+        public const string m_FAGENERATIONINFOKEY = "fainfo";
 
         public HashSet<CGraphNode> MFinal => m_final;
 
@@ -97,6 +111,7 @@ namespace Parser.UOPCore
 
         public FA(){
             m_transitionsAlphabetInfo = new CGraphQueryInfo(this,m_TRANSITIONSKEY);
+            m_faGenerationInfo = new CGraphQueryInfo(this, m_FAGENERATIONINFOKEY);
             m_alphabet = new CCharRangeSet(false);
             m_final= new HashSet<CGraphNode>();
         }
@@ -134,6 +149,15 @@ namespace Parser.UOPCore
 
         public CCharRangeSet GetEdgeInfo(CGraphEdge e) {
             return m_transitionsAlphabetInfo.Info(e) as CCharRangeSet;
+        }
+
+        public string GetFAPrefix() {
+            return m_faGenerationInfo.Info() as string;
+        }
+
+        public void SetFAPrefix(string prefix) {
+            m_faGenerationInfo.CreateInfo(prefix);
+            PrefixGraphElementLabels(prefix,GraphElementType.ET_NODE);
         }
 
         public override string ToString()

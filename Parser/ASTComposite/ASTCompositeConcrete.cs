@@ -62,11 +62,11 @@ namespace Parser {
         NT_REGEXPBASIC_CHAR,NT_REGEXPBASIC_ENDOFLINE,
         NT_REGEXPBASIC_STARTOFLINE,NT_REGEXPBASIC_ASSERTIONS,NT_REGEXPBASIC_STRING=16,
         NT_ASSERTION_FWDPOS =17, NT_ASSERTION_FWDNEG =18, NT_ASSERTION_BWDPOS =19, NT_ASSERTION_BWDNEG =20,
-       NT_RANGE =21,NT_ACTIONCODE=23,
+       NT_RANGE =21,NT_ACTIONCODE=23, 
 
         // LEAF NODES
         /* 5 */
-        NT_CHAR = 24,NT_CONTROL_CHARACTER=25, NT_INTEGER=26, NT_ID=27, NT_STRING=28,
+        NT_CHAR = 25,NT_CONTROL_CHARACTER=25, NT_INTEGER=26, NT_ID=27, NT_STRING=28, 
 
         
         // NODE CATEGORIES
@@ -153,6 +153,7 @@ namespace Parser {
     }
     public class CRegexpStatement : CASTComposite
     {
+        public string M_StatementID { get; internal set; }
         public CRegexpStatement(CASTComposite parent) :base(NodeType.NT_REGEXPSTATEMENT, parent, NodeType.CAT_NA){ }
 
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor)
@@ -640,6 +641,38 @@ namespace Parser {
             return iteratorFactory.CreateIteratorASTElementDescentantsFlattenEvents(this, events, info);
         }
     }
+
+    public class CRegexpID : CASTLeaf<string>
+    {
+        public string M_RegExpID { get; set; }
+        public CRegexpID(string stringLiteral, CASTComposite parent) : base(stringLiteral, NodeType.NT_ID, parent) {
+            M_RegExpID = stringLiteral;
+        }
+
+        protected override void AddChild(CASTElement child, int context, int pos = -1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor)
+        {
+            IASTAbstractConcreteVisitor<Return> typedVisitor = visitor as IASTAbstractConcreteVisitor<Return>;
+            if (typedVisitor != null) return typedVisitor.VisitRegexpID(this);
+            else return visitor.VisitChildren(this);
+        }
+
+        public override CAbstractIterator<CASTElement> AcceptIterator(CASTAbstractConcreteIteratorFactory iteratorFactory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override CAbstractIterator<CASTElement> AcceptEventIterator(CASTAbstractConcreteIteratorFactory iteratorFactory,
+            CASTGenericIteratorEvents events, object info = null)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CRegexpbasicString : CASTLeaf<string>
     {
         public CRegexpbasicString(string stringLiteral,CASTComposite parent) : base(stringLiteral,NodeType.NT_REGEXPBASIC_STRING,parent) {

@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
-using Parser.SubsetConstruction;
+using Parser.ASTVisitor;
+using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.UOPCore;
 
-
-namespace Parser.ASTVisitor.ConcreteVisitors
+namespace Parser.Thompson_Algorithm
 {
     class ThompsonVisitor : CASTAbstractConcreteVisitor<FA>{
         private FA m_NFA=null;
+
+        private Stack<string> m_currentRegExpId=new Stack<string>();
 
         public FA M_Nfa{
             get{ return m_NFA; }
@@ -27,21 +25,25 @@ namespace Parser.ASTVisitor.ConcreteVisitors
         public override FA VisitLexerDescription(CASTElement currentNode) {
             int i = 0;
             FA leftFa=null, rightFa;
+            GraphLibrary.Options<CGraph.CMergeGraphOperation.MergeOptions> options = new GraphLibrary.Options<CGraph.CMergeGraphOperation.MergeOptions>();
+
             CLexerDescription lexerDescription=currentNode as CLexerDescription;
             List<CASTElement> rExpStatements=lexerDescription.GetContextChildren(ContextType.CT_LEXERDESCRIPTION_BODY);
+
+            // Preserve labels of RegExp-derived NFA
+            options.Set(CGraph.CMergeGraphOperation.MergeOptions.MO_PRESERVELABELS);
+
             //1. Create FA 
-            
             foreach (var rExpStatement in rExpStatements) {
                 if (i > 0) {
                     rightFa = Visit(rExpStatement);
                     //2.Synthesize the two FAs to a new one
                     CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
-                    leftFa = alttempSyn.Sythesize(leftFa, rightFa);
+                    leftFa = alttempSyn.Sythesize(leftFa, rightFa,options);
                 }
                 else {
                     leftFa = Visit(rExpStatement);
                 }
-
                 i++;
             }
 
@@ -66,8 +68,13 @@ namespace Parser.ASTVisitor.ConcreteVisitors
 
         public override FA VisitRegexpStatement(CASTElement currentNode)
         {
-            FA fa =  base.VisitRegexpStatement(currentNode);
+            CASTComposite curNode = currentNode as CASTComposite;
+            CRegexpID regexpId= (CRegexpID)curNode.GetChild(ContextType.CT_REGEXPSTATEMENT_TOKENNAME, 0);
             
+            
+            FA fa =  base.VisitRegexpStatement(currentNode);
+
+            fa.PrefixGraphElementLabels(regexpId.M_RegExpID,GraphElementType.ET_NODE);
             return fa;
         }
 

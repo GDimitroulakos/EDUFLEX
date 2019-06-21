@@ -157,6 +157,17 @@ namespace Parser.ASTVisitor.Visitors {
                 m_outputStream.WriteLine("}");
             }
 
+            // Visit regexpstatement_ID context
+            if (current.GetNumberOfContextElements(ContextType.CT_REGEXPSTATEMENT_TOKENNAME) > 0)
+            {
+                clusterName = "cluster" + ms_clusterCounter++;
+                contextName = ContextType.CT_REGEXPSTATEMENT_TOKENNAME.ToString();
+                m_outputStream.WriteLine(
+                    "subgraph {0} {{\n node [style=filled,color=white];\n style=filled;\n color=lightgrey;\n label = \"{1}\";\n",
+                    clusterName, contextName);
+                m_outputStream.WriteLine("}");
+            }
+
             base.VisitRegexpStatement(currentNode);
 
             return 0;
@@ -615,6 +626,16 @@ namespace Parser.ASTVisitor.Visitors {
                     clusterName, contextName);
                 m_outputStream.WriteLine("}");
            }
+            return 0;
+        }
+        
+        public override int VisitTerminal(CASTElement node) {
+            CASTComposite current = node as CASTComposite;
+            string clusterName;
+            string contextName;
+            m_outputStream.WriteLine("\"{0}\"->\"{1}\"", node.M_Parent.M_Label, node.M_Label);
+
+            // Visit range_min context
             return 0;
         }
         

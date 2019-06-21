@@ -57,6 +57,8 @@ namespace Parser.ASTVisitor {
 
         Return VisitRegexpbasicString(CASTElement currentNode);
 
+        Return VisitRegexpID(CASTElement currentNode);
+
         Return VisitAssertionFwdpos(CASTElement currentNode);
 
         Return VisitAssertionFwdneg(CASTElement currentNode);
@@ -121,6 +123,10 @@ namespace Parser.ASTVisitor {
 
         public virtual Return VisitRegexpbasicString(CASTElement currentNode) {
             return base.VisitChildren(currentNode);
+        }
+
+        public virtual Return VisitRegexpID(CASTElement currentNode) {
+            return VisitTerminal(currentNode);
         }
 
         public virtual Return VisitAssertionFwdpos(CASTElement currentNode) {
