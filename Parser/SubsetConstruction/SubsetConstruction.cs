@@ -10,26 +10,21 @@ using Parser.UOPCore;
 
 namespace Parser.SubsetConstruction
 {
+    
     public class CSubsetConstructionAlgorithm:CGraphAlgorithm<int>{
         //inputs
         private FA m_NFA;
-        //private CGraphQueryInfo m_NFATransitions;
         //outputs
         private FA m_DFA;
 
-        //private CGraphQueryInfo m_DFATransitions;
         public FA Nfa {
             get { return m_NFA; }
         }
 
        private object m_key;
         //internals
-        //private CGraphQueryInfo m_configurations;
         private CConfigurations m_configurations;
-
         private List<string> m_alphabet;
-
-
         private Queue<HashSet<CGraphNode>> m_workList = new Queue<HashSet<CGraphNode>>();
 
         public FA Dfa {
@@ -73,7 +68,7 @@ namespace Parser.SubsetConstruction
                             e= m_DFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
                             set = new CCharRangeSet(false);
                             set.AddRange(range);
-                            e[FA.m_TRANSITIONSKEY] = set;
+                            e[FA.m_FAEDGEINFOKEY] = set;
                         }
                     }
                 }
@@ -97,17 +92,27 @@ namespace Parser.SubsetConstruction
             m_NFA = mNfa;
         }
 
+        public override int Run() {
+            throw new NotImplementedException();
+        }
     }
-
+    /// <summary>
+    /// This class records the correspondence between the DFA and NFA nodes  
+    /// </summary>
     public class CConfigurations {
         private FA m_DFA;
         private FA m_NFA;
+        /// <summary>
+        /// Maps a DFA node(key) to a set of NFA nodes(value)
+        /// </summary>
         private Dictionary<CGraphNode, HashSet<CGraphNode>> m_mappings;
 
+        private CGraphQueryInfo m_NFAStateInfo;
         public CConfigurations(FA DFA, FA NFA) {
             m_DFA = DFA;
             m_NFA = NFA;
             m_mappings = new Dictionary<CGraphNode, HashSet<CGraphNode>>();
+            m_NFAStateInfo=new CGraphQueryInfo(m_NFA,FA.m_FASTATEINFOKEY);
         }
 
         /// <summary>
@@ -119,11 +124,23 @@ namespace Parser.SubsetConstruction
         /// <returns></returns>
         public CGraphNode CreateDFANode(HashSet<CGraphNode> q) {
             CGraphNode DFAnode = null;
-
+            HashSet<string> prefixes=new HashSet<string>();
+            string prefix="";
+            //check if q configuration corresponds to a DFA state
             DFAnode = GetDFANode(q);
-
+            //if not create a new DFA node
             if (DFAnode == null) {
                 DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
+                foreach (CGraphNode node in q) {
+                    if (!prefixes.Contains(m_NFAStateInfo.CastNodeInfo<FAStateInfo>(node).M_NodeLabelsPrefix)) {
+                        prefixes.Add(m_NFAStateInfo.CastNodeInfo<FAStateInfo>(node).M_NodeLabelsPrefix);
+                    }
+                }
+
+                foreach (string s in prefixes) {
+                    prefix += s;
+                }
+                m_DFA.PrefixElementLabel(prefix,DFAnode);
                 if (ContainsFinalState(q)) {
                     m_DFA.SetFinalState(DFAnode);
                 }
@@ -133,10 +150,17 @@ namespace Parser.SubsetConstruction
                 }
                 m_mappings[DFAnode] = q;
             }
-
+            //else return the existing DFA node
             return DFAnode;
         }
-
+        /// <summary>
+        /// Checks to find existing NFA configurations mapped to
+        /// existing DFA states with the given set of NFA nodes.
+        /// If it finds equivalent configuration it returns the
+        /// corresponding DFA state
+        /// </summary>
+        /// <param name="q">NFA nodes set</param>
+        /// <returns>null or the corresponding DFA state</returns>
         public CGraphNode GetDFANode(HashSet<CGraphNode> q) {
             CGraphNode DFAnode = null;
             foreach (CGraphNode dfanode in m_mappings.Keys) {
@@ -220,8 +244,12 @@ namespace Parser.SubsetConstruction
             return m_outputSet;
         }
 
+        public override HashSet<CGraphNode> Run() {
+            throw new NotImplementedException();
+        }
+
         public CCharRangeSet TransitionLabel(CGraphEdge edge){
-            return m_graph.GetEdgeInfo(edge);
+            return m_graph.GetFAEdgeInfo(edge);
         }
     }
 
@@ -262,12 +290,16 @@ namespace Parser.SubsetConstruction
             CIt_Successors it = new CIt_Successors(node);
             for (it.Begin(); !it.End(); it.Next()){
                 CGraphEdge edge = m_graph.Edge(node, it.M_CurrentItem);
-                set = m_graph.GetEdgeInfo(edge);
+                set = m_graph.GetFAEdgeInfo(edge);
                 if (set != null && set.IsCharInSet(m_character)){
                     m_outputSet.Add(it.M_CurrentItem);
                 }
             }
             return m_outputSet;
+        }
+
+        public override HashSet<CGraphNode> Run() {
+            throw new NotImplementedException();
         }
     }
 }

@@ -92,11 +92,11 @@ namespace Parser.Hopcroft {
                                 }
 
                                 // Add transition characters
-                                if (newedge[FA.m_TRANSITIONSKEY] == null) {
-                                    newedge[FA.m_TRANSITIONSKEY] = new CCharRangeSet(false);
+                                if (newedge[FA.m_FAEDGEINFOKEY] == null) {
+                                    newedge[FA.m_FAEDGEINFOKEY] = new CCharRangeSet(false);
                                 }
-                                CCharRangeSet charset = newedge[FA.m_TRANSITIONSKEY] as CCharRangeSet;
-                                charset.AddSet(edge[FA.m_TRANSITIONSKEY] as CCharRangeSet);
+                                CCharRangeSet charset = newedge[FA.m_FAEDGEINFOKEY] as CCharRangeSet;
+                                charset.AddSet(edge[FA.m_FAEDGEINFOKEY] as CCharRangeSet);
 
                             }
                         }

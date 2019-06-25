@@ -15,8 +15,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         FA tempFA = new FA();
         //2.Merge graph
         CGraph.CMergeGraphOperation merged = tempFA.Merge(synth);
-        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
-
+        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
 
         CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
         tempFA.AddGraphEdge<CGraphEdge,CGraphNode>(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
@@ -40,8 +41,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         FA tempFA = new FA();
         //2.Merge graph
         CGraph.CMergeGraphOperation merged = tempFA.Merge(synth);
-        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
-
+        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
 
         CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
         tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(il, merged.GetMirrorNode(synth.M_Initial), GraphType.GT_DIRECTED);
@@ -64,7 +66,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         FA tempFA = new FA();
         //2.Merge graph
         CGraph.CMergeGraphOperation merged = tempFA.Merge(synth);
-        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        merged.MergeGraphInfo(synth, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
 
 
         CGraphNode il = tempFA.CreateGraphNode<CGraphNode>();
@@ -89,14 +93,18 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
         FA tempFA = new FA();
         //2.Merge left graph
         CGraph.CMergeGraphOperation lmerge = tempFA.Merge(l);
-        lmerge.MergeGraphInfo(l, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
 
         CGraphNode il = lmerge.GetMirrorNode(l.M_Initial);
         CGraphNode fl = lmerge.GetMirrorNode(l.GetFinalStates()[0]);
 
         //3.Merge right graph
         CGraph.CMergeGraphOperation rmerge = tempFA.Merge(r);
-        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
 
         CGraphNode ir = rmerge.GetMirrorNode(r.M_Initial);
         CGraphNode fr = rmerge.GetMirrorNode(r.GetFinalStates()[0]);
@@ -121,15 +129,18 @@ internal class CThompsonAlternationTemplate : CThompsonTemplates
         
         //2.Merge left graph
         CGraph.CMergeGraphOperation lmerge =templateFA.Merge(l,options);
-        lmerge.MergeGraphInfo(l,GraphElementType.ET_EDGE,FA.m_TRANSITIONSKEY);
-        lmerge.MergeGraphInfo(l, GraphElementType.ET_EDGE, FA.m_FAGENERATIONINFOKEY);
+        Console.WriteLine(l.ToString());
+        lmerge.MergeGraphInfo(l,GraphElementType.ET_EDGE,FA.m_FAEDGEINFOKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        lmerge.MergeGraphInfo(l, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
         CGraphNode il = lmerge.GetMirrorNode(l.M_Initial);
         CGraphNode fl = lmerge.GetMirrorNode(l.GetFinalStates()[0]);
 
         //3.Merge right graph
         CGraph.CMergeGraphOperation rmerge = templateFA.Merge(r,options);
-        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_TRANSITIONSKEY);
-        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_FAGENERATIONINFOKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_FAEDGEINFOKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
+        rmerge.MergeGraphInfo(r, GraphElementType.ET_NODE, FA.m_FASTATEINFOKEY);
         CGraphNode ir = rmerge.GetMirrorNode(r.M_Initial);
         CGraphNode fr = rmerge.GetMirrorNode(r.GetFinalStates()[0]);
 

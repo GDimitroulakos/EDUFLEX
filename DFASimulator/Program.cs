@@ -55,7 +55,7 @@ namespace DFASimulator {
         }
 
         public bool IsFinalState(CGraphNode state) {
-            return m_dfa.MFinal.Contains(m_currentState);
+            return m_dfa.IsFinalState(state);
         }
 
         public int yylex() {

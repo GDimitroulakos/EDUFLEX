@@ -8,6 +8,7 @@ using Parser.UOPCore;
 
 namespace Parser.Thompson_Algorithm
 {
+
     class ThompsonVisitor : CASTAbstractConcreteVisitor<FA>{
         private FA m_NFA=null;
 
@@ -74,7 +75,7 @@ namespace Parser.Thompson_Algorithm
             
             FA fa =  base.VisitRegexpStatement(currentNode);
 
-            fa.PrefixGraphElementLabels(regexpId.M_RegExpID,GraphElementType.ET_NODE);
+            fa.SetFANodePrefix(regexpId.M_RegExpID);
             return fa;
         }
 
@@ -102,14 +103,8 @@ namespace Parser.Thompson_Algorithm
             //2.Synthesize the two FAs to a new one
             m_NFA = alttempSyn.Synthesize(leftFa, rightFa);
 
-
-           /* CSubsetConstructionAlgorithm qset = CSubsetConstructionAlgorithm.Init(m_NFA, m_NFA);
-            
-            HashSet<CGraphNode> dset = CDeltaAlgorithm
-                .Init(m_NFA, "a", new HashSet<CGraphNode>(){m_NFA.M_Initial}).Start();
-            HashSet<CGraphNode> eset= CEclosureAlgorithm.Init(m_NFA, m_NFA, dset).Start();
-            //return the final-synthesized FA*/
-            
+            m_NFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_NFA));
+            m_NFA.Generate(@"../Debug/Concatenation_" + m_NFA.M_Label + ".dot", true);
             return m_NFA;
         }
 
@@ -136,6 +131,9 @@ namespace Parser.Thompson_Algorithm
                 Console.WriteLine("No proper input");
             }
             //4.Pass FA to the predecessor
+
+            m_NFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_NFA));
+            m_NFA.Generate(@"../Debug/Closure_"+m_NFA.M_Label+".dot", true);
             return m_NFA;
         }
 
@@ -155,9 +153,15 @@ namespace Parser.Thompson_Algorithm
             
             //3.Draw the edge including the character
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final,GraphType.GT_DIRECTED);
-            newEdge[FA.m_TRANSITIONSKEY] = charNode.M_CharRangeSet;
+
+            newEdge[FA.m_FAEDGEINFOKEY] = charNode.M_CharRangeSet;
             //newEdge.SetLabel(charNode.M_TokenLiteral);
             //4.Pass FA to the predecessor
+
+            m_NFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_NFA));
+            m_NFA.Generate(@"../Debug/BasicChar_"+charNode.M_CharRangeSet.ToString()+".dot", true);
+
+
             return m_NFA;
         }
 
@@ -175,7 +179,7 @@ namespace Parser.Thompson_Algorithm
 
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
 
-            newEdge[FA.m_TRANSITIONSKEY] = setNode.MSet;
+            newEdge[FA.m_FAEDGEINFOKEY] = setNode.MSet;
             //4.Pass FA to the predecessor
             return m_NFA;
 
@@ -196,7 +200,7 @@ namespace Parser.Thompson_Algorithm
 
             //3.Draw the edge including the character
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
-            newEdge[FA.m_TRANSITIONSKEY] = rangeNode.MRange;
+            newEdge[FA.m_FAEDGEINFOKEY] = rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
             //4.Pass FA to the predecessor
             return m_NFA;

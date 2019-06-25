@@ -82,9 +82,9 @@ namespace Parser.ASTVisitor.ConcreteVisitors
 
                 graphvizStringBuilder.AppendFormat("\"{0}\"" + graphedge_operator + "\"{1}\"",
                    source, target);
-                string s = g[FA.m_TRANSITIONSKEY]?.ToString();
+                string s = g[FA.m_FAEDGEINFOKEY]?.ToString();
                 if (s != null) {
-                    graphvizStringBuilder.AppendFormat(" [style = bold, label = \"" + g[FA.m_TRANSITIONSKEY]?.ToString() + "\"]");
+                    graphvizStringBuilder.AppendFormat(" [style = bold, label = \"" + g[FA.m_FAEDGEINFOKEY]?.ToString() + "\"]");
                 }
                 else {
                     

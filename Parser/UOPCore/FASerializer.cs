@@ -39,10 +39,10 @@ namespace Parser.UOPCore
             bucket.Append(m_DFA.M_Initial.M_Label);
             for (ite.Begin(); !ite.End(); ite.Next()) {
                 bucket.Append("\\"+ite.M_CurrentItem.M_Source.M_Label +"-"+ite.M_CurrentItem.M_Target.M_Label);
-                bucket.Append(m_DFA.GetEdgeInfo(ite.M_CurrentItem).ToString());
+                bucket.Append(m_DFA.GetFAEdgeInfo(ite.M_CurrentItem).ToString());
             }
 
-            foreach (var fstate in m_DFA.MFinal) {
+            foreach (var fstate in m_DFA.GetFinalStates()) {
                 bucket.Append("("+fstate.M_Label+")");
             }
             return bucket;
