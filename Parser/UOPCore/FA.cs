@@ -11,8 +11,21 @@ namespace Parser.UOPCore
     public enum FAStateType {
         FT_NA,FT_ACCEPTED,FT_NONACCEPTED
     }
-    
-    internal class FAInfo {
+
+    public class FAGraphQueryInfo : CGraphQueryInfo<FAStateInfo, FAEdgeInfo, FAInfo> {
+        public FAGraphQueryInfo(CGraph graph, object key) : base(graph, key) {
+        }
+
+        public CCharRangeSet GetDFAEdgeTransitionCharacterSet(CGraphEdge edge) {
+            return Info(edge).M_TransitionCharSet;
+        }
+
+        public void SetDFAEdgeTransitionCharacterSet(CGraphEdge edge, CCharRangeSet set) {
+            Info(edge).M_TransitionCharSet = set;
+        }
+    }
+
+    public class FAInfo {
         /// <summary>
         /// Refers to the FA hosting the information
         /// </summary> 
@@ -59,11 +72,22 @@ namespace Parser.UOPCore
         /// <summary>
         /// It is the string prefix applied to all nodes of the FA
         /// </summary>
-        private string m_nodeLabelsPrefix="";
+        private List<string> m_nodeLabelsPrefix=new List<string>();
 
         public string M_NodeLabelsPrefix {
-            get => m_nodeLabelsPrefix;
-            set => m_nodeLabelsPrefix = value;
+            get {
+                string st="";
+                foreach (string s in m_nodeLabelsPrefix) {
+                    st += s;
+                }
+
+                return st;
+            }
+            set {
+                if (!m_nodeLabelsPrefix.Contains(value)) {
+                    m_nodeLabelsPrefix.Add(value);
+                }
+            } 
         }
 
         public FAStateType MStateType {
@@ -72,7 +96,7 @@ namespace Parser.UOPCore
         }
     }
 
-    internal class FAEdgeInfo {
+    public class FAEdgeInfo {
         private CCharRangeSet m_transitionCharSet;
 
         internal CCharRangeSet M_TransitionCharSet {
@@ -81,6 +105,8 @@ namespace Parser.UOPCore
         }
     }
     
+
+
     /// <summary>
     /// This class represents a finite automaton. It is a graph with additional information
     /// regarding the labels' transitions.
@@ -88,9 +114,7 @@ namespace Parser.UOPCore
     /// <seealso cref="GraphLibrary.CGraph" />
     public class FA: CGraph
     {
-        private CGraphQueryInfo m_FAEdgeInfo=null;
-        private CGraphQueryInfo m_FAStateInfo = null;
-        private CGraphQueryInfo m_FAInfo = null;
+        private CGraphQueryInfo<FAStateInfo,FAEdgeInfo,FAInfo> m_FAInfo=null;
         private CCharRangeSet m_alphabet;
         
         public CCharRangeSet M_Alphabet {
@@ -99,8 +123,6 @@ namespace Parser.UOPCore
         }
 
         // The key by which we can access edge transition info
-        public const string m_FASTATEINFOKEY = "FAstatesInfo";
-        public const string m_FAEDGEINFOKEY = "FAtransitionsInfo";
         public const string m_FAINFOKEY = "FAinfo";
 
        
@@ -114,18 +136,18 @@ namespace Parser.UOPCore
         }
         
         public List<CGraphNode> GetFinalStates() {
-            return m_FAInfo.CastGraphInfo<FAInfo>().GetFinalStates();
+            return m_FAInfo.Info().GetFinalStates();
         }
 
         public void SetFinalState(CGraphNode node) {
             bool suc;
             if (IsANodeOfGraph(node) && !IsFinalState(node)) {
-                suc = m_FAInfo.CastGraphInfo<FAInfo>().M_Final.Add(node);
+                suc = m_FAInfo.Info().M_Final.Add(node);
             }
         }
 
         public bool IsFinalState(CGraphNode state) {
-            return m_FAInfo.CastGraphInfo<FAInfo>().M_Final.Contains(state);
+            return m_FAInfo.Info().M_Final.Contains(state);
         }
 
        public CGraphNode GetTransitionTarget(CGraphNode source, Int32 character) {
@@ -141,21 +163,33 @@ namespace Parser.UOPCore
         }
 
         public FA(){
-            m_FAStateInfo = new CGraphQueryInfo(this,m_FASTATEINFOKEY);
-            m_FAEdgeInfo = new CGraphQueryInfo(this,m_FAEDGEINFOKEY);
-            m_FAInfo = new CGraphQueryInfo(this, m_FAINFOKEY);
+            m_FAInfo = new CGraphQueryInfo<FAStateInfo, FAEdgeInfo, FAInfo>(this, m_FAINFOKEY);
             m_FAInfo.CreateInfo(new FAInfo(this));
             m_alphabet = new CCharRangeSet(false);
         }
 
         public override N CreateGraphNode<N>() {
             N newNode= base.CreateGraphNode<N>();
-            m_FAStateInfo.CreateInfo(newNode,new FAStateInfo());
+            m_FAInfo.CreateInfo(newNode,new FAStateInfo());
             return newNode;
         }
 
         public override N CreateGraphNode<N>(string label) {
-            return base.CreateGraphNode<N>(label);
+            N newNode = base.CreateGraphNode<N>(label);
+            m_FAInfo.CreateInfo(newNode, new FAStateInfo());
+            return newNode;
+        }
+
+        public override E AddGraphEdge<E, N>(N source, N target, string label = null, GraphType edgetype = GraphType.GT_DIRECTED) {
+            E newedge = base.AddGraphEdge<E, N>(source, target, label, edgetype);
+            m_FAInfo.CreateInfo(newedge,new FAEdgeInfo());
+            return newedge;
+        }
+
+        public override E AddGraphEdge<E, N>(N source, N target, GraphType edgetype = GraphType.GT_DIRECTED) {
+            E newedge = base.AddGraphEdge<E, N>(source, target, edgetype);
+            m_FAInfo.CreateInfo(newedge,new FAEdgeInfo());
+            return newedge;
         }
 
         /// <summary>
@@ -204,7 +238,7 @@ namespace Parser.UOPCore
         /// <param name="e">The specified FA edge</param>
         /// <returns></returns>
         public CCharRangeSet GetFAEdgeInfo(CGraphEdge e) {
-            return m_FAEdgeInfo.Info(e) as CCharRangeSet;
+            return m_FAInfo.Info(e).M_TransitionCharSet;
         }
 
         /// <summary>
@@ -213,7 +247,7 @@ namespace Parser.UOPCore
         /// <param name="e"></param>
         /// <param name="transitionInfo"></param>
         public void SetFAEdgeInfo(CGraphEdge e, CCharRangeSet transitionInfo) {
-            m_FAEdgeInfo.CastEdgeInfo<FAEdgeInfo>(e).M_TransitionCharSet = transitionInfo;
+            m_FAInfo.Info(e).M_TransitionCharSet = transitionInfo;
         }
 
         /// <summary>
@@ -221,7 +255,7 @@ namespace Parser.UOPCore
         /// </summary>
         /// <returns></returns>
         public string GetFANodePrefix(CGraphNode node) {
-            return m_FAStateInfo.CastGraphInfo<FAStateInfo>().M_NodeLabelsPrefix;
+            return m_FAInfo.Info(node).M_NodeLabelsPrefix;
         }
 
         /// <summary>
@@ -229,11 +263,11 @@ namespace Parser.UOPCore
         /// </summary>
         /// <param name="prefix"></param>
         public void SetFANodePrefix(string prefix,CGraphNode node) {
-            m_FAStateInfo.CastGraphInfo<FAStateInfo>().M_NodeLabelsPrefix = prefix;
+            m_FAInfo.Info(node).M_NodeLabelsPrefix = prefix;
         }
         public void SetFANodePrefix(string prefix) {
             foreach (CGraphNode node in m_graphNodes) {
-                m_FAStateInfo.CastNodeInfo<FAStateInfo>(node).M_NodeLabelsPrefix = prefix;
+                m_FAInfo.Info(node).M_NodeLabelsPrefix = prefix;
             }
             PrefixGraphElementLabels(prefix,GraphElementType.ET_NODE);
         }

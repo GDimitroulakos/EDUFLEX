@@ -11,10 +11,13 @@ using Parser.UOPCore;
 
 namespace Parser.ASTVisitor.ConcreteVisitors
 {
-    class ThompsonGraphVizPrinter : CGraphPrinter
-    {
+    
+    class ThompsonGraphVizPrinter : CGraphPrinter {
+        private FAGraphQueryInfo m_FAInfo;
+
         public ThompsonGraphVizPrinter(CGraph graph, CGraphLabeling<CGraphNode> nodeLabeling = null,
             CGraphLabeling<CGraphEdge> edgeLabeling = null) : base(graph,nodeLabeling,edgeLabeling) {
+            m_FAInfo = new FAGraphQueryInfo(graph,FA.m_FAINFOKEY);
         }
 
         /// <summary>
@@ -82,9 +85,9 @@ namespace Parser.ASTVisitor.ConcreteVisitors
 
                 graphvizStringBuilder.AppendFormat("\"{0}\"" + graphedge_operator + "\"{1}\"",
                    source, target);
-                string s = g[FA.m_FAEDGEINFOKEY]?.ToString();
+                string s = m_FAInfo.Info(g).M_TransitionCharSet?.ToString();
                 if (s != null) {
-                    graphvizStringBuilder.AppendFormat(" [style = bold, label = \"" + g[FA.m_FAEDGEINFOKEY]?.ToString() + "\"]");
+                    graphvizStringBuilder.AppendFormat(" [style = bold, label = \"" + m_FAInfo.Info(g).M_TransitionCharSet?.ToString() + "\"]");
                 }
                 else {
                     

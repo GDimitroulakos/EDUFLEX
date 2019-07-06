@@ -97,6 +97,17 @@ namespace Parser{
             AddRange(new CCharRange(c,c));
         }
 
+        public CCharRangeSet(CCharRange range, bool isNegation = false) {
+            AddRange(range);
+        }
+
+        public static explicit operator CCharRangeSet(CCharRange range) {
+            return new CCharRangeSet(range);
+        }
+
+        public static explicit operator CCharRangeSet(char c) {
+            return new CCharRangeSet(c);
+        }
         public CCharRangeSet(bool isNegation){
             this.isNegation = isNegation;
         }

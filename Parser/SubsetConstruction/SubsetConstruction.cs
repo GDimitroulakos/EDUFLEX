@@ -10,13 +10,15 @@ using Parser.UOPCore;
 
 namespace Parser.SubsetConstruction
 {
-    
+
     public class CSubsetConstructionAlgorithm:CGraphAlgorithm<int>{
         //inputs
         private FA m_NFA;
         //outputs
         private FA m_DFA;
 
+        private FAGraphQueryInfo m_DFAInfo;
+        
         public FA Nfa {
             get { return m_NFA; }
         }
@@ -42,6 +44,7 @@ namespace Parser.SubsetConstruction
 
             // Create DFA
             m_DFA = new FA();
+            m_DFAInfo = new FAGraphQueryInfo(m_DFA,FA.m_FAINFOKEY);
             m_configurations = new CConfigurations(m_DFA,m_NFA);
             m_configurations.CreateDFANode(q0);
            
@@ -68,7 +71,7 @@ namespace Parser.SubsetConstruction
                             e= m_DFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
                             set = new CCharRangeSet(false);
                             set.AddRange(range);
-                            e[FA.m_FAEDGEINFOKEY] = set;
+                            m_DFAInfo.SetDFAEdgeTransitionCharacterSet(e,set);
                         }
                     }
                 }
@@ -107,12 +110,13 @@ namespace Parser.SubsetConstruction
         /// </summary>
         private Dictionary<CGraphNode, HashSet<CGraphNode>> m_mappings;
 
-        private CGraphQueryInfo m_NFAStateInfo;
+        private FAGraphQueryInfo m_NFAStateInfo;
+
         public CConfigurations(FA DFA, FA NFA) {
             m_DFA = DFA;
             m_NFA = NFA;
             m_mappings = new Dictionary<CGraphNode, HashSet<CGraphNode>>();
-            m_NFAStateInfo=new CGraphQueryInfo(m_NFA,FA.m_FASTATEINFOKEY);
+            m_NFAStateInfo=new FAGraphQueryInfo(m_NFA,FA.m_FAINFOKEY);
         }
 
         /// <summary>
@@ -131,9 +135,12 @@ namespace Parser.SubsetConstruction
             //if not create a new DFA node
             if (DFAnode == null) {
                 DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
+
+
+
                 foreach (CGraphNode node in q) {
-                    if (!prefixes.Contains(m_NFAStateInfo.CastNodeInfo<FAStateInfo>(node).M_NodeLabelsPrefix)) {
-                        prefixes.Add(m_NFAStateInfo.CastNodeInfo<FAStateInfo>(node).M_NodeLabelsPrefix);
+                    if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix)) {
+                        prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix);
                     }
                 }
 
@@ -141,6 +148,11 @@ namespace Parser.SubsetConstruction
                     prefix += s;
                 }
                 m_DFA.PrefixElementLabel(prefix,DFAnode);
+
+
+
+
+
                 if (ContainsFinalState(q)) {
                     m_DFA.SetFinalState(DFAnode);
                 }

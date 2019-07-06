@@ -11,7 +11,7 @@ namespace Parser.Thompson_Algorithm
 
     class ThompsonVisitor : CASTAbstractConcreteVisitor<FA>{
         private FA m_NFA=null;
-
+        private FAGraphQueryInfo FAInfo;
         private Stack<string> m_currentRegExpId=new Stack<string>();
 
         public FA M_Nfa{
@@ -143,7 +143,7 @@ namespace Parser.Thompson_Algorithm
 
             //1.Create FA
             m_NFA = new FA();
-            
+            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
             //2.Create nodes initial-final
             CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
             CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
@@ -153,9 +153,7 @@ namespace Parser.Thompson_Algorithm
             
             //3.Draw the edge including the character
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final,GraphType.GT_DIRECTED);
-
-            newEdge[FA.m_FAEDGEINFOKEY] = charNode.M_CharRangeSet;
-            //newEdge.SetLabel(charNode.M_TokenLiteral);
+            FAInfo.Info(newEdge).M_TransitionCharSet= charNode.M_CharRangeSet;
             //4.Pass FA to the predecessor
 
             m_NFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_NFA));
@@ -170,7 +168,7 @@ namespace Parser.Thompson_Algorithm
             
             //Create FA
             m_NFA = new FA();
-
+            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
             CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
             CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
             m_NFA.M_Initial = init;
@@ -178,8 +176,7 @@ namespace Parser.Thompson_Algorithm
             m_NFA.M_Alphabet.AddSet(setNode.MSet);
 
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
-
-            newEdge[FA.m_FAEDGEINFOKEY] = setNode.MSet;
+            FAInfo.Info(newEdge).M_TransitionCharSet = setNode.MSet;
             //4.Pass FA to the predecessor
             return m_NFA;
 
@@ -190,7 +187,7 @@ namespace Parser.Thompson_Algorithm
 
             //1.Create FA
             m_NFA = new FA();
-
+            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
             //2.Create nodes initial-final
             CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
             CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
@@ -200,7 +197,7 @@ namespace Parser.Thompson_Algorithm
 
             //3.Draw the edge including the character
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
-            newEdge[FA.m_FAEDGEINFOKEY] = rangeNode.MRange;
+            FAInfo.Info(newEdge).M_TransitionCharSet= (CCharRangeSet)rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
             //4.Pass FA to the predecessor
             return m_NFA;
