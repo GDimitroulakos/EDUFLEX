@@ -111,12 +111,14 @@ namespace Parser.SubsetConstruction
         private Dictionary<CGraphNode, HashSet<CGraphNode>> m_mappings;
 
         private FAGraphQueryInfo m_NFAStateInfo;
+        private FAGraphQueryInfo m_DFAStateInfo;
 
         public CConfigurations(FA DFA, FA NFA) {
             m_DFA = DFA;
             m_NFA = NFA;
             m_mappings = new Dictionary<CGraphNode, HashSet<CGraphNode>>();
             m_NFAStateInfo=new FAGraphQueryInfo(m_NFA,FA.m_FAINFOKEY);
+            m_DFAStateInfo= new FAGraphQueryInfo(m_DFA,FA.m_FAINFOKEY);
         }
 
         /// <summary>
@@ -141,6 +143,7 @@ namespace Parser.SubsetConstruction
                 foreach (CGraphNode node in q) {
                     if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix)) {
                         prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix);
+                        m_DFAStateInfo.Info(DFAnode).M_NodeLabelsPrefix = m_NFAStateInfo.Info(node).M_NodeLabelsPrefix;
                     }
                 }
 

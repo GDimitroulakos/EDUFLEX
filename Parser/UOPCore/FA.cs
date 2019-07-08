@@ -72,7 +72,7 @@ namespace Parser.UOPCore
         /// <summary>
         /// It is the string prefix applied to all nodes of the FA
         /// </summary>
-        private List<string> m_nodeLabelsPrefix=new List<string>();
+        private HashSet<string> m_nodeLabelsPrefix=new HashSet<string>();
 
         public string M_NodeLabelsPrefix {
             get {
@@ -88,6 +88,10 @@ namespace Parser.UOPCore
                     m_nodeLabelsPrefix.Add(value);
                 }
             } 
+        }
+
+        public HashSet<string> GetNodeLabelsPrefix() {
+            return m_nodeLabelsPrefix;
         }
 
         public FAStateType MStateType {
@@ -256,6 +260,10 @@ namespace Parser.UOPCore
         /// <returns></returns>
         public string GetFANodePrefix(CGraphNode node) {
             return m_FAInfo.Info(node).M_NodeLabelsPrefix;
+        }
+
+        public HashSet<string> GetFANodePrefixLabels(CGraphNode node) {
+            return m_FAInfo.Info(node).GetNodeLabelsPrefix();
         }
 
         /// <summary>

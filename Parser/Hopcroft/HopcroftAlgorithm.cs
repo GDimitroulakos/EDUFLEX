@@ -200,9 +200,15 @@ namespace Parser.Hopcroft {
             for (it1.Begin(); !it1.End(); it1.Next()) {
                 List<CGraphNode> conf = GetNodesInConfiguration(it1.M_CurrentItem);
                 foreach (CGraphNode iNode in conf) {
-                    m_minimizedDFA.SetFANodePrefix(m_DFA.GetFANodePrefix(iNode), it1.M_CurrentItem);
+                    HashSet<string> prefs = m_DFA.GetFANodePrefixLabels(iNode);
+                    foreach (string s in prefs) {
+                        m_minimizedDFA.SetFANodePrefix(s, it1.M_CurrentItem);
+                    }
                 }
+                m_minimizedDFA.PrefixElementLabel(m_minimizedDFA.GetFANodePrefix(it1.M_CurrentItem), it1.M_CurrentItem);
             }
+
+            
 
             FASerializer serializer =new FASerializer(m_minimizedDFA);
             serializer.Print();
