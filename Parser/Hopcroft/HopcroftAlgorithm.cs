@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
 using Parser.ASTVisitor.ConcreteVisitors;
+using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
 namespace Parser.Hopcroft {
@@ -213,7 +214,7 @@ namespace Parser.Hopcroft {
             FASerializer serializer =new FASerializer(m_minimizedDFA);
             serializer.Print();
 
-            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_minimizedDFA));
+            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_minimizedDFA,new UOPCore.Options<ThompsonOptions>()));
             m_DFA.Generate(@"../Debug/minimizedDFA.dot", true);
         }
         /// <summary>

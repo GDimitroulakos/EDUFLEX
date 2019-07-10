@@ -7,17 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
+using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
 namespace Parser.ASTVisitor.ConcreteVisitors
 {
     
-    class ThompsonGraphVizPrinter : CGraphPrinter {
+    
+    public class ThompsonGraphVizPrinter : CGraphPrinter {
         private FAGraphQueryInfo m_FAInfo;
+        private UOPCore.Options<ThompsonOptions> m_options;
 
-        public ThompsonGraphVizPrinter(CGraph graph, CGraphLabeling<CGraphNode> nodeLabeling = null,
+        public ThompsonGraphVizPrinter(CGraph graph, UOPCore.Options<ThompsonOptions> options,
+            CGraphLabeling<CGraphNode> nodeLabeling = null,
             CGraphLabeling<CGraphEdge> edgeLabeling = null) : base(graph,nodeLabeling,edgeLabeling) {
             m_FAInfo = new FAGraphQueryInfo(graph,FA.m_FAINFOKEY);
+            m_options = options;
         }
 
         /// <summary>
@@ -56,7 +61,11 @@ namespace Parser.ASTVisitor.ConcreteVisitors
             }
 
             // Print header if necessary
-            graphvizStringBuilder.Append(header);
+            // Print the header if the graph is printed alone independently and not
+            // in the context for example of a multigraph printing
+            if (!m_options.IsSet(ThompsonOptions.TO_COMBINEGRAPHS)) {
+                graphvizStringBuilder.Append(header);
+            }
 
 
             // Print all  nodes
@@ -96,7 +105,12 @@ namespace Parser.ASTVisitor.ConcreteVisitors
                 graphvizStringBuilder.Append(";\r\n");
             }
             // Print footer if necessary
-            graphvizStringBuilder.Append("}\r\n");
+            // Print the header if the graph is printed alone independently and not
+            // in the context for example of a multigraph printing
+            if (!m_options.IsSet(ThompsonOptions.TO_COMBINEGRAPHS)) {
+                graphvizStringBuilder.Append("}\r\n");
+            }
+
             return graphvizStringBuilder;
         }
 

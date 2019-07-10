@@ -89,6 +89,7 @@
     <Compile Include="obj\Debug\RegExpParserBaseVisitor.cs" />
     <Compile Include="obj\Debug\RegExpParserListener.cs" />
     <Compile Include="obj\Debug\RegExpParserVisitor.cs" />
+    <Compile Include="Thompson Algorithm\ThomsonMultiGraphPrinter.cs" />
     <Compile Include="UOPCore\FASerializer.cs" />
     <Compile Include="UOPCore\HelperTypes.cs" />
     <Compile Include="Program.cs" />
@@ -104,7 +105,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\Alternation_G14.dot" />
+    <None Include="bin\Debug\Alternation_G4.dot" />
+    <None Include="bin\Debug\BasicChar_[a].dot" />
+    <None Include="bin\Debug\BasicChar_[b].dot" />
+    <None Include="bin\Debug\BasicChar_[c].dot" />
+    <None Include="bin\Debug\BasicChar_[d].dot" />
+    <None Include="bin\Debug\Closure_G12.dot" />
+    <None Include="bin\Debug\Closure_G5.dot" />
+    <None Include="bin\Debug\Closure_G8.dot" />
+    <None Include="bin\Debug\Concatenation_G13.dot" />
+    <None Include="bin\Debug\Concatenation_G2.dot" />
+    <None Include="bin\Debug\Concatenation_G9.dot" />
+    <None Include="bin\Debug\merge.dot" />
+    <None Include="bin\Debug\mergeDFA.dot" />
+    <None Include="bin\Debug\minimizedDFA.dot" />
+    <None Include="bin\Debug\test1.dot" />
     <None Include="bin\Debug\test1AST.dot" />
+    <None Include="bin\Debug\text.dot" />
+    <None Include="bin\Debug\text1.dot" />
+    <None Include="bin\Debug\ThompsonSteps.dot" />
     <None Include="packages.config" />
     <Antlr4 Include="RegExpLexer.g4">
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +146,7 @@
     <Content Include="bin\Debug\minimizedDFA.gif" />
     <Content Include="bin\Debug\test1.txt" />
     <Content Include="bin\Debug\test1AST.gif" />
+    <Content Include="bin\Debug\ThompsonSteps.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

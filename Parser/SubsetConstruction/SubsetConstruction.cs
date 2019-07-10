@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
 using Parser.ASTVisitor.ConcreteVisitors;
+using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
 namespace Parser.SubsetConstruction
@@ -77,7 +78,7 @@ namespace Parser.SubsetConstruction
                 }
             }
             m_DFA.UpdateAlphabet();
-            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_DFA));
+            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_DFA,new UOPCore.Options<ThompsonOptions>()));
             m_DFA.Generate(@"../Debug/mergeDFA.dot", true);
             return null;
         }

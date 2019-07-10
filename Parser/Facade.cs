@@ -69,7 +69,7 @@ namespace Parser {
              ASTPrinter astPrinter = new ASTPrinter(loc);
              astPrinter.Visit(astGeneration.M_ASTRoot);
 
-            ThompsonVisitor thompson = new ThompsonVisitor();
+            ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS);
             thompson.Visit(astGeneration.M_ASTRoot);
 
             CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);

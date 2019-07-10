@@ -196,6 +196,7 @@ namespace Parser.UOPCore
             return newedge;
         }
 
+        
         /// <summary>
         /// Returns the destination nodes reached from the specified node and the given
         /// character
