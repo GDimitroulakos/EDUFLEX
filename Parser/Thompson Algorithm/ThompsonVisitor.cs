@@ -11,42 +11,104 @@ namespace Parser.Thompson_Algorithm
 {
 
     public enum ThompsonOptions {
-        TO_DEFAULT=0, TO_STEPS=1, TO_PROPAGATELABELS=2, TO_COMBINEGRAPHS=4 
+        TO_DEFAULT=0,
+        TO_STEPS =1, // The outcome of each Thompson algorithm execution step is reported
+                     // either in a single file or multiple
+        TO_PROPAGATELABELS =2,
+        TO_COMBINEGRAPHS =4 // The outcome of the Thomson algorithm steps are combined in 
+                            // a single file
     }
 
-    class ThompsonVisitor : CASTAbstractConcreteVisitor<FA>{
-        private FA m_NFA=null;
-        private FAGraphQueryInfo FAInfo;
-        private UOPCore.Options<ThompsonOptions> m_options=new UOPCore.Options<ThompsonOptions>((int)ThompsonOptions.TO_DEFAULT);
+    public class ThompsonReporting {
+        /// <summary>
+        /// This fields stores Thompson Algorithm execution and reporting options
+        /// </summary>
+        private UOPCore.Options<ThompsonOptions> m_options;
+
+        /// <summary>
+        /// This field holds the printers of the outcome of the Thompson Algorithm steps
+        /// </summary>
         private ThomsonMultiGraphGraphVizPrinter m_ThomsonStepsPrinter;
+
+        public ThompsonReporting(ThompsonOptions options) {
+            m_options = new UOPCore.Options<ThompsonOptions>(options);
+
+            // Initialize m_ThomsonStepsPrinter field
+            m_ThomsonStepsPrinter = new ThomsonMultiGraphGraphVizPrinter("ThompsonSteps.dot");
+            m_ThomsonStepsPrinter.e_prelude += new Func<object, string>(p => "digraph Total { ");
+            m_ThomsonStepsPrinter.e_epilogue += new Func<object, string>(p => "} ");
+            m_ThomsonStepsPrinter.e_intermediate_after += new Func<object, string>(p => {
+                ThompsonGraphVizPrinter pp = p as ThompsonGraphVizPrinter;
+                return "//" + pp.M_Graph.M_Label;
+            });
+        }
+
+        /// <summary>
+        /// Extracts the outcome of one of the steps of the Thompson algorithm to a file
+        /// </summary>
+        public void ExctractThompsonStep(FA NFA,string filename) {
+            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>());
+            NFA.RegisterGraphPrinter(gp);
+            NFA.Generate(@"../Debug/merge.dot", true);
+        }
+
+        /// <summary>
+        /// Extracts all the steps of the Thompson algorithm to a file
+        /// </summary>
+        public void ExtractThompsonSteps() {
+            m_ThomsonStepsPrinter.Generate();
+        }
+
+        public void AddThompsonStepToReporting(FA NFA, bool generateReport=false) {
+            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
+            m_ThomsonStepsPrinter.Add(gp1);
+            if (generateReport) {
+                m_ThomsonStepsPrinter.Generate();
+            }
+        }
+
+        public void ThompsonStepsGenerate() {
+            m_ThomsonStepsPrinter.Generate();
+        }
+    }
+
+    // This class represents the Thompson algorithm. It depends on the classes
+    // defined in the ThompsonHelper.cs which take the responsibility of FA
+    // transformation during the Thompson algorithm steps
+    public class ThompsonVisitor : CASTAbstractConcreteVisitor<FA>{
+        /// <summary>
+        /// This field stores the final output NFA when the algorithm execution completes
+        /// </summary>
+        private FA m_NFA=null;
+        /// <summary>
+        /// This fields stores Thompson Algorithm execution and reporting options
+        /// </summary>
+        private UOPCore.Options<ThompsonOptions> m_options=new UOPCore.Options<ThompsonOptions>((int)ThompsonOptions.TO_DEFAULT);
+
+        private ThompsonReporting m_ReportingServices;
 
         public FA M_Nfa{
             get{ return m_NFA; }
         }
 
         public ThompsonVisitor(ThompsonOptions options=ThompsonOptions.TO_DEFAULT) : base(){
-            m_ThomsonStepsPrinter= new ThomsonMultiGraphGraphVizPrinter("ThompsonSteps.dot");
-            m_ThomsonStepsPrinter.e_prelude += new Func<object, string>(p=> "digraph Total { ");
-            m_ThomsonStepsPrinter.e_epilogue += new Func<object, string>(p => "} ");
-            m_ThomsonStepsPrinter.e_intermediate += new Func<object, string>(p => {
-                ThompsonGraphVizPrinter pp = p as ThompsonGraphVizPrinter;
-                return "//" + pp.M_Graph.M_Label;
-            });
+            m_ReportingServices = new ThompsonReporting(options);
+            
+            // Initialize Thompson options 
             m_options = new UOPCore.Options<ThompsonOptions>(options);
         }
 
         public override FA VisitLexerDescription(CASTElement currentNode) {
             int i = 0;
             FA leftFa=null, rightFa;
-            
-            GraphLibrary.Options<CGraph.CMergeGraphOperation.MergeOptions> options = new GraphLibrary.Options<CGraph.CMergeGraphOperation.MergeOptions>();
+            CGraph.CMergeGraphOperation.MergeOptions mergeOptions=CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT;
 
             CLexerDescription lexerDescription=currentNode as CLexerDescription;
             List<CASTElement> rExpStatements=lexerDescription.GetContextChildren(ContextType.CT_LEXERDESCRIPTION_BODY);
 
             // Preserve labels of RegExp-derived NFA
             if (!m_options.IsSet(ThompsonOptions.TO_STEPS)) {
-                options.Set(CGraph.CMergeGraphOperation.MergeOptions.MO_PRESERVELABELS);
+                mergeOptions = CGraph.CMergeGraphOperation.MergeOptions.MO_PRESERVELABELS;
             }
 
             //1. Create FA 
@@ -55,7 +117,7 @@ namespace Parser.Thompson_Algorithm
                     rightFa = Visit(rExpStatement);
                     //2.Synthesize the two FAs to a new one
                     CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
-                    leftFa = alttempSyn.Sythesize(leftFa, rightFa,options);
+                    leftFa = alttempSyn.Sythesize(leftFa, rightFa,mergeOptions);
                 }
                 else {
                     leftFa = Visit(rExpStatement);
@@ -64,15 +126,17 @@ namespace Parser.Thompson_Algorithm
             }
 
             m_NFA = leftFa;
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>());
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
-            m_ThomsonStepsPrinter.Add(gp1);
-            m_NFA.RegisterGraphPrinter(gp);
-            m_NFA.Generate(@"../Debug/merge.dot", true);
-            m_ThomsonStepsPrinter.Generate();
             
+            m_ReportingServices.ExctractThompsonStep(m_NFA,@"../Debug/merge.dot");
+            if (i > 1) {
+                m_ReportingServices.AddThompsonStepToReporting(m_NFA, true);
+            }
+            else {
+                m_ReportingServices.ThompsonStepsGenerate();
+            }
+
             //return the final-synthesized FA
-                return m_NFA;
+            return m_NFA;
         }
 
         public override FA VisitRegexpbasicParen(CASTElement currentNode){
@@ -107,13 +171,13 @@ namespace Parser.Thompson_Algorithm
             FA leftFa = Visit(altNode.GetChild(ContextType.CT_REGEXPALTERNATION_TERMS, 0));
             FA rightFa = Visit(altNode.GetChild(ContextType.CT_REGEXPALTERNATION_TERMS, 1));
             //2.Synthesize the two FAs to a new one
-            m_NFA= alttempSyn.Sythesize(leftFa, rightFa);
+            m_NFA= alttempSyn.Sythesize(leftFa, rightFa,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>());
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
-            m_ThomsonStepsPrinter.Add(gp1);
-            m_NFA.RegisterGraphPrinter(gp);
-            m_NFA.Generate(@"../Debug/Alternation_" + m_NFA.M_Label + ".dot", true);
+
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Alternation_" + m_NFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+
+            
             //return the final-synthesized FA
             return m_NFA;
         }
@@ -129,12 +193,10 @@ namespace Parser.Thompson_Algorithm
             //2.Synthesize the two FAs to a new one
             m_NFA = alttempSyn.Synthesize(leftFa, rightFa);
 
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>());
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
-            m_ThomsonStepsPrinter.Add(gp1);
-            m_NFA.RegisterGraphPrinter(gp);
-            m_NFA.Generate(@"../Debug/Concatenation_" + m_NFA.M_Label + ".dot", true);
-            
+
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Concatenation_" + m_NFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+
             return m_NFA;
         }
 
@@ -161,19 +223,17 @@ namespace Parser.Thompson_Algorithm
             else{
                 Console.WriteLine("No proper input");
             }
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Closure_" + m_NFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+
             //4.Pass FA to the predecessor
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>());
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
-            m_ThomsonStepsPrinter.Add(gp1);
-            m_NFA.RegisterGraphPrinter(gp);
-            m_NFA.Generate(@"../Debug/Closure_"+m_NFA.M_Label+".dot", true);
             return m_NFA;
         }
 
         public override FA VisitRegexpbasicChar(CASTElement currentNode)
         {
             CRegexpbasicChar charNode = currentNode as CRegexpbasicChar;
-            
+            FAGraphQueryInfo FAInfo;
             //1.Create FA
             m_NFA = new FA();
             FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
@@ -189,19 +249,16 @@ namespace Parser.Thompson_Algorithm
             FAInfo.Info(newEdge).M_TransitionCharSet= charNode.M_CharRangeSet;
             //4.Pass FA to the predecessor
 
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>());
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(m_NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
-            m_ThomsonStepsPrinter.Add(gp1);
-            m_NFA.RegisterGraphPrinter(gp);
-            m_NFA.Generate(@"../Debug/BasicChar_"+charNode.M_CharRangeSet.ToString()+".dot", true);
-
-
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            
             return m_NFA;
         }
 
         public override FA VisitRegexpbasicSet(CASTElement currentNode){
             CRegexpbasicSet setNode = currentNode as CRegexpbasicSet;
-            
+            FAGraphQueryInfo FAInfo;
+
             //Create FA
             m_NFA = new FA();
             FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
@@ -214,11 +271,16 @@ namespace Parser.Thompson_Algorithm
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet = setNode.MSet;
             //4.Pass FA to the predecessor
+
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+
             return m_NFA;
         }
 
         public override FA VisitRange(CASTElement currentNode){
             CRange rangeNode = currentNode as CRange;
+            FAGraphQueryInfo FAInfo;
 
             //1.Create FA
             m_NFA = new FA();
@@ -234,6 +296,9 @@ namespace Parser.Thompson_Algorithm
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet= (CCharRangeSet)rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
+
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Range_" + rangeNode.MRange.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
             //4.Pass FA to the predecessor
             return m_NFA;
         }

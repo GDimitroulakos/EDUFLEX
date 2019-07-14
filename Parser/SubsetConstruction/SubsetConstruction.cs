@@ -69,10 +69,17 @@ namespace Parser.SubsetConstruction
                                 m_workList.Enqueue(qprime);
                                 Qprime = m_configurations.CreateDFANode(qprime);
                             }
-                            e= m_DFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
-                            set = new CCharRangeSet(false);
-                            set.AddRange(range);
-                            m_DFAInfo.SetDFAEdgeTransitionCharacterSet(e,set);
+                            // Check if an edge between Q and Qprime alredy exists
+                            e=m_DFA.Edge(Q, Qprime);
+                            if (e == null) {
+                                e = m_DFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
+                                set = new CCharRangeSet(false);
+                                m_DFAInfo.SetDFAEdgeTransitionCharacterSet(e, set);
+                            }
+                            else {
+                                set = m_DFAInfo.GetDFAEdgeTransitionCharacterSet(e);
+                            }
+                            set.AddRange(i);
                         }
                     }
                 }

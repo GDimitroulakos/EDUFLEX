@@ -77,7 +77,6 @@
     <Compile Include="ASTVisitor\ConcreteVisitors\ASTPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
-    <Compile Include="Thompson Algorithm\ThompsonLabelling.cs" />
     <Compile Include="Thompson Algorithm\ThompsonVisitor.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Facade.cs" />

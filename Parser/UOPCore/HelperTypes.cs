@@ -93,11 +93,11 @@ namespace Parser{
     public class CCharRangeSet : RangeSetO<CCharRange,Int32>{
         private bool isNegation;
 
-        public CCharRangeSet(char c,bool isNegation=false) {
+        public CCharRangeSet(char c,bool isNegation=false) :base(true) {
             AddRange(new CCharRange(c,c));
         }
 
-        public CCharRangeSet(CCharRange range, bool isNegation = false) {
+        public CCharRangeSet(CCharRange range, bool isNegation = false) :base(true) {
             AddRange(range);
         }
 
@@ -108,7 +108,7 @@ namespace Parser{
         public static explicit operator CCharRangeSet(char c) {
             return new CCharRangeSet(c);
         }
-        public CCharRangeSet(bool isNegation){
+        public CCharRangeSet(bool isNegation) : base(true){
             this.isNegation = isNegation;
         }
 
