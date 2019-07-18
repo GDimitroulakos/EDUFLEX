@@ -87,7 +87,8 @@ namespace Parser {
 
 
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpStatement(m_parents.Peek());
+            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek());
+            var i = context.SourceInterval;
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());

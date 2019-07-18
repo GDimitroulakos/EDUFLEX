@@ -154,6 +154,7 @@ namespace Parser {
     public class CRegexpStatement : CASTComposite
     {
         public string M_StatementID { get; internal set; }
+
         public CRegexpStatement(CASTComposite parent) :base(NodeType.NT_REGEXPSTATEMENT, parent, NodeType.CAT_NA){ }
 
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor)

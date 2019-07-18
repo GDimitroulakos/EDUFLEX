@@ -156,7 +156,6 @@ namespace Parser.Thompson_Algorithm
             CASTComposite curNode = currentNode as CASTComposite;
             CRegexpID regexpId= (CRegexpID)curNode.GetChild(ContextType.CT_REGEXPSTATEMENT_TOKENNAME, 0);
             
-            
             FA fa =  base.VisitRegexpStatement(currentNode);
 
             fa.SetFANodePrefix(regexpId.M_RegExpID);
