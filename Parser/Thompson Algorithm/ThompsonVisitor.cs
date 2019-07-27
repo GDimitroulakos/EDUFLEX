@@ -5,18 +5,29 @@ using GraphLibrary;
 using GraphLibrary.Generics;
 using Parser.ASTVisitor;
 using Parser.ASTVisitor.ConcreteVisitors;
+using Parser.Hopcroft;
+using Parser.SubsetConstruction;
 using Parser.UOPCore;
 
 namespace Parser.Thompson_Algorithm
 {
 
+    [Flags]
     public enum ThompsonOptions {
         TO_DEFAULT=0,
         TO_STEPS =1, // The outcome of each Thompson algorithm execution step is reported
                      // either in a single file or multiple
         TO_PROPAGATELABELS =2,
-        TO_COMBINEGRAPHS =4 // The outcome of the Thomson algorithm steps are combined in 
+        TO_COMBINEGRAPHS =4, // The outcome of the Thomson algorithm steps are combined in 
                             // a single file
+        // This options is in accordance to the PO_OPERATION_SIMPLECHECK_VS_CODE option
+        // in the Parser Facade class. Flatten corresponds to the simple lexical analyzer
+        // generation where the a the whole NFA produced by the whole set of regular expressions
+        // is fed to the Subset Construction and Hopcroft algorithms. Whereas STRUCTURED
+        // refers to the separated NFA to min-DFA generation for each separate regular expression and
+        // then their combination through the alternation operator of the Thompson algorithm.
+        // When this option is set it refers to the structured conversion
+        TO_NFAGENERATION_FLATTEN_VS_STRUCTURED=8
     }
 
     public class ThompsonReporting {
@@ -30,8 +41,8 @@ namespace Parser.Thompson_Algorithm
         /// </summary>
         private ThomsonMultiGraphGraphVizPrinter m_ThomsonStepsPrinter;
 
-        public ThompsonReporting(ThompsonOptions options) {
-            m_options = new UOPCore.Options<ThompsonOptions>(options);
+        public ThompsonReporting(UOPCore.Options<ThompsonOptions> options) {
+            m_options = options;
 
             // Initialize m_ThomsonStepsPrinter field
             m_ThomsonStepsPrinter = new ThomsonMultiGraphGraphVizPrinter("ThompsonSteps.dot");
@@ -80,6 +91,11 @@ namespace Parser.Thompson_Algorithm
         /// This field stores the final output NFA when the algorithm execution completes
         /// </summary>
         private FA m_NFA=null;
+
+        // While the algorithm traverses the AST the following field keeps the 
+        // Regular expression owning the current AST subtree
+        private CRegexpStatement m_currentRegularExpression = null;
+
         /// <summary>
         /// This fields stores Thompson Algorithm execution and reporting options
         /// </summary>
@@ -91,18 +107,19 @@ namespace Parser.Thompson_Algorithm
             get{ return m_NFA; }
         }
 
-        public ThompsonVisitor(ThompsonOptions options=ThompsonOptions.TO_DEFAULT) : base(){
-            m_ReportingServices = new ThompsonReporting(options);
-            
+        public ThompsonVisitor(ThompsonOptions options) : base(){
             // Initialize Thompson options 
             m_options = new UOPCore.Options<ThompsonOptions>(options);
+
+            m_ReportingServices = new ThompsonReporting(m_options);
         }
 
         public override FA VisitLexerDescription(CASTElement currentNode) {
             int i = 0;
             FA leftFa=null, rightFa;
             CGraph.CMergeGraphOperation.MergeOptions mergeOptions=CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT;
-
+            CSubsetConstructionAlgorithm subcon;
+            CHopcroftAlgorithm hopmin;
             CLexerDescription lexerDescription=currentNode as CLexerDescription;
             List<CASTElement> rExpStatements=lexerDescription.GetContextChildren(ContextType.CT_LEXERDESCRIPTION_BODY);
 
@@ -115,18 +132,45 @@ namespace Parser.Thompson_Algorithm
             foreach (var rExpStatement in rExpStatements) {
                 if (i > 0) {
                     rightFa = Visit(rExpStatement);
+
+                    if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
+                        // 1. Call Subset Construction on NFA
+                        subcon = new CSubsetConstructionAlgorithm(rightFa);
+                        subcon.Start();
+
+                        // 2. Call Hopcoft 
+                        hopmin = new CHopcroftAlgorithm(subcon.Dfa);
+                        hopmin.Init();
+                        rightFa = hopmin.MinimizedDfa;
+                    }
+
                     //2.Synthesize the two FAs to a new one
                     CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
                     leftFa = alttempSyn.Sythesize(leftFa, rightFa,mergeOptions);
+
+                    // Prefix node elements of the resulting graph with 
+                    CIt_GraphNodes it = new CIt_GraphNodes(leftFa);
+                    for (it.Begin(); !it.End(); it.Next()) {
+                        leftFa.PrefixElementLabel(leftFa.GetFANodePrefix(it.M_CurrentItem), it.M_CurrentItem);
+                    }
                 }
                 else {
                     leftFa = Visit(rExpStatement);
+                    if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
+                        // 1. Call Subset Construction on NFA
+                        subcon = new CSubsetConstructionAlgorithm(leftFa);
+                        subcon.Start();
+
+                        // 2. Call Hopcoft 
+                        hopmin = new CHopcroftAlgorithm(subcon.Dfa);
+                        hopmin.Init();
+                        leftFa = hopmin.MinimizedDfa;
+                    }
                 }
                 i++;
             }
 
             m_NFA = leftFa;
-            
             m_ReportingServices.ExctractThompsonStep(m_NFA,@"../Debug/merge.dot");
             if (i > 1) {
                 m_ReportingServices.AddThompsonStepToReporting(m_NFA, true);
@@ -153,12 +197,19 @@ namespace Parser.Thompson_Algorithm
 
         public override FA VisitRegexpStatement(CASTElement currentNode)
         {
-            CASTComposite curNode = currentNode as CASTComposite;
-            CRegexpID regexpId= (CRegexpID)curNode.GetChild(ContextType.CT_REGEXPSTATEMENT_TOKENNAME, 0);
-            
+            CRegexpStatement curNode = currentNode as CRegexpStatement;
+
+            m_currentRegularExpression = curNode;
+
+            // Generate the FA for the current regular expression
             FA fa =  base.VisitRegexpStatement(currentNode);
 
-            fa.SetFANodePrefix(regexpId.M_RegExpID);
+            // Name the nodes of current branch of the FA with the name of the current regular expression
+            fa.SetFANodePrefix(curNode.M_StatementID);
+            fa.SetFANodesLineDependency(curNode.M_Line);
+
+            m_currentRegularExpression = null;
+
             return fa;
         }
 
@@ -248,6 +299,8 @@ namespace Parser.Thompson_Algorithm
             FAInfo.Info(newEdge).M_TransitionCharSet= charNode.M_CharRangeSet;
             //4.Pass FA to the predecessor
 
+            m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
+
             m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_NFA);
             
@@ -270,6 +323,8 @@ namespace Parser.Thompson_Algorithm
             CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet = setNode.MSet;
             //4.Pass FA to the predecessor
+            
+            m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID,GraphElementType.ET_NODE);
 
             m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_NFA);

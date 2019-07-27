@@ -15,6 +15,8 @@ namespace Parser {
 
         private Stack<ContextType> m_currentContext = new Stack<ContextType>();
 
+        private bool m_closureDetected=false;
+
         public CASTComposite M_ASTRoot {
             get { return m_ASTRoot; }
             private set { m_ASTRoot = value; }
@@ -87,8 +89,16 @@ namespace Parser {
 
 
             // 1. Create new AST node
-            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek());
-            var i = context.SourceInterval;
+            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),
+                new TextSpan() {
+                    M_StartLine = (uint)context.Start.Line,
+                    M_EndLine = (uint)context.Stop.Line,
+                    M_StartColumn = (uint)context.Start.Column,
+                    M_EndColumn = (uint)context.Stop.Column + (uint)context.Stop.StopIndex
+                });
+            newNode.M_StatementID = "L" + newNode.M_StatementTextSpan.M_StartLine;
+            
+
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -97,11 +107,18 @@ namespace Parser {
             m_parents.Push(newNode);
 
             // VISIT CHILDREN
-            VisitElementInContext(context.ID(), ContextType.CT_REGEXPSTATEMENT_TOKENNAME);
+            if (context.ID() != null) {
+                VisitElementInContext(context.ID(), ContextType.CT_REGEXPSTATEMENT_TOKENNAME);
+            }
+            
             VisitElementInContext(context.regexp(), ContextType.CT_REGEXPSTATEMENT_REGEXP);
             if (context.action_code() != null) {
                 VisitElementInContext(context.action_code(), ContextType.CT_REGEXPSTATEMENT_ACTIONCODE);
             }
+
+            // Record the closure detection
+            newNode.M_ContainsClosure = m_closureDetected;
+            m_closureDetected = false;
 
             // POSTORDER ACTIONS
 
@@ -154,6 +171,7 @@ namespace Parser {
         public override int VisitRegexp_clos(RegExpParser.Regexp_closContext context) {
             // 1. Create new AST node
             CASTComposite newNode = new CRegexpClosure(m_parents.Peek());
+            m_closureDetected = true;
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -221,21 +239,7 @@ namespace Parser {
             //None
             return 0;
         }
-        /*public override int VisitRegexpbasic_char(RegExpParser.Regexpbasic_charContext context) {
-            // 1. Create new AST node
-            CASTLeaf<CASTElement> newNode = new CRegexpbasicChar(context.GetText(), m_parents.Peek());
-            // Add new element to the parent's descentants
-            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
-            // VISIT CHILDREN
-            VisitElementInContext(context.@char(), ContextType.CT_REGEXPBASIC_CHAR);
-
-            // POSTORDER ACTIONS
-
-            // Update parents stack
-            //None
-
-            return 0;
-        }*/
+        
         public override int VisitRegexpbasic_eol(RegExpParser.Regexpbasic_eolContext context) {
             // 1. Create new AST node
             CASTLeaf<CASTElement> newNode = new CRegexpbasicEndofline(m_parents.Peek());
@@ -440,7 +444,7 @@ namespace Parser {
             // Update parents stack
             m_parents.Pop();
 
-            return 0;
+            return 1;
         }
 
         public override int VisitSetofitems_negation(RegExpParser.Setofitems_negationContext context) {
@@ -461,7 +465,7 @@ namespace Parser {
             // Update parents stack
             m_parents.Pop();
 
-            return 0;
+            return 1;
         }
 
         public override int VisitAction_code(RegExpParser.Action_codeContext context) {
@@ -505,10 +509,10 @@ namespace Parser {
             // Update parents stack
             m_parents.Pop();
 
-            return 0;
+            return 1;
         }
-        public override int VisitTerminal(ITerminalNode node)
-        {
+        public override int VisitTerminal(ITerminalNode node) {
+            int length = 0;
             CASTComposite parent = m_parents.Peek();
            
             switch (node.Symbol.Type){
@@ -530,6 +534,7 @@ namespace Parser {
                         }
                     }
 
+                    length = 1;
                     break;
                 case RegExpLexer.ID:
                     if (m_currentContext.Peek() == ContextType.CT_REGEXPSTATEMENT_TOKENNAME) {
@@ -539,36 +544,7 @@ namespace Parser {
                     }
                     break;
             }
-/*
-            if (parent is CRange){
-                switch (node.Symbol.Type){
-                    case RegExpLexer.CONTROL_CHARACTERS:
-                    case RegExpLexer.SET_LITERAL_CHARACTER:
-
-
-                        CRange range = parent as CRange;
-                        switch (m_currentContext.Peek()){
-                            case ContextType.CT_RANGE_MIN:
-                                range.MLower = node.GetText()[0];
-                                break;
-                            case ContextType.CT_RANGE_MAX:
-                                range.MUpper = node.GetText()[0];
-                                break;
-                        }
-                        break;
-                }
-            }
-            else if (parent is CRegexpbasicSet){
-                switch (node.Symbol.Type){
-                    case RegExpLexer.CONTROL_CHARACTERS:
-                    case RegExpLexer.SET_LITERAL_CHARACTER:
-                        CRegexpbasicSet set = parent as CRegexpbasicSet;
-                        set.InsertChar(node.GetText()[0]);
-                        break;
-                }
-            }*/
-
-            return 0;
+            return length;
         }
     }
 }

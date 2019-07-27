@@ -25,6 +25,7 @@ namespace Parser.UOPCore
         }
     }
 
+   
     public class FAInfo {
         /// <summary>
         /// Refers to the FA hosting the information
@@ -43,15 +44,15 @@ namespace Parser.UOPCore
         /// </summary>
         private HashSet<CGraphNode> m_final = new HashSet<CGraphNode>();
 
+        /// <summary>
+        /// Records the information referring to each separate regular expression
+        /// </summary>
+
         internal FAInfo(FA fa) {
             m_fa = fa;
         }
 
-        /*internal string M_NodeLabelsPrefix {
-            get => m_nodeLabelsPrefix;
-            set => m_nodeLabelsPrefix = value;
-        }*/
-
+        
         internal CGraphNode M_Initial {
             get => m_initial;
             set => m_initial = value;
@@ -70,11 +71,15 @@ namespace Parser.UOPCore
     public class FAStateInfo :CGraphNode{
         private FAStateType m_stateType;
         /// <summary>
-        /// It is the string prefix applied to all nodes of the FA
+        /// It is the string prefix applied to the current node of the FA
+        /// The prefix derives from the concatenation of the string gathered
+        /// inside the m_nodeLabelsPrefix set
         /// </summary>
         private HashSet<string> m_nodeLabelsPrefix=new HashSet<string>();
+        
+        private List<uint> m_LineDependencies=new List<uint>();
 
-        public string M_NodeLabelsPrefix {
+        public string M_NodeLabelPrefix {
             get {
                 string st="";
                 foreach (string s in m_nodeLabelsPrefix) {
@@ -90,7 +95,21 @@ namespace Parser.UOPCore
             } 
         }
 
-        public HashSet<string> GetNodeLabelsPrefix() {
+        /// <summary>
+        /// Adds the given dependency if it doesn't exist in the list
+        /// and immediately sorts the list 
+        /// </summary>
+        /// <param name="line"></param>
+        public void AddLineDependency(uint line) {
+            if (!m_LineDependencies.Contains(line)) {
+                m_LineDependencies.Add(line);
+                m_LineDependencies.Sort();
+            }
+        }
+
+        public List<uint> M_LineDependencies => m_LineDependencies;
+
+        public HashSet<string> GetNodeLabelPrefix() {
             return m_nodeLabelsPrefix;
         }
 
@@ -118,7 +137,7 @@ namespace Parser.UOPCore
     /// <seealso cref="GraphLibrary.CGraph" />
     public class FA: CGraph
     {
-        private CGraphQueryInfo<FAStateInfo,FAEdgeInfo,FAInfo> m_FAInfo=null;
+        private FAGraphQueryInfo m_FAInfo=null;
         private CCharRangeSet m_alphabet;
         
         public CCharRangeSet M_Alphabet {
@@ -167,7 +186,7 @@ namespace Parser.UOPCore
         }
 
         public FA(){
-            m_FAInfo = new CGraphQueryInfo<FAStateInfo, FAEdgeInfo, FAInfo>(this, m_FAINFOKEY);
+            m_FAInfo = new FAGraphQueryInfo(this, m_FAINFOKEY);
             m_FAInfo.CreateInfo(new FAInfo(this));
             m_alphabet = new CCharRangeSet(false);
         }
@@ -260,11 +279,11 @@ namespace Parser.UOPCore
         /// </summary>
         /// <returns></returns>
         public string GetFANodePrefix(CGraphNode node) {
-            return m_FAInfo.Info(node).M_NodeLabelsPrefix;
+            return m_FAInfo.Info(node).M_NodeLabelPrefix;
         }
 
         public HashSet<string> GetFANodePrefixLabels(CGraphNode node) {
-            return m_FAInfo.Info(node).GetNodeLabelsPrefix();
+            return m_FAInfo.Info(node).GetNodeLabelPrefix();
         }
 
         /// <summary>
@@ -272,14 +291,29 @@ namespace Parser.UOPCore
         /// </summary>
         /// <param name="prefix"></param>
         public void SetFANodePrefix(string prefix,CGraphNode node) {
-            m_FAInfo.Info(node).M_NodeLabelsPrefix = prefix;
+            m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
         }
         public void SetFANodePrefix(string prefix) {
             foreach (CGraphNode node in m_graphNodes) {
-                m_FAInfo.Info(node).M_NodeLabelsPrefix = prefix;
+                m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
             }
             PrefixGraphElementLabels(prefix,GraphElementType.ET_NODE);
         }
+
+        public List<uint> GetFANodeLineDependencies(CGraphNode node) {
+            return m_FAInfo.Info(node).M_LineDependencies;
+        }
+
+        public void SetFANodeLineDependency(uint line, CGraphNode node) {
+            m_FAInfo.Info(node).AddLineDependency(line);
+        }
+
+        public void SetFANodesLineDependency(uint line) {
+            foreach (CGraphNode node in m_graphNodes) {
+                m_FAInfo.Info(node).AddLineDependency(line);
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();

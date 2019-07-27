@@ -16,10 +16,38 @@ using Parser.UOPCore;
 //kefalaio 20 File Info klaseis Directory,DirectoryInfo , File, FileInfo
 // IEnumerable<T> interface, IEnumerator<T>,  foreach sel 297-300 +google msdn
 namespace Parser {
+
+    public enum ParserOptionsEnum {
+        PO_DEFAULT = 0,
+        /// <summary>
+        /// This option determines whether the lexical analyzer performs a
+        /// simple input validity check or executes code upon pattern match
+        /// recognition
+        /// </summary>
+        PO_OPERATION_SIMPLECHECK_VS_CODE = 1
+    }
+
+
     public static class Facade {
+        private static Options<ParserOptionsEnum> m_parserOptions=new Options<ParserOptionsEnum>();
+
         private static FA ms_minDFA;
 
         public static FA MsMinDfa => ms_minDFA;
+
+        static Facade() {
+            SetOperationModeCode(true);
+        }
+
+        public static void SetOperationModeCode(bool code = true) {
+            if (code) {
+                m_parserOptions.Set(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE);
+            }
+            else {
+                m_parserOptions.Reset(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE);
+            }
+        }
+        
 
         public static void VerifyRegExp(string[] args)//Validate the reg exp
         {
@@ -65,20 +93,29 @@ namespace Parser {
             PTvisitor.Visit(tree);
             ASTGeneration astGeneration = new ASTGeneration();
 
-             astGeneration.Visit(tree);
-             ASTPrinter astPrinter = new ASTPrinter(loc);
-             astPrinter.Visit(astGeneration.M_ASTRoot);
+            astGeneration.Visit(tree);
+            ASTPrinter astPrinter = new ASTPrinter(loc);
+            astPrinter.Visit(astGeneration.M_ASTRoot);
 
-            ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS);
-            thompson.Visit(astGeneration.M_ASTRoot);
+            if (m_parserOptions.IsSet(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE)) {
+                ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED);
+                thompson.Visit(astGeneration.M_ASTRoot);
 
-            CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
-            subsetcontruction.Start();
+                ms_minDFA = thompson.M_Nfa;
+            }
+            else {
+                ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS |
+                (~ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED));
+                thompson.Visit(astGeneration.M_ASTRoot);
 
-            CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetcontruction.Dfa);
-            hopcroftAlgorithm.Init();
-            ms_minDFA = hopcroftAlgorithm.MinimizedDfa;
-            
+                CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
+                subsetcontruction.Start();
+
+                CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetcontruction.Dfa);
+                hopcroftAlgorithm.Init();
+                ms_minDFA = hopcroftAlgorithm.MinimizedDfa;
+            }
+
 
             return parser.NumberOfSyntaxErrors;
         }

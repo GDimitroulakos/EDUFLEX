@@ -41,7 +41,7 @@ namespace DFASimulator {
 
     }
 
-    public class DFASimulator {
+    public partial class DFASimulator {
         private EDUFlexStream m_inputCharStream;
         private FA m_dfa;
         Stack<CGraphNode> m_stateStack = new Stack<CGraphNode>();

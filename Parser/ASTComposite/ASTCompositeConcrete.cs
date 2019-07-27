@@ -155,7 +155,23 @@ namespace Parser {
     {
         public string M_StatementID { get; internal set; }
 
-        public CRegexpStatement(CASTComposite parent) :base(NodeType.NT_REGEXPSTATEMENT, parent, NodeType.CAT_NA){ }
+        private TextSpan m_statementTextSpan;
+
+        public TextSpan M_StatementTextSpan => m_statementTextSpan;
+
+        public uint M_Line => m_statementTextSpan.M_StartLine;
+
+        private bool m_containsClosure;
+
+        public bool M_ContainsClosure {
+            get => m_containsClosure;
+            set => m_containsClosure = value;
+        }
+
+        public CRegexpStatement(CASTComposite parent, TextSpan textSpan) : base(NodeType.NT_REGEXPSTATEMENT, parent,
+            NodeType.CAT_NA) {
+            m_statementTextSpan = textSpan;
+        }
 
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor)
         {

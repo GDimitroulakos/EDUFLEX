@@ -12,7 +12,7 @@ options { tokenVocab = RegExpLexer; }
 lexerDescription: regexp_statement+
 				  ;
 
-regexp_statement : ID COLON regexp  action_code? SEMICOLON
+regexp_statement : ID? COLON regexp  action_code? SEMICOLON
 				 ;
 
 action_code : STARTCODEANCHOR CODE ENDCODEANCHOR

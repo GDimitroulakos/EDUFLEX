@@ -83,7 +83,7 @@ ENDCODEANCHOR : '}' -> mode(DEFAULT_MODE);
 
 mode CLOSURE;
 LCA : '~{';  // Left Closure Anchor
-RAC : '}' { RegExpLexer.guard = true; Mode(RegExpLexer.REGEXP); Console.WriteLine("Enter Default Mode"); };
+RAC : '}' { RegExpLexer.guard = true; Mode(RegExpLexer.REGEXP); Console.WriteLine("Enter RegExp Mode"); };
 COMMAC : ',' ;
 NUMBER : INT ;
 WS_CLOSURE : [ \u0009\u000A\u000D]+ ->skip;

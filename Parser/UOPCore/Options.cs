@@ -10,7 +10,7 @@ namespace Parser.UOPCore
     /// option codes must be powers of 2. Objects of this class
     /// can host at most 32 options
     /// </summary>
-    public class Options<T> {
+    public class Options<T> where T : System.Enum{
         private int m_options = 0;
 
         public Options(int initOptions=0) {
@@ -31,14 +31,26 @@ namespace Parser.UOPCore
             m_options = ~ToInt(option) & m_options;
         }
 
+        public static int Inverse(T option) {
+            return  ~ToInt(option);
+        }
+
         public bool IsSet(T option) {
             int temp;
             temp = (m_options & ToInt(option)) & ToInt(option);
             return Convert.ToBoolean(temp);
         }
-
-        private int ToInt(T options) {
+        
+        public static int ToInt(T options) {
             return Convert.ToInt32(options);
+        }
+
+        public static int operator &(Options<T> l, Options<T> r) {
+            return new Options<T>(l.m_options & r.m_options);
+        }
+
+        public static implicit operator int(Options<T> options) {
+            return options.m_options;
         }
     }
 }

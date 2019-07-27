@@ -138,4 +138,31 @@ namespace Parser{
             return strBuild.ToString();
         }
     }
+
+    public struct TextSpan {
+        private UInt32 m_startLine;
+        private UInt32 m_endLine;
+        private UInt32 m_startColumn;
+        private UInt32 m_endColumn;
+        
+        public uint M_StartLine {
+            get => m_startLine;
+            set => m_startLine = value;
+        }
+
+        public uint M_EndLine {
+            get => m_endLine;
+            set => m_endLine = value;
+        }
+
+        public uint M_StartColumn {
+            get => m_startColumn;
+            set => m_startColumn = value;
+        }
+
+        public uint M_EndColumn {
+            get => m_endColumn;
+            set => m_endColumn = value;
+        }
+    }
 }

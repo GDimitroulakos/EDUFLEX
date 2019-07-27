@@ -145,13 +145,15 @@ namespace Parser.SubsetConstruction
             //if not create a new DFA node
             if (DFAnode == null) {
                 DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
-
-
-
+                
                 foreach (CGraphNode node in q) {
-                    if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix)) {
-                        prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelsPrefix);
-                        m_DFAStateInfo.Info(DFAnode).M_NodeLabelsPrefix = m_NFAStateInfo.Info(node).M_NodeLabelsPrefix;
+                    if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelPrefix)) {
+                        prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelPrefix);
+                        m_DFAStateInfo.Info(DFAnode).M_NodeLabelPrefix = m_NFAStateInfo.Info(node).M_NodeLabelPrefix;
+                    }
+
+                    foreach (uint lineDependency in m_NFAStateInfo.Info(node).M_LineDependencies) {
+                        m_DFA.SetFANodeLineDependency(lineDependency,DFAnode);
                     }
                 }
 
@@ -160,10 +162,7 @@ namespace Parser.SubsetConstruction
                 }
                 m_DFA.PrefixElementLabel(prefix,DFAnode);
 
-
-
-
-
+                
                 if (ContainsFinalState(q)) {
                     m_DFA.SetFinalState(DFAnode);
                 }

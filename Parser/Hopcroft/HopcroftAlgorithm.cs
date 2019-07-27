@@ -205,6 +205,11 @@ namespace Parser.Hopcroft {
                     foreach (string s in prefs) {
                         m_minimizedDFA.SetFANodePrefix(s, it1.M_CurrentItem);
                     }
+
+                    foreach (uint dependency in m_DFA.GetFANodeLineDependencies(iNode)) {
+                        m_minimizedDFA.SetFANodeLineDependency(dependency,it1.M_CurrentItem);
+                    }
+
                 }
                 m_minimizedDFA.PrefixElementLabel(m_minimizedDFA.GetFANodePrefix(it1.M_CurrentItem), it1.M_CurrentItem);
             }
