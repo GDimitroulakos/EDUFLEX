@@ -60,7 +60,7 @@ namespace Parser.Thompson_Algorithm
         public void ExctractThompsonStep(FA NFA,string filename) {
             ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>());
             NFA.RegisterGraphPrinter(gp);
-            NFA.Generate(@"../Debug/merge.dot", true);
+            NFA.Generate(filename, true);
         }
 
         /// <summary>
@@ -132,40 +132,25 @@ namespace Parser.Thompson_Algorithm
             foreach (var rExpStatement in rExpStatements) {
                 if (i > 0) {
                     rightFa = Visit(rExpStatement);
-
-                    if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
-                        // 1. Call Subset Construction on NFA
-                        subcon = new CSubsetConstructionAlgorithm(rightFa);
-                        subcon.Start();
-
-                        // 2. Call Hopcoft 
-                        hopmin = new CHopcroftAlgorithm(subcon.Dfa);
-                        hopmin.Init();
-                        rightFa = hopmin.MinimizedDfa;
-                    }
-
+                    m_ReportingServices.ExctractThompsonStep(rightFa, @"../Debug/rxx.dot");
+                    
                     //2.Synthesize the two FAs to a new one
                     CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
-                    leftFa = alttempSyn.Sythesize(leftFa, rightFa,mergeOptions);
+                    leftFa = alttempSyn.Sythesize(leftFa, rightFa, mergeOptions);
 
                     // Prefix node elements of the resulting graph with 
                     CIt_GraphNodes it = new CIt_GraphNodes(leftFa);
                     for (it.Begin(); !it.End(); it.Next()) {
                         leftFa.PrefixElementLabel(leftFa.GetFANodePrefix(it.M_CurrentItem), it.M_CurrentItem);
                     }
+
+                    m_ReportingServices.ExctractThompsonStep(leftFa, @"../Debug/lxx.dot");
+
                 }
                 else {
                     leftFa = Visit(rExpStatement);
-                    if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
-                        // 1. Call Subset Construction on NFA
-                        subcon = new CSubsetConstructionAlgorithm(leftFa);
-                        subcon.Start();
-
-                        // 2. Call Hopcoft 
-                        hopmin = new CHopcroftAlgorithm(subcon.Dfa);
-                        hopmin.Init();
-                        leftFa = hopmin.MinimizedDfa;
-                    }
+                    
+                    m_ReportingServices.ExctractThompsonStep(leftFa, @"../Debug/lxx.dot");
                 }
                 i++;
             }
@@ -216,12 +201,49 @@ namespace Parser.Thompson_Algorithm
         public override FA VisitRegexpAlternation(CASTElement currentNode)
         {
             CRegexpAlternation altNode = currentNode as CRegexpAlternation;
+            CSubsetConstructionAlgorithm subcon;
+            CHopcroftAlgorithm hopmin;
             //1. Create FA 
             CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
             FA leftFa = Visit(altNode.GetChild(ContextType.CT_REGEXPALTERNATION_TERMS, 0));
+            if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
+
+                // 1. Call Subset Construction on NFA
+                subcon = new CSubsetConstructionAlgorithm(leftFa);
+                subcon.Start();
+
+                // 2. Call Hopcoft 
+                hopmin = new CHopcroftAlgorithm(subcon.Dfa);
+                hopmin.Init();
+                leftFa = hopmin.MinimizedDfa;
+            }
+
+            CIt_GraphNodes it = new CIt_GraphNodes(leftFa);
+            for (it.Begin(); !it.End(); it.Next()) {
+                leftFa.PrefixElementLabel(leftFa.GetFANodePrefix(it.M_CurrentItem), it.M_CurrentItem);
+            }
+
             FA rightFa = Visit(altNode.GetChild(ContextType.CT_REGEXPALTERNATION_TERMS, 1));
+
+            if (m_options.IsSet(ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED)) {
+
+                // 1. Call Subset Construction on NFA
+                subcon = new CSubsetConstructionAlgorithm(rightFa);
+                subcon.Start();
+
+                // 2. Call Hopcoft 
+                hopmin = new CHopcroftAlgorithm(subcon.Dfa);
+                hopmin.Init();
+                rightFa = hopmin.MinimizedDfa;
+            }
+
+            it = new CIt_GraphNodes(rightFa);
+            for (it.Begin(); !it.End(); it.Next()) {
+                rightFa.PrefixElementLabel(rightFa.GetFANodePrefix(it.M_CurrentItem), it.M_CurrentItem);
+            }
+
             //2.Synthesize the two FAs to a new one
-            m_NFA= alttempSyn.Sythesize(leftFa, rightFa,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
+            m_NFA = alttempSyn.Sythesize(leftFa, rightFa,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
 
             m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Alternation_" + m_NFA.M_Label + ".dot");
@@ -243,6 +265,10 @@ namespace Parser.Thompson_Algorithm
             //2.Synthesize the two FAs to a new one
             m_NFA = alttempSyn.Synthesize(leftFa, rightFa);
 
+            CIt_GraphNodes it = new CIt_GraphNodes(m_NFA);
+            for (it.Begin(); !it.End(); it.Next()) {
+                m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
+            }
 
             m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Concatenation_" + m_NFA.M_Label + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_NFA);
@@ -272,6 +298,11 @@ namespace Parser.Thompson_Algorithm
             }
             else{
                 Console.WriteLine("No proper input");
+            }
+
+            CIt_GraphNodes it = new CIt_GraphNodes(m_NFA);
+            for (it.Begin(); !it.End(); it.Next()) {
+                m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
             m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Closure_" + m_NFA.M_Label + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_NFA);

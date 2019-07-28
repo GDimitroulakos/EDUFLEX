@@ -101,7 +101,10 @@ namespace Parser {
                 ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED);
                 thompson.Visit(astGeneration.M_ASTRoot);
 
-                ms_minDFA = thompson.M_Nfa;
+                CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
+                subsetcontruction.Start();
+
+                ms_minDFA = subsetcontruction.Dfa;
             }
             else {
                 ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS |
