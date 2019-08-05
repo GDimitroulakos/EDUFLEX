@@ -1,39 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Parser.UOPCore;
 using RangeIntervals;
 
-namespace Parser{
-    public class CCharRange : Range<Int32>{
+namespace Parser {
+    public class CCharRange : Range<Int32> {
         private int m_minChar;
         private int m_maxChar;
 
         public CCharRange() {
         }
 
-        public char MCharLower{
-            get{ return Convert.ToChar(m_minChar); }
+        public char MCharLower {
+            get { return Convert.ToChar(m_minChar); }
         }
 
-        public char MCharUpper{
+        public char MCharUpper {
             get { return Convert.ToChar(m_maxChar); }
         }
 
-        public string M_RangeString{
-            get{
+        public string M_RangeString {
+            get {
                 StringBuilder b = new StringBuilder();
-                for (int i = m_minChar; i <= m_maxChar; i++){
+                for (int i = m_minChar; i <= m_maxChar; i++) {
                     b.Append(Convert.ToChar(i));
                 }
                 return b.ToString();
             }
         }
 
-        public CCharRange(char min, char max) : base(Convert.ToInt32(min), Convert.ToInt32(max)+1){
+        public CCharRange(char min, char max) : base(Convert.ToInt32(min), Convert.ToInt32(max) + 1) {
             m_minChar = Convert.ToInt32(min);
             m_maxChar = Convert.ToInt32(max);
         }
-        public CCharRange(int min, int max) : base(min, max+1){
+        public CCharRange(int min, int max) : base(min, max + 1) {
             m_minChar = min;
             m_maxChar = max;
         }
@@ -46,14 +47,14 @@ namespace Parser{
         }
 
         public override int Next(int x) {
-            return x+1;
+            return x + 1;
         }
 
         public override int Prev(int x) {
-            return x-1;
+            return x - 1;
         }
 
-        public override string ToString(){
+        public override string ToString() {
             if (m_maxChar != m_minChar) {
                 return Convert.ToChar(m_minChar).ToString() + "-" + Convert.ToChar(m_maxChar).ToString();
             }
@@ -81,23 +82,23 @@ namespace Parser{
 
 
 
-        public int MMinChar{
-            get{ return m_minChar; }
+        public int MMinChar {
+            get { return m_minChar; }
         }
 
-        public int MMaxChar{
-            get{ return m_maxChar; }
+        public int MMaxChar {
+            get { return m_maxChar; }
         }
     }
 
-    public class CCharRangeSet : RangeSetO<CCharRange,Int32>{
+    public class CCharRangeSet : RangeSetO<CCharRange, Int32> {
         private bool isNegation;
 
-        public CCharRangeSet(char c,bool isNegation=false) :base(true) {
-            AddRange(new CCharRange(c,c));
+        public CCharRangeSet(char c, bool isNegation = false) : base(true) {
+            AddRange(new CCharRange(c, c));
         }
 
-        public CCharRangeSet(CCharRange range, bool isNegation = false) :base(true) {
+        public CCharRangeSet(CCharRange range, bool isNegation = false) : base(true) {
             AddRange(range);
         }
 
@@ -108,11 +109,11 @@ namespace Parser{
         public static explicit operator CCharRangeSet(char c) {
             return new CCharRangeSet(c);
         }
-        public CCharRangeSet(bool isNegation) : base(true){
+        public CCharRangeSet(bool isNegation) : base(true) {
             this.isNegation = isNegation;
         }
 
-        public static explicit operator System.String(CCharRangeSet set){
+        public static explicit operator System.String(CCharRangeSet set) {
             return set.ToString();
         }
 
@@ -125,13 +126,13 @@ namespace Parser{
             return false;
         }
 
-        public override string ToString(){
+        public override string ToString() {
             StringBuilder strBuild = new StringBuilder();
             strBuild.Append("[");
-            if (isNegation){
+            if (isNegation) {
                 strBuild.Append("^");
             }
-            foreach (var range in this){
+            foreach (var range in this) {
                 strBuild.Append((range as CCharRange).ToString());
             }
             strBuild.Append("]");
@@ -144,7 +145,7 @@ namespace Parser{
         private UInt32 m_endLine;
         private UInt32 m_startColumn;
         private UInt32 m_endColumn;
-        
+
         public uint M_StartLine {
             get => m_startLine;
             set => m_startLine = value;
@@ -165,4 +166,6 @@ namespace Parser{
             set => m_endColumn = value;
         }
     }
+
+    
 }

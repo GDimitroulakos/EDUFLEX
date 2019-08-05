@@ -75,9 +75,12 @@
     <Compile Include="ASTVisitor\AbstractASTVisitor.cs" />
     <Compile Include="ASTVisitor\ASTConcreteVisitor.cs" />
     <Compile Include="ASTVisitor\ConcreteVisitors\ASTPrinter.cs" />
+    <Compile Include="Hopcroft\HopcroftAlgorithmStructured.cs" />
+    <Compile Include="SubsetConstruction\SubsetConstructionStructured.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonAlgorithmStructured.cs" />
     <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
-    <Compile Include="Thompson Algorithm\ThompsonVisitor.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonVisitorFlatten.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Hopcroft\DFASerializer.cs" />
@@ -104,25 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\Debug\Alternation_G14.dot" />
-    <None Include="bin\Debug\Alternation_G4.dot" />
     <None Include="bin\Debug\BasicChar_[a].dot" />
     <None Include="bin\Debug\BasicChar_[b].dot" />
-    <None Include="bin\Debug\BasicChar_[c].dot" />
-    <None Include="bin\Debug\BasicChar_[d].dot" />
-    <None Include="bin\Debug\Closure_G12.dot" />
-    <None Include="bin\Debug\Closure_G5.dot" />
-    <None Include="bin\Debug\Closure_G8.dot" />
-    <None Include="bin\Debug\Concatenation_G13.dot" />
     <None Include="bin\Debug\Concatenation_G2.dot" />
-    <None Include="bin\Debug\Concatenation_G9.dot" />
     <None Include="bin\Debug\merge.dot" />
     <None Include="bin\Debug\mergeDFA.dot" />
     <None Include="bin\Debug\minimizedDFA.dot" />
     <None Include="bin\Debug\test1.dot" />
     <None Include="bin\Debug\test1AST.dot" />
-    <None Include="bin\Debug\text.dot" />
-    <None Include="bin\Debug\text1.dot" />
     <None Include="bin\Debug\ThompsonSteps.dot" />
     <None Include="packages.config" />
     <Antlr4 Include="RegExpLexer.g4">

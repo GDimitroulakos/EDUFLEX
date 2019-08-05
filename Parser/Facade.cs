@@ -10,6 +10,7 @@ using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.ASTVisitor.Visitors;
 using Parser.Hopcroft;
 using Parser.SubsetConstruction;
+using Parser.SubsetConstruction.Parser.SubsetConstruction;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
@@ -27,16 +28,18 @@ namespace Parser {
         PO_OPERATION_SIMPLECHECK_VS_CODE = 1
     }
 
-
     public static class Facade {
         private static Options<ParserOptionsEnum> m_parserOptions=new Options<ParserOptionsEnum>();
 
-        private static FA ms_minDFA;
+        private static FA ms_globalMinDFA;
 
-        public static FA MsMinDfa => ms_minDFA;
+        public static FA MsMinDfa => ms_globalMinDFA;
+
+        // Holds the Regular Expression record indexed by the line declared into the input grammar
+        private static Dictionary<uint, RERecord> m_reRecords = new Dictionary<uint, RERecord>();
 
         static Facade() {
-            SetOperationModeCode(true);
+            SetOperationModeCode(false);
         }
 
         public static void SetOperationModeCode(bool code = true) {
@@ -91,32 +94,33 @@ namespace Parser {
             PTPrinter PTvisitor = new PTPrinter(loc);
 
             PTvisitor.Visit(tree);
-            ASTGeneration astGeneration = new ASTGeneration();
+            ASTGeneration astGeneration = new ASTGeneration(){M_ReRecords = m_reRecords};
 
             astGeneration.Visit(tree);
             ASTPrinter astPrinter = new ASTPrinter(loc);
             astPrinter.Visit(astGeneration.M_ASTRoot);
 
             if (m_parserOptions.IsSet(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE)) {
-                ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED);
+                ThompsonAlgorithmStructured thompson = new ThompsonAlgorithmStructured(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED,m_reRecords);
                 thompson.Visit(astGeneration.M_ASTRoot);
 
-                CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
+                CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(thompson.M_ReRecords);
                 subsetcontruction.Start();
 
-                ms_minDFA = subsetcontruction.Dfa;
+                CHopcroftAlgorithmStructured hopcroftAlgorithm = new CHopcroftAlgorithmStructured(subsetcontruction.M_RERecords);
+                hopcroftAlgorithm.Start();
             }
             else {
-                ThompsonVisitor thompson = new ThompsonVisitor(ThompsonOptions.TO_STEPS |
+                ThompsonVisitorFlatten thompson = new ThompsonVisitorFlatten(ThompsonOptions.TO_STEPS |
                 (~ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED));
                 thompson.Visit(astGeneration.M_ASTRoot);
 
-                CSubsetConstructionAlgorithm subsetcontruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
-                subsetcontruction.Start();
+                CSubsetConstructionAlgorithm subsetconstruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
+                subsetconstruction.Start();
 
-                CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetcontruction.Dfa);
+                CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetconstruction.Dfa);
                 hopcroftAlgorithm.Init();
-                ms_minDFA = hopcroftAlgorithm.MinimizedDfa;
+                ms_globalMinDFA = hopcroftAlgorithm.MinimizedDfa;
             }
 
 

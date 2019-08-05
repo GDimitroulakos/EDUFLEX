@@ -8,6 +8,51 @@ using GraphLibrary.Generics;
 
 namespace Parser.UOPCore
 {
+    public class RERecord {
+        private FA m_DFA = null;    // Result from Subset Construction
+        private FA m_NFA = null;    // Result from Thompson
+        private FA m_minDFA = null; // Result from Hopcroft
+        private TextSpan m_REPosition; // Position of Regular Expression into the code
+        private string m_label = null;   // Regular Expression label;
+        private CRegexpStatement m_RETree = null;
+
+        public FA M_Dfa {
+            get => m_DFA;
+            set => m_DFA = value;
+        }
+
+        public FA M_Nfa {
+            get => m_NFA;
+            set => m_NFA = value;
+        }
+
+        public FA M_MinDfa {
+            get => m_minDFA;
+            set => m_minDFA = value;
+        }
+
+        public TextSpan M_RePosition {
+            get => m_REPosition;
+            set => m_REPosition = value;
+        }
+
+        public uint M_Line {
+            get => m_REPosition.M_StartLine;
+        }
+
+        public string M_Label {
+            get => m_label;
+            set => m_label = value;
+        }
+
+        public CRegexpStatement M_ReTree {
+            get => m_RETree;
+            set => m_RETree = value;
+        }
+    }
+
+
+
     public enum FAStateType {
         FT_NA,FT_ACCEPTED,FT_NONACCEPTED
     }

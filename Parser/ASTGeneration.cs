@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using Parser.UOPCore;
 
 namespace Parser {
     class ASTGeneration : RegExpParserBaseVisitor<int> {
@@ -16,6 +17,12 @@ namespace Parser {
         private Stack<ContextType> m_currentContext = new Stack<ContextType>();
 
         private bool m_closureDetected=false;
+
+        private Dictionary<uint, RERecord> m_reRecords;
+
+        public Dictionary<uint, RERecord> M_ReRecords {
+            set => m_reRecords = value;
+        }
 
         public CASTComposite M_ASTRoot {
             get { return m_ASTRoot; }
@@ -87,18 +94,18 @@ namespace Parser {
 
         public override int VisitRegexp_statement(RegExpParser.Regexp_statementContext context) {
 
+            TextSpan textSpan = new TextSpan() {
+                M_StartLine = (uint) context.Start.Line,
+                M_EndLine = (uint) context.Stop.Line,
+                M_StartColumn = (uint) context.Start.Column,
+                M_EndColumn = (uint) context.Stop.Column + (uint) context.Stop.StopIndex
+            };
 
             // 1. Create new AST node
-            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),
-                new TextSpan() {
-                    M_StartLine = (uint)context.Start.Line,
-                    M_EndLine = (uint)context.Stop.Line,
-                    M_StartColumn = (uint)context.Start.Column,
-                    M_EndColumn = (uint)context.Stop.Column + (uint)context.Stop.StopIndex
-                });
+            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),textSpan);
             newNode.M_StatementID = "L" + newNode.M_StatementTextSpan.M_StartLine;
             
-
+            m_reRecords[newNode.M_Line] = new RERecord(){M_RePosition = textSpan, M_Label = newNode.M_StatementID, M_ReTree = newNode};
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
