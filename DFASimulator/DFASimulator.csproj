@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SeekableStreamReader">
-      <HintPath>..\..\..\MyLibraries\SeekableTextStreamAccessors\SeekableStreamReader\bin\Debug\SeekableStreamReader.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +51,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MyLibraries\SeekableTextStreamAccessors\SeekableStreamReader\SeekableStreamReader.csproj">
+      <Project>{7138fa0b-6d5b-4d51-afb9-dc5db6fddcd4}</Project>
+      <Name>SeekableStreamReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLibrary\GraphLibrary\GraphLibrary.csproj">
       <Project>{d0e52a9b-dfda-4ec2-90c5-8c3bb41fe782}</Project>
       <Name>GraphLibrary</Name>

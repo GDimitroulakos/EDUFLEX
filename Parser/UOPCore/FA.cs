@@ -15,6 +15,7 @@ namespace Parser.UOPCore
         private TextSpan m_REPosition; // Position of Regular Expression into the code
         private string m_label = null;   // Regular Expression label;
         private CRegexpStatement m_RETree = null;
+        private string m_actionCode;
 
         public FA M_Dfa {
             get => m_DFA;
@@ -43,6 +44,11 @@ namespace Parser.UOPCore
         public string M_Label {
             get => m_label;
             set => m_label = value;
+        }
+
+        public string M_ActionCode {
+            get => m_actionCode;
+            set => m_actionCode = value;
         }
 
         public CRegexpStatement M_ReTree {

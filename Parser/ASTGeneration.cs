@@ -20,9 +20,12 @@ namespace Parser {
 
         private Dictionary<uint, RERecord> m_reRecords;
 
+        private RERecord m_currentRERecord;
+
         public Dictionary<uint, RERecord> M_ReRecords {
             set => m_reRecords = value;
         }
+              
 
         public CASTComposite M_ASTRoot {
             get { return m_ASTRoot; }
@@ -104,8 +107,10 @@ namespace Parser {
             // 1. Create new AST node
             CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),textSpan);
             newNode.M_StatementID = "L" + newNode.M_StatementTextSpan.M_StartLine;
-            
-            m_reRecords[newNode.M_Line] = new RERecord(){M_RePosition = textSpan, M_Label = newNode.M_StatementID, M_ReTree = newNode};
+
+            m_currentRERecord = new RERecord() { M_RePosition = textSpan, M_Label = newNode.M_StatementID, M_ReTree = newNode };
+
+            m_reRecords[newNode.M_Line] = m_currentRERecord;
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -478,6 +483,8 @@ namespace Parser {
         public override int VisitAction_code(RegExpParser.Action_codeContext context) {
             CASTComposite newNode = new CActionCode(m_parents.Peek());
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+
+            m_currentRERecord.M_ActionCode = context.GetText();
 
             // Update parents stack
             m_parents.Push(newNode);

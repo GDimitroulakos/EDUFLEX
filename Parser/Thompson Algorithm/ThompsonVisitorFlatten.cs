@@ -96,6 +96,8 @@ namespace Parser.Thompson_Algorithm
         // Regular expression owning the current AST subtree
         private CRegexpStatement m_currentRegularExpression = null;
 
+        private FA m_resultFA;
+
         /// <summary>
         /// This fields stores Thompson Algorithm execution and reporting options
         /// </summary>
@@ -169,7 +171,10 @@ namespace Parser.Thompson_Algorithm
         }
 
         public override FA AggregateResult(FA intermediateResult){
-            return intermediateResult;
+            if  (intermediateResult != null) {
+                m_resultFA = intermediateResult;
+            }
+            return m_resultFA;
         }
 
         public override FA VisitRegexpStatement(CASTElement currentNode)

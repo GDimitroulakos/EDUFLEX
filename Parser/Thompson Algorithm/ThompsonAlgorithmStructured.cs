@@ -17,9 +17,18 @@ namespace Parser.Thompson_Algorithm {
     // transformation during the Thompson algorithm steps
     public class ThompsonAlgorithmStructured : CASTAbstractConcreteVisitor<FA> {
         /// <summary>
-        /// This field stores the final output NFA when the algorithm execution completes
+        /// This field stores the current the regular expression currently being transformed
+        /// by the Thompson algorithm
         /// </summary>
-        private FA m_NFA = null;
+        private FA m_currentNFA = null;
+
+        private FA m_netVisitResult=null;
+        
+        /// <summary>
+        /// This field stores the current line of the regular expression being transformed by
+        /// the Thompson algorithm
+        /// </summary>
+        private uint m_currentLine;
 
         // While the algorithm traverses the AST the following field keeps the 
         // Regular expression owning the current AST subtree
@@ -46,61 +55,6 @@ namespace Parser.Thompson_Algorithm {
             m_ReportingServices = new ThompsonReporting(m_options);
         }
 
-        public override FA VisitLexerDescription(CASTElement currentNode) {
-            int i = 0;
-            FA leftFa = null, rightFa;
-            CGraph.CMergeGraphOperation.MergeOptions mergeOptions = CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT;
-            CSubsetConstructionAlgorithm subcon;
-            CHopcroftAlgorithm hopmin;
-            CLexerDescription lexerDescription = currentNode as CLexerDescription;
-            List<CASTElement> rExpStatements = lexerDescription.GetContextChildren(ContextType.CT_LEXERDESCRIPTION_BODY);
-
-            // Preserve labels of RegExp-derived NFA
-            if (!m_options.IsSet(ThompsonOptions.TO_STEPS)) {
-                mergeOptions = CGraph.CMergeGraphOperation.MergeOptions.MO_PRESERVELABELS;
-            }
-
-            //1. Create FA 
-            foreach (var rExpStatement in rExpStatements) {
-                if (i > 0) {
-                    rightFa = Visit(rExpStatement);
-                    m_ReportingServices.ExctractThompsonStep(rightFa, @"../Debug/rxx.dot");
-
-                  
-                    //2.Synthesize the two FAs to a new one
-                    CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
-                    leftFa = alttempSyn.Sythesize(leftFa, rightFa, mergeOptions);
-
-                    // Prefix node elements of the resulting graph with 
-                    CIt_GraphNodes it = new CIt_GraphNodes(leftFa);
-                    for (it.Begin(); !it.End(); it.Next()) {
-                        leftFa.PrefixElementLabel(leftFa.GetFANodePrefix(it.M_CurrentItem), it.M_CurrentItem);
-                    }
-
-                    m_ReportingServices.ExctractThompsonStep(leftFa, @"../Debug/lxx.dot");
-
-                }
-                else {
-                    leftFa = Visit(rExpStatement);
-                    
-                    m_ReportingServices.ExctractThompsonStep(leftFa, @"../Debug/lxx.dot");
-                }
-                i++;
-            }
-
-            m_NFA = leftFa;
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/merge.dot");
-            if (i > 1) {
-                m_ReportingServices.AddThompsonStepToReporting(m_NFA, true);
-            }
-            else {
-                m_ReportingServices.ThompsonStepsGenerate();
-            }
-
-            //return the final-synthesized FA
-            return m_NFA;
-        }
-
         public override FA VisitRegexpAlternation(CASTElement currentNode) {
             CRegexpAlternation altNode = currentNode as CRegexpAlternation;
             CSubsetConstructionAlgorithm subcon;
@@ -122,26 +76,29 @@ namespace Parser.Thompson_Algorithm {
             }
 
             //2.Synthesize the two FAs to a new one
-            m_NFA = alttempSyn.Sythesize(leftFa, rightFa, CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
+            m_currentNFA = alttempSyn.Sythesize(leftFa, rightFa, CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Alternation_" + m_NFA.M_Label + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Alternation_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
 
             //return the final-synthesized FA
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA VisitRegexpbasicParen(CASTElement currentNode) {
             CASTComposite curNode = currentNode as CASTComposite;
 
-            m_NFA = Visit(curNode.GetChild(ContextType.CT_RGEXPBASIC_PAREN, 0));
+            m_currentNFA = Visit(curNode.GetChild(ContextType.CT_RGEXPBASIC_PAREN, 0));
 
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA AggregateResult(FA intermediateResult) {
-            return intermediateResult;
+            if ( intermediateResult != null) {
+                m_netVisitResult = intermediateResult;
+            }
+            return m_netVisitResult;
         }
 
         public override FA VisitRegexpStatement(CASTElement currentNode) {
@@ -151,6 +108,10 @@ namespace Parser.Thompson_Algorithm {
 
             // Generate the FA for the current regular expression
             FA fa = base.VisitRegexpStatement(currentNode);
+            m_currentNFA = fa;
+            m_currentLine = curNode.M_Line;
+
+            m_ReportingServices.ExctractThompsonStep(fa,"merge"+m_currentLine+".dot");
 
             // Record the derived NFA to the RERecords 
             m_reRecords[curNode.M_Line].M_Nfa = fa;
@@ -172,17 +133,17 @@ namespace Parser.Thompson_Algorithm {
             FA leftFa = Visit(altNode.GetChild(ContextType.CT_REGEXPCONCATENATION_TERMS, 0));
             FA rightFa = Visit(altNode.GetChild(ContextType.CT_REGEXPCONCATENATION_TERMS, 1));
             //2.Synthesize the two FAs to a new one
-            m_NFA = alttempSyn.Synthesize(leftFa, rightFa);
+            m_currentNFA = alttempSyn.Synthesize(leftFa, rightFa);
 
-            CIt_GraphNodes it = new CIt_GraphNodes(m_NFA);
+            CIt_GraphNodes it = new CIt_GraphNodes(m_currentNFA);
             for (it.Begin(); !it.End(); it.Next()) {
-                m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
+                m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Concatenation_" + m_NFA.M_Label + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Concatenation_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA VisitRegexpClosure(CASTElement currentNode) {
@@ -194,56 +155,56 @@ namespace Parser.Thompson_Algorithm {
             //2.Check the type of the closure
             if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
-                m_NFA = newFA.SynthesizeNoneOrMul(customFA);
+                m_currentNFA = newFA.SynthesizeNoneOrMul(customFA);
             }
 
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
-                m_NFA = newFA.SynthesisOneOrMul(customFA);
+                m_currentNFA = newFA.SynthesisOneOrMul(customFA);
             }
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_ONEORZERO) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
-                m_NFA = newFA.SynthesizeOneOrNone(customFA);
+                m_currentNFA = newFA.SynthesizeOneOrNone(customFA);
             }
             else {
                 Console.WriteLine("No proper input");
             }
 
-            CIt_GraphNodes it = new CIt_GraphNodes(m_NFA);
+            CIt_GraphNodes it = new CIt_GraphNodes(m_currentNFA);
             for (it.Begin(); !it.End(); it.Next()) {
-                m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
+                m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Closure_" + m_NFA.M_Label + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Closure_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
             //4.Pass FA to the predecessor
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA VisitRegexpbasicChar(CASTElement currentNode) {
             CRegexpbasicChar charNode = currentNode as CRegexpbasicChar;
             FAGraphQueryInfo FAInfo;
             //1.Create FA
-            m_NFA = new FA();
-            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
+            m_currentNFA = new FA();
+            FAInfo = new FAGraphQueryInfo(m_currentNFA, FA.m_FAINFOKEY);
             //2.Create nodes initial-final
-            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
-            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
-            m_NFA.M_Initial = init;
-            m_NFA.SetFinalState(final);
-            m_NFA.M_Alphabet.AddSet(charNode.M_CharRangeSet);
+            CGraphNode init = m_currentNFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_currentNFA.CreateGraphNode<CGraphNode>();
+            m_currentNFA.M_Initial = init;
+            m_currentNFA.SetFinalState(final);
+            m_currentNFA.M_Alphabet.AddSet(charNode.M_CharRangeSet);
 
             //3.Draw the edge including the character
-            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_currentNFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet = charNode.M_CharRangeSet;
             //4.Pass FA to the predecessor
 
-            m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
+            m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA VisitRegexpbasicSet(CASTElement currentNode) {
@@ -251,24 +212,24 @@ namespace Parser.Thompson_Algorithm {
             FAGraphQueryInfo FAInfo;
 
             //Create FA
-            m_NFA = new FA();
-            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
-            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
-            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
-            m_NFA.M_Initial = init;
-            m_NFA.SetFinalState(final);
-            m_NFA.M_Alphabet.AddSet(setNode.MSet);
+            m_currentNFA = new FA();
+            FAInfo = new FAGraphQueryInfo(m_currentNFA, FA.m_FAINFOKEY);
+            CGraphNode init = m_currentNFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_currentNFA.CreateGraphNode<CGraphNode>();
+            m_currentNFA.M_Initial = init;
+            m_currentNFA.SetFinalState(final);
+            m_currentNFA.M_Alphabet.AddSet(setNode.MSet);
 
-            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_currentNFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet = setNode.MSet;
             //4.Pass FA to the predecessor
 
-            m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
+            m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
-            return m_NFA;
+            return m_currentNFA;
         }
 
         public override FA VisitRange(CASTElement currentNode) {
@@ -276,24 +237,24 @@ namespace Parser.Thompson_Algorithm {
             FAGraphQueryInfo FAInfo;
 
             //1.Create FA
-            m_NFA = new FA();
-            FAInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
+            m_currentNFA = new FA();
+            FAInfo = new FAGraphQueryInfo(m_currentNFA, FA.m_FAINFOKEY);
             //2.Create nodes initial-final
-            CGraphNode init = m_NFA.CreateGraphNode<CGraphNode>();
-            CGraphNode final = m_NFA.CreateGraphNode<CGraphNode>();
-            m_NFA.M_Initial = init;
-            m_NFA.SetFinalState(final);
-            m_NFA.M_Alphabet.AddRange(rangeNode.MRange);
+            CGraphNode init = m_currentNFA.CreateGraphNode<CGraphNode>();
+            CGraphNode final = m_currentNFA.CreateGraphNode<CGraphNode>();
+            m_currentNFA.M_Initial = init;
+            m_currentNFA.SetFinalState(final);
+            m_currentNFA.M_Alphabet.AddRange(rangeNode.MRange);
 
             //3.Draw the edge including the character
-            CGraphEdge newEdge = m_NFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
+            CGraphEdge newEdge = m_currentNFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
             FAInfo.Info(newEdge).M_TransitionCharSet = (CCharRangeSet)rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Range_" + rangeNode.MRange.ToString() + ".dot");
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Range_" + rangeNode.MRange.ToString() + ".dot");
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
             //4.Pass FA to the predecessor
-            return m_NFA;
+            return m_currentNFA;
         }
     }
 }

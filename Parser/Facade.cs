@@ -38,8 +38,12 @@ namespace Parser {
         // Holds the Regular Expression record indexed by the line declared into the input grammar
         private static Dictionary<uint, RERecord> m_reRecords = new Dictionary<uint, RERecord>();
 
+        public static Dictionary<uint, RERecord> M_ReRecords {
+            get => m_reRecords;
+        }
+
         static Facade() {
-            SetOperationModeCode(false);
+            SetOperationModeCode(true);
         }
 
         public static void SetOperationModeCode(bool code = true) {
@@ -103,27 +107,29 @@ namespace Parser {
             if (m_parserOptions.IsSet(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE)) {
                 ThompsonAlgorithmStructured thompson = new ThompsonAlgorithmStructured(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED,m_reRecords);
                 thompson.Visit(astGeneration.M_ASTRoot);
-
+                
                 CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(thompson.M_ReRecords);
                 subsetcontruction.Start();
 
                 CHopcroftAlgorithmStructured hopcroftAlgorithm = new CHopcroftAlgorithmStructured(subsetcontruction.M_RERecords);
-                hopcroftAlgorithm.Start();
+                hopcroftAlgorithm.Start();                
             }
             else {
+                m_reRecords[0] = new RERecord();
                 ThompsonVisitorFlatten thompson = new ThompsonVisitorFlatten(ThompsonOptions.TO_STEPS |
                 (~ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED));
                 thompson.Visit(astGeneration.M_ASTRoot);
+                m_reRecords[0].M_Nfa = thompson.M_Nfa;
 
                 CSubsetConstructionAlgorithm subsetconstruction = CSubsetConstructionAlgorithm.Init(thompson.M_Nfa);
                 subsetconstruction.Start();
+                m_reRecords[0].M_Dfa = subsetconstruction.Dfa;
 
                 CHopcroftAlgorithm hopcroftAlgorithm = new CHopcroftAlgorithm(subsetconstruction.Dfa);
                 hopcroftAlgorithm.Init();
+                m_reRecords[0].M_MinDfa = hopcroftAlgorithm.MinimizedDfa;
                 ms_globalMinDFA = hopcroftAlgorithm.MinimizedDfa;
             }
-
-
             return parser.NumberOfSyntaxErrors;
         }
         static int ParseSubDirectories(string directory) {
