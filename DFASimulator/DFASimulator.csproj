@@ -69,7 +69,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\source.txt" />
+    <Content Include="..\Parser\bin\Debug\source.txt">
+      <Link>source.txt</Link>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

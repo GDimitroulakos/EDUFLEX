@@ -5,6 +5,7 @@ using Parser.UOPCore;
 using RangeIntervals;
 
 namespace Parser {
+    [Serializable]
     public class CCharRange : Range<Int32> {
         private int m_minChar;
         private int m_maxChar;
@@ -91,6 +92,7 @@ namespace Parser {
         }
     }
 
+    [Serializable]
     public class CCharRangeSet : RangeSetO<CCharRange, Int32> {
         private bool isNegation;
 
@@ -139,7 +141,7 @@ namespace Parser {
             return strBuild.ToString();
         }
     }
-
+    [Serializable]
     public struct TextSpan {
         private UInt32 m_startLine;
         private UInt32 m_endLine;

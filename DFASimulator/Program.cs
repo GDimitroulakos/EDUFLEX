@@ -10,6 +10,9 @@ using GraphLibrary;
 using Parser;
 using Parser.UOPCore;
 using SeekableStreamReader;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace DFASimulator {
 
@@ -97,18 +100,24 @@ namespace DFASimulator {
         private EDUFlexStream m_inputCharStream;
 
         StringBuilder m_lexeme = new StringBuilder();
-
-
+        
         public DFASimulatorMulti(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputStream) {
-            m_reRecords = reRecords;
+            m_reRecords = DeSerializeEDUFLEXOutput("EDUFLEX.out");
             m_inputCharStream = inputStream;
-
+                      
             foreach (KeyValuePair<uint, RERecord> pair in reRecords) {
                 m_dfaMultiStates[pair.Key] = new DFAState();
                 ResetDFASimulatorState(pair.Key);
             }
         }
 
+        public Dictionary<uint, RERecord> DeSerializeEDUFLEXOutput(string filename) {
+
+            BinaryFormatter res = new BinaryFormatter();
+            using ( Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
+                return (Dictionary<uint, RERecord>)(res.Deserialize(stream));
+            }            
+        }
 
         public int yylex() {
             uint? renum;
@@ -162,13 +171,27 @@ namespace DFASimulator {
                 }
 
                 renum = DetectMatchRE();
+
+                /*
+                 * switch (renum ){
+                 *  case 1: 
+                 *      @1
+                 *  break;
+                 *  case 2:
+                 *      @2
+                 *  break;
+                 *  ...
+                 * }
+                 * 
+                 * */
+
+
                 if (renum != null) {
-                    Console.WriteLine("Match Detected with RE {0}",renum);
+                    Console.WriteLine("Match {{{0}}} Detected with RE {1}", m_dfaMultiStates[(uint)renum].M_Lexeme,renum);
                     nextChar = 0;
                     if (m_inputCharStream.SeekChar(m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length) != -1) {
                         m_streamPointer = m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length;
                     }
-
                 }
                 else {
                     Console.WriteLine("Lexical Error !!!");
@@ -185,10 +208,19 @@ namespace DFASimulator {
             int matchLength = -1;
             uint? renum=null;
             foreach (KeyValuePair<uint, DFAState> valuePair in m_dfaMultiStates) {
+                // maximum length policy
                 if (valuePair.Value.M_Match && matchLength < valuePair.Value.M_Lexeme.Length) {
                     matchLength = valuePair.Value.M_Lexeme.Length;
                     renum = valuePair.Key;
                 }
+                // regular expression spatial priority policy
+                else if (valuePair.Value.M_Match && matchLength == valuePair.Value.M_Lexeme.Length) {
+                    if  ( valuePair.Key < renum) {
+                        matchLength = valuePair.Value.M_Lexeme.Length;
+                        renum = valuePair.Key;
+                    }
+                }
+
             }
             return renum;
         }

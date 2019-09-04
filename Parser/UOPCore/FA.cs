@@ -5,15 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
+using RangeIntervals;
+
 
 namespace Parser.UOPCore
 {
+    [Serializable]
     public class RERecord {
         private FA m_DFA = null;    // Result from Subset Construction
         private FA m_NFA = null;    // Result from Thompson
         private FA m_minDFA = null; // Result from Hopcroft
         private TextSpan m_REPosition; // Position of Regular Expression into the code
         private string m_label = null;   // Regular Expression label;
+        [NonSerialized]
         private CRegexpStatement m_RETree = null;
         private string m_actionCode;
 
@@ -63,6 +67,12 @@ namespace Parser.UOPCore
         FT_NA,FT_ACCEPTED,FT_NONACCEPTED
     }
 
+    /// <summary>
+    /// Represents a graph query info object for finite automaton where information 
+    /// on nodes, edges and the graph is represented by the FAStateInfo, FAEdgeInfo, FAInfo
+    /// class correspondingly.  
+    /// </summary>
+    [Serializable]
     public class FAGraphQueryInfo : CGraphQueryInfo<FAStateInfo, FAEdgeInfo, FAInfo> {
         public FAGraphQueryInfo(CGraph graph, object key) : base(graph, key) {
         }
@@ -76,7 +86,7 @@ namespace Parser.UOPCore
         }
     }
 
-   
+   [Serializable]
     public class FAInfo {
         /// <summary>
         /// Refers to the FA hosting the information
@@ -119,6 +129,12 @@ namespace Parser.UOPCore
         }
 
     }
+
+    /// <summary>
+    /// Encapsulates information of FA nodes. Provides access to 
+    /// the information through methods and properties
+    /// </summary>
+    [Serializable]
     public class FAStateInfo :CGraphNode{
         private FAStateType m_stateType;
         /// <summary>
@@ -170,7 +186,12 @@ namespace Parser.UOPCore
         }
     }
 
+    [Serializable]
     public class FAEdgeInfo {
+        // Represents the closure multiplicity if the edge refers to 
+        // a loop edge of a closure
+        //private RangeSetO<Range<Int32>,Int32> m_closureMultiplicityRange;
+
         private CCharRangeSet m_transitionCharSet;
 
         internal CCharRangeSet M_TransitionCharSet {
@@ -182,10 +203,10 @@ namespace Parser.UOPCore
 
 
     /// <summary>
-    /// This class represents a finite automaton. It is a graph with additional information
-    /// regarding the labels' transitions.
+    /// This class represents a finite automaton. It is a graph with ///    additional information regarding the labels' transitions.
     /// </summary>
     /// <seealso cref="GraphLibrary.CGraph" />
+    [Serializable]
     public class FA: CGraph
     {
         private FAGraphQueryInfo m_FAInfo=null;

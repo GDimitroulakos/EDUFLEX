@@ -13,6 +13,8 @@ using Parser.SubsetConstruction;
 using Parser.SubsetConstruction.Parser.SubsetConstruction;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 //kefalaio 20 File Info klaseis Directory,DirectoryInfo , File, FileInfo
 // IEnumerable<T> interface, IEnumerator<T>,  foreach sel 297-300 +google msdn
@@ -54,7 +56,8 @@ namespace Parser {
                 m_parserOptions.Reset(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE);
             }
         }
-        
+
+          
 
         public static void VerifyRegExp(string[] args)//Validate the reg exp
         {
@@ -108,11 +111,13 @@ namespace Parser {
                 ThompsonAlgorithmStructured thompson = new ThompsonAlgorithmStructured(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED,m_reRecords);
                 thompson.Visit(astGeneration.M_ASTRoot);
                 
-                CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(thompson.M_ReRecords);
+                CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(m_reRecords);
                 subsetcontruction.Start();
 
-                CHopcroftAlgorithmStructured hopcroftAlgorithm = new CHopcroftAlgorithmStructured(subsetcontruction.M_RERecords);
-                hopcroftAlgorithm.Start();                
+                CHopcroftAlgorithmStructured hopcroftAlgorithm = new CHopcroftAlgorithmStructured(m_reRecords);
+                hopcroftAlgorithm.Start();
+
+                SerializeEDUFLEXOutput(@"EDUFLEX.out");
             }
             else {
                 m_reRecords[0] = new RERecord();
@@ -132,6 +137,15 @@ namespace Parser {
             }
             return parser.NumberOfSyntaxErrors;
         }
+
+        static void SerializeEDUFLEXOutput(string filename) {
+            BinaryFormatter saver = new BinaryFormatter();
+
+            using (Stream stream  = new FileStream(filename, FileMode.Create, FileAccess.Write)) {
+                saver.Serialize(stream, m_reRecords);
+            }
+        }
+
         static int ParseSubDirectories(string directory) {
 
             int errors = 0; // Errors per file
