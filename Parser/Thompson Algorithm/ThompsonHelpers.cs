@@ -129,7 +129,7 @@ internal class CThompsonAlternationTemplate : CThompsonTemplates
         
         //2.Merge left graph
         CGraph.CMergeGraphOperation lmerge =templateFA.Merge(l,options);
-        Console.WriteLine(l.ToString());
+        //Console.WriteLine(l.ToString());
         lmerge.MergeGraphInfo(l,GraphElementType.ET_EDGE, FA.m_FAINFOKEY);
         lmerge.MergeGraphInfo(l, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
         lmerge.MergeGraphInfo(l, GraphElementType.ET_NODE, FA.m_FAINFOKEY);
