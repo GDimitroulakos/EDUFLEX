@@ -284,6 +284,49 @@ namespace Parser.ASTVisitor.Visitors {
 
             return 0;
         }
+
+        public override int VisitClosureRange(CASTElement currentNode) {
+            CASTComposite current = currentNode as CASTComposite;
+            string clusterName;
+            string contextName;
+            m_outputStream.WriteLine("\"{0}\"->\"{1}\"", currentNode.M_Parent.M_Label, currentNode.M_Label);
+
+            // Visit closureRange's MIN context
+            if (current.GetNumberOfContextElements(ContextType.CT_CLOSURERANGE_MIN) > 0) {
+                clusterName = "cluster" + ms_clusterCounter++;
+                contextName = ContextType.CT_CLOSURERANGE_MIN.ToString();
+                m_outputStream.WriteLine(
+                    "subgraph {0} {{\n node [style=filled,color=white];\n style=filled;\n color=lightgrey;\n label = \"{1}\";\n",
+                    clusterName, contextName);
+                foreach (CASTElement element in current.GetContextChildren(ContextType.CT_CLOSURERANGE_MIN)) {
+                    m_outputStream.WriteLine("\"{0}\"", element.M_Label);
+                    if (CConfigurationSettings.m_nodeTypeConfiguration[element.M_NodeType].M_Color != Color.C_DEFAULT) {
+                        m_outputStream.WriteLine(" [fillcolor = " + CConfigurationSettings.m_nodeTypeConfiguration[element.M_NodeType].M_ColorName + "]");
+                    }
+                }
+                m_outputStream.WriteLine("}");
+            }
+
+            // Visit closure's quantifier context
+            if (current.GetNumberOfContextElements(ContextType.CT_CLOSURERANGE_MAX) > 0) {
+                clusterName = "cluster" + ms_clusterCounter++;
+                contextName = ContextType.CT_CLOSURERANGE_MAX.ToString();
+                m_outputStream.WriteLine(
+                    "subgraph {0} {{\n node [style=filled,color=white];\n style=filled;\n color=lightgrey;\n label = \"{1}\";\n",
+                    clusterName, contextName);
+                foreach (CASTElement element in current.GetContextChildren(ContextType.CT_CLOSURERANGE_MAX)) {
+                    m_outputStream.WriteLine("\"{0}\"", element.M_Label);
+                    if (CConfigurationSettings.m_nodeTypeConfiguration[element.M_NodeType].M_Color != Color.C_DEFAULT) {
+                        m_outputStream.WriteLine(" [fillcolor = " + CConfigurationSettings.m_nodeTypeConfiguration[element.M_NodeType].M_ColorName + "]");
+                    }
+                }
+                m_outputStream.WriteLine("}");
+            }
+
+            base.VisitClosureRange(currentNode);
+            return 0;
+        }
+
         /// <summary>
         ///
         /// Visits the node given as an argument and prints the cluster affilliated to it

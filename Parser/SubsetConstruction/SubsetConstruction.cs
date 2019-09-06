@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphLibrary;
 using GraphLibrary.Generics;
 using Parser.ASTVisitor.ConcreteVisitors;
+using Parser.SubsetConstruction.Parser.SubsetConstruction;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
 
@@ -19,6 +20,9 @@ namespace Parser.SubsetConstruction
         private FA m_DFA;
 
         private FAGraphQueryInfo m_DFAInfo;
+
+        private CSubsetConstructionReporting m_reporting;
+
         
         public FA Nfa {
             get { return m_NFA; }
@@ -45,6 +49,10 @@ namespace Parser.SubsetConstruction
 
             // Create DFA
             m_DFA = new FA();
+
+            // DEBUG 
+            m_reporting.AddDFA(0, m_DFA);
+
             m_DFAInfo = new FAGraphQueryInfo(m_DFA,FA.m_FAINFOKEY);
             m_configurations = new CConfigurations(m_DFA,m_NFA);
             m_configurations.CreateDFANode(q0);
@@ -56,12 +64,15 @@ namespace Parser.SubsetConstruction
                 HashSet<CGraphNode> q = m_workList.Dequeue();
                 Q = m_configurations.GetDFANode(q);
 
+                // ********* DEBUG *************
+                CSubsetConstructionReporting.IterationRecord cRecord = m_reporting.AddIteration(0, q, Q);
 
                 // for each NFA alphabet character
                 foreach (CCharRange range in m_NFA.M_Alphabet) {
                     foreach (Int32 i in range) {
                         CDeltaAlgorithm delta = CDeltaAlgorithm.Init(m_NFA, i, q);
-                        CEclosureAlgorithm eClosure = CEclosureAlgorithm.Init(m_NFA,delta.Start());
+                        HashSet<CGraphNode> deltaResult = delta.Start();
+                        CEclosureAlgorithm eClosure = CEclosureAlgorithm.Init(m_NFA, deltaResult);
                         HashSet<CGraphNode> qprime = eClosure.Start();
                         if (qprime.Count != 0) {
                             Qprime = m_configurations.GetDFANode(qprime);
@@ -80,6 +91,10 @@ namespace Parser.SubsetConstruction
                                 set = m_DFAInfo.GetDFAEdgeTransitionCharacterSet(e);
                             }
                             set.AddRange(i);
+
+                            // ********** DEBUG ************
+                            CSubsetConstructionReporting.CharacterRecord charRecord = cRecord.AddCharacterRecord(deltaResult, qprime, e);
+                            charRecord.AddCharacterCode(i);
                         }
                     }
                 }
@@ -87,6 +102,9 @@ namespace Parser.SubsetConstruction
             m_DFA.UpdateAlphabet();
             m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_DFA,new UOPCore.Options<ThompsonOptions>()));
             m_DFA.Generate(@"../Debug/mergeDFA.dot", true);
+
+            // DEBUG
+            m_reporting.Report("SubsetREPORT.txt");
             return null;
         }
         public override void Init(){
@@ -101,6 +119,7 @@ namespace Parser.SubsetConstruction
         }
         public CSubsetConstructionAlgorithm(FA mNfa){
             m_NFA = mNfa;
+            m_reporting = new CSubsetConstructionReporting();
         }
 
         public override int Run() {

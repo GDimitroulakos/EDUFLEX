@@ -202,21 +202,7 @@ namespace Parser {
             return 0;
         }
 
-        public override int VisitFinate_closure_range(RegExpParser.Finate_closure_rangeContext context) {
-
-            // 1. Create new AST node
-            CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
-
-            // Set closure type
-            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_FINITECLOSURE);
-
-            parent.SetClosureMultiplicity(Int32.Parse(context.NUMBER(0).GetText()));
-
-            if (context.NUMBER().Length > 1) {
-                parent.SetClosureMultiplicity(Int32.Parse(context.NUMBER(1).GetText()), true);
-            }
-            return 0;
-        }
+        
         public override int VisitRegexpbasic_parenthesized(RegExpParser.Regexpbasic_parenthesizedContext context) {
             // 1. Create new AST node
             CASTComposite newNode = new CRegexpbasicParen(m_parents.Peek());
@@ -365,78 +351,146 @@ namespace Parser {
             return 0;
         }
 
-        public override int VisitQuantifier_oneorzero(RegExpParser.Quantifier_oneorzeroContext context) {
+        public override int VisitFinate_closure_range(RegExpParser.Finate_closure_rangeContext context) {
+
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
-            if (parent != null) {
-                parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORZERO);
-                parent.SetClosureMultiplicity(0);
-                parent.SetClosureMultiplicity(1, true);
-            }
-            else {
-                throw new Exception("Invalid parent type in VisitQuantifier_oneorzero");
+            if (parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
             }
 
-            return 0;
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
+
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_FINITECLOSURE);
+            newNode.SetClosureMultiplicity(Int32.Parse(context.NUMBER(0).GetText()));
+
+            if (context.NUMBER().Length > 1) {
+                newNode.SetClosureMultiplicity(Int32.Parse(context.NUMBER(1).GetText()), true);
+            }                   
+
+            // Update parents stack
+            m_parents.Pop();
+
+            return 0;                        
+        }
+
+        public override int VisitQuantifier_oneorzero(RegExpParser.Quantifier_oneorzeroContext context) {
+
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
+
+            if ( parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
+            }
+
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
+            
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORZERO);
+            newNode.SetClosureMultiplicity(0);
+            newNode.SetClosureMultiplicity(1, true);
+            
+            // Update parents stack
+            m_parents.Pop();
+
+            return 0;            
         }
 
         public override int VisitQuantifier_oneormultiple(RegExpParser.Quantifier_oneormultipleContext context) {
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
-            if (parent != null) {
-                parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE);
-                parent.SetClosureMultiplicity(1);
-                parent.SetClosureMultiplicity(Int32.MaxValue, true);
+            if (parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
             }
-            else {
-                throw new Exception("Invalid parent type in VisitQuantifier_oneormultiple");
-            }
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
+
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE);
+            newNode.SetClosureMultiplicity(1);
+            newNode.SetClosureMultiplicity(Int32.MaxValue, true);
+
+            // Update parents stack
+            m_parents.Pop();
 
             return 0;
         }
 
         public override int VisitQuantifier_oneormultipleNG(RegExpParser.Quantifier_oneormultipleNGContext context) {
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
-            if (parent != null) {
-                parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE_NONGREEDY);
-                parent.SetClosureMultiplicity(1);
-                parent.SetClosureMultiplicity(Int32.MaxValue, true);
+            if (parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
             }
-            else {
-                throw new Exception("Invalid parent type in VisitQuantifier_oneormultipleNG");
-            }
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
+
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE_NONGREEDY);
+            newNode.SetClosureMultiplicity(1);
+            newNode.SetClosureMultiplicity(Int32.MaxValue, true);
+
+            // Update parents stack
+            m_parents.Pop();
 
             return 0;
         }
 
         public override int VisitQuantifier_noneormultiple(RegExpParser.Quantifier_noneormultipleContext context) {
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
-            if (parent != null) {
-                parent.SetClosureType(CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE);
-                parent.SetClosureMultiplicity(0);
-                parent.SetClosureMultiplicity(Int32.MaxValue, true);
+            if (parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
             }
-            else {
-                throw new Exception("Invalid parent type in VisitQuantifier_noneormultiple");
-            }
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
 
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE);
+            newNode.SetClosureMultiplicity(0);
+            newNode.SetClosureMultiplicity(Int32.MaxValue, true);
+
+            // Update parents stack
+            m_parents.Pop();
             return 0;
         }
 
         public override int VisitQuantifier_noneormultipleNG(RegExpParser.Quantifier_noneormultipleNGContext context) {
+            // 1. Create new AST node
+            CClosureRange newNode = new CClosureRange(m_parents.Peek());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
-            if (parent != null) {
-                parent.SetClosureType(CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE_NONGREEDY);
-                parent.SetClosureMultiplicity(0);
-                parent.SetClosureMultiplicity(Int32.MaxValue, true);
+            if (parent == null) {
+                throw new InvalidCastException("Invalid parent type for closure range node");
             }
-            else {
-                throw new Exception("Invalid parent type in VisitQuantifier_noneormultipleNG");
-            }
+            // Add new element to the parent's descentants
+            m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
+            // Update parents stack
+            m_parents.Push(newNode);
 
+            parent.SetClosureType(CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE_NONGREEDY);
+            newNode.SetClosureMultiplicity(0);
+            newNode.SetClosureMultiplicity(Int32.MaxValue, true);
+
+            // Update parents stack
+            m_parents.Pop();
             return 0;
         }
         

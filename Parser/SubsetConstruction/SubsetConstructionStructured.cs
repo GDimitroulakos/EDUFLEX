@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,154 @@ namespace Parser.SubsetConstruction {
 
     namespace Parser.SubsetConstruction {
 
+        [Serializable]
+        public class CSubsetConstructionReporting {
+            private Dictionary<uint,CCharRangeSet> m_alphabet= new Dictionary<uint, CCharRangeSet>();
+
+            Dictionary<uint, List<IterationRecord>> m_iterations = new Dictionary<uint, List<IterationRecord>>();
+
+            private Dictionary<uint, FA> m_resultDFAs=new Dictionary<uint, FA>();
+
+            public class IterationRecord {
+                HashSet<CGraphNode> m_currentConfiguration;
+                CGraphNode m_currentDFAnode;
+                Dictionary<CGraphEdge,CharacterRecord> m_characterAnalysis = new Dictionary<CGraphEdge, CharacterRecord>(); 
+
+
+                public HashSet<CGraphNode> M_CurrentConfiguration {
+                    get => m_currentConfiguration;
+                    set => m_currentConfiguration = value;
+                }
+
+                public CGraphNode M_CurrentDFANode {
+                    get => m_currentDFAnode;
+                    set => m_currentDFAnode = value;
+                }
+
+                internal Dictionary<CGraphEdge, CharacterRecord> M_CharacterAnalysis {
+                    get => m_characterAnalysis;
+                    set => m_characterAnalysis = value;
+                }
+
+                internal CharacterRecord AddCharacterRecord(HashSet<CGraphNode> edelta,
+                    HashSet<CGraphNode> eclos, CGraphEdge DFAedge) {
+                    if (!m_characterAnalysis.ContainsKey(DFAedge)) {
+                        m_characterAnalysis[DFAedge] = new CharacterRecord() { M_ClosureOutcome = eclos, M_DeltaOutcome = edelta, M_DfAedge = DFAedge};
+                    }
+                    return m_characterAnalysis[DFAedge];
+                }
+
+            }
+
+            public class CharacterRecord {
+                private CCharRangeSet m_characterRangeCode = new CCharRangeSet(false);
+                HashSet<CGraphNode> m_deltaOutcome;
+                HashSet<CGraphNode> m_closureOutcome;
+                private CGraphEdge m_DFAedge;
+
+                public void AddCharacterCode(Int32 character) {
+                    m_characterRangeCode.AddRange(character);
+                }
+
+                public CCharRangeSet M_CharacterRangeCode {
+                    get => m_characterRangeCode;
+                    set => m_characterRangeCode = value;
+                }
+
+                public HashSet<CGraphNode> M_DeltaOutcome {
+                    get => m_deltaOutcome;
+                    set => m_deltaOutcome = value;
+                }
+
+                public HashSet<CGraphNode> M_ClosureOutcome {
+                    get => m_closureOutcome;
+                    set => m_closureOutcome = value;
+                }
+
+                public CGraphNode M_SourceDfaNode {
+                    get => m_DFAedge.M_Source;
+                    
+                }
+                public CGraphNode M_TargetDfaNode {
+                    get => m_DFAedge.M_Target;
+                }
+                public CGraphEdge M_DfAedge {
+                    get => m_DFAedge;
+                    set => m_DFAedge = value;
+                }
+            }
+
+            public CSubsetConstructionReporting() {
+            }
+
+            public Dictionary<uint, FA> M_ResultDfAs {
+                get => m_resultDFAs;
+            }
+
+            internal void AddNewRegularExpression(uint RE,FA mNFA) {
+                if (!m_alphabet.ContainsKey(RE)) {
+                    m_alphabet[RE] = mNFA.M_Alphabet;
+                }
+            }
+            
+            internal IterationRecord AddIteration(uint RE,HashSet<CGraphNode> configuration, CGraphNode DFANode) {
+                if (!m_iterations.ContainsKey(RE)) {
+                    m_iterations[RE] = new List<IterationRecord>();
+                }
+                IterationRecord newRecord = new IterationRecord() { M_CurrentConfiguration = configuration,
+                                                                    M_CurrentDFANode = DFANode };
+                m_iterations[RE].Add(newRecord);
+                return newRecord;
+            }
+
+            public void AddDFA(uint RE, FA DFA) {
+                if (!m_resultDFAs.ContainsKey(RE)) {
+                    m_resultDFAs[RE] = DFA;
+                }
+            }
+
+            public void Report(string filename) {
+
+                StreamWriter wstream = new StreamWriter(filename);
+                int it = 0;
+
+                foreach (KeyValuePair<uint, List<IterationRecord>> iteration in m_iterations) {
+                    wstream.WriteLine("\n\nRE : {0}",iteration.Key);
+                    it = 0;
+                    foreach (IterationRecord iterationRecord in iteration.Value) {
+                        wstream.WriteLine("\n\n\tIteration : {0}",it);
+                        wstream.Write("\tConfiguration : ");
+                        foreach (CGraphNode graphNode in iterationRecord.M_CurrentConfiguration) {
+                            wstream.Write("{0},",graphNode.M_Label);
+                        }
+                        wstream.WriteLine();
+                        wstream.WriteLine("\tDFA Node : {0}", iterationRecord.M_CurrentDFANode.M_Label);
+                        foreach (KeyValuePair<CGraphEdge, CharacterRecord> charRecord in iterationRecord.M_CharacterAnalysis) {
+                            wstream.WriteLine("\t\tCharacter : {0}", charRecord.Value.M_CharacterRangeCode);
+                            wstream.Write("\t\t\tDelta Configuration : ");
+                            foreach (CGraphNode graphNode in charRecord.Value.M_DeltaOutcome) {
+                                wstream.Write("{0},", graphNode.M_Label);
+                            }
+                            wstream.WriteLine();
+                            wstream.Write("\t\t\tClosure Configuration : ");
+                            foreach (CGraphNode graphNode in charRecord.Value.M_ClosureOutcome) {
+                                wstream.Write("{0},", graphNode.M_Label);
+                            }
+                            wstream.WriteLine();
+                            wstream.WriteLine("\t\t\tTarget DFA Node : {0}", charRecord.Value.M_DfAedge.M_Target.M_Label);
+                        }
+                        it++;
+                    }
+                    wstream.Write("\n\nNet RE {0} Result :",iteration.Key);
+                    CIt_GraphNodes itf =  new CIt_GraphNodes(M_ResultDfAs[iteration.Key]);
+                    for (itf.Begin(); !itf.End(); itf.Next()) {
+                        wstream.Write("{0},",itf.M_CurrentItem.M_Label);
+                    }
+                }
+                wstream.Close();
+            }
+        }
+
         public class CSubsetConstructionStructuredAlgorithm : CGraphAlgorithm<int> {
             //inputs
             private Dictionary<uint,RERecord> m_NFAs;
@@ -31,6 +180,8 @@ namespace Parser.SubsetConstruction {
 
             private FAGraphQueryInfo m_DFAInfo;
 
+            private CSubsetConstructionReporting m_reporting;
+
             public Dictionary<uint,RERecord> M_RERecords{
                 get { return m_NFAs; }
             }
@@ -41,11 +192,15 @@ namespace Parser.SubsetConstruction {
             private List<string> m_alphabet;
             private Queue<HashSet<CGraphNode>> m_workList = new Queue<HashSet<CGraphNode>>();
 
+            
             public void Start() {
                 foreach (KeyValuePair<uint, RERecord> keyValuePair in m_NFAs) {
                     m_currentNFA = keyValuePair.Value.M_Nfa;
                     m_currentRE = keyValuePair.Key;
                     m_NFAs[m_currentRE].M_Dfa= Start0();
+
+                    // DEBUG
+                    m_reporting.AddNewRegularExpression(m_currentRE,m_currentNFA);
                 }
             }
             
@@ -61,6 +216,9 @@ namespace Parser.SubsetConstruction {
 
                 // Create DFA
                 m_currentDFA = new FA();
+                // DEBUG 
+                m_reporting.AddDFA(m_currentRE,m_currentDFA);
+
                 m_DFAInfo = new FAGraphQueryInfo(m_currentDFA, FA.m_FAINFOKEY);
                 m_configurations = new CConfigurations(m_currentDFA, m_currentNFA);
                 m_configurations.CreateDFANode(q0);
@@ -69,25 +227,45 @@ namespace Parser.SubsetConstruction {
                 m_workList.Enqueue(q0);
 
                 while (m_workList.Count != 0) {
+                    // Dequeue one of the resulted states set for subsequent analysis
                     HashSet<CGraphNode> q = m_workList.Dequeue();
                     Q = m_configurations.GetDFANode(q);
 
-
+                    // ********* DEBUG *************
+                    CSubsetConstructionReporting.IterationRecord cRecord = m_reporting.AddIteration(m_currentRE,q,Q);
+                    
                     // for each NFA alphabet character
                     foreach (CCharRange range in m_currentNFA.M_Alphabet) {
+                        // For each character-range in the NFA alphabet
                         foreach (Int32 i in range) {
+                            // For each character in the current character range
+
+                            // Calculate the the target nodes given the current states (q) where the 
+                            // NFA is in and the characters in the current character-range
                             CDeltaAlgorithm delta = CDeltaAlgorithm.Init(m_currentNFA, i, q);
-                            CEclosureAlgorithm eClosure = CEclosureAlgorithm.Init(m_currentNFA, delta.Start());
+
+                            // Calculate the NFA states we arrive from the states resulted from the delta algorithm
+                            // through e-edges
+                            HashSet<CGraphNode> deltaResult = delta.Start();
+                            CEclosureAlgorithm eClosure = CEclosureAlgorithm.Init(m_currentNFA, deltaResult);
                             HashSet<CGraphNode> qprime = eClosure.Start();
+
+                            
                             if (qprime.Count != 0) {
+                                // Check if the resulted state has already being recorded...
                                 Qprime = m_configurations.GetDFANode(qprime);
+
                                 if (Qprime == null) {
+                                    // ... if not record the new state and store for subsequent
+                                    // analysis
                                     m_workList.Enqueue(qprime);
                                     Qprime = m_configurations.CreateDFANode(qprime);
                                 }
-                                // Check if an edge between Q and Qprime alredy exists
+
+                                // Check if an edge between Q and Qprime alredy exists...
                                 e = m_currentDFA.Edge(Q, Qprime);
                                 if (e == null) {
+                                    /// ... if not add a new edge to the resulting DFA 
                                     e = m_currentDFA.AddGraphEdge<CGraphEdge, CGraphNode>(Q, Qprime, GraphType.GT_DIRECTED);
                                     set = new CCharRangeSet(false);
                                     m_DFAInfo.SetDFAEdgeTransitionCharacterSet(e, set);
@@ -95,14 +273,27 @@ namespace Parser.SubsetConstruction {
                                 else {
                                     set = m_DFAInfo.GetDFAEdgeTransitionCharacterSet(e);
                                 }
+                                // append the edge with the current character
                                 set.AddRange(i);
+
+                                // ********** DEBUG ************
+                                CSubsetConstructionReporting.CharacterRecord charRecord =cRecord.AddCharacterRecord( deltaResult, qprime, e);
+                                charRecord.AddCharacterCode(i);
                             }
                         }
                     }
                 }
+                // Update the DFA alphabet to reflect all the characters appearing 
+                // on the edges
                 m_currentDFA.UpdateAlphabet();
+
                 m_currentDFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
                 m_currentDFA.Generate(@"../Debug/mergeDFA"+m_currentRE+".dot", true);
+                
+
+                // DEBUG
+                m_reporting.Report("SubsetREPORT.txt");
+
                 return m_currentDFA;
             }
             public override void Init() {
@@ -111,6 +302,7 @@ namespace Parser.SubsetConstruction {
             
             public CSubsetConstructionStructuredAlgorithm(Dictionary<uint,RERecord> NFAs) {
                 m_NFAs = NFAs;
+                m_reporting = new CSubsetConstructionReporting();
             }
 
             public override int Run() {

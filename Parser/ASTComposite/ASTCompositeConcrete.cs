@@ -57,16 +57,16 @@ namespace Parser {
         /// </summary>
         // NON-TERMINAL NODES
         /* 24 */
-        NT_LEXERDESCRIPTION = 0, NT_REGEXPSTATEMENT=1,NT_REGEXPALTERNATION =4,NT_REGEXPCONCATENATION =5,NT_REGEXPCLOSURE =6,
-        NT_REGEXPBASIC_PAREN=8,NT_REGEXPBASIC_SET, NT_REGEXPBASIC_SETNEGATION, NT_REGEXPBASIC_ANYEXCEPTEOL,
+        NT_LEXERDESCRIPTION = 0, NT_REGEXPSTATEMENT=1,NT_REGEXPALTERNATION =4,NT_REGEXPCONCATENATION =5,NT_REGEXPCLOSURE =6, NT_CLOSURERANGE=8,
+        NT_REGEXPBASIC_PAREN=10,NT_REGEXPBASIC_SET, NT_REGEXPBASIC_SETNEGATION, NT_REGEXPBASIC_ANYEXCEPTEOL,
         NT_REGEXPBASIC_CHAR,NT_REGEXPBASIC_ENDOFLINE,
-        NT_REGEXPBASIC_STARTOFLINE,NT_REGEXPBASIC_ASSERTIONS,NT_REGEXPBASIC_STRING=16,
-        NT_ASSERTION_FWDPOS =17, NT_ASSERTION_FWDNEG =18, NT_ASSERTION_BWDPOS =19, NT_ASSERTION_BWDNEG =20,
-       NT_RANGE =21,NT_ACTIONCODE=23, 
+        NT_REGEXPBASIC_STARTOFLINE,NT_REGEXPBASIC_ASSERTIONS,NT_REGEXPBASIC_STRING=18,
+        NT_ASSERTION_FWDPOS =19, NT_ASSERTION_FWDNEG =20, NT_ASSERTION_BWDPOS =21, NT_ASSERTION_BWDNEG =22,
+       NT_RANGE =23,NT_ACTIONCODE=25, 
 
         // LEAF NODES
         /* 5 */
-        NT_CHAR = 25,NT_CONTROL_CHARACTER=25, NT_INTEGER=26, NT_ID=27, NT_STRING=28, 
+        NT_CHAR = 26,NT_CONTROL_CHARACTER=27, NT_INTEGER=28, NT_ID=29, NT_STRING=30, 
 
         
         // NODE CATEGORIES
@@ -85,21 +85,24 @@ namespace Parser {
         /* 5 */CT_REGEXPCONCATENATION_TERMS = 5,
         /* 6 */CT_REGEXPCLOSURE_REGEXP = 6,
         /* 7 */CT_REGEXPCLOSURE_QUANTIFIER = 7,
-        /* 8 */CT_RGEXPBASIC_PAREN = 8,
-        /* 9 */ CT_REGEXPBASIC_SET =9,
-        /* 10 */CT_REGEXPBASIC_SETNEGATION=10,
-        /* 11 */CT_REGEXPBASIC_ANYEXCEPTEOL = 11,
-        /* 12 */ CT_REGEXPBASIC_CHAR = 12,
-        /* 13 */ CT_REGEXPBASIC_ENDOFLINE =13,
-        /* 14 */CT_REGEXPBASIC_STARTOFLINE = 14,
-        /* 15 */CT_REGEXPBASIC_ASSERTIONS =15,
-        /* 16 */ CT_REGEXPBASIC_STRING = 16,
-        /* 17 */CT_ASSERTION_FWDPOS = 17,
-        /* 18 */ CT_ASSERTION_FWDNEG = 18,
-        /* 19 */ CT_ASSERTION_BWDPOS = 19,
-        /* 20 */ CT_ASSERTION_BWDNEG = 20,
-        /* 28 */ CT_RANGE_MIN = 21, CT_RANGE_MAX = 22,
-        /* 30 */CT_ACTIONCODE=23,
+        /* 8 */CT_CLOSURERANGE_MIN = 8,
+        /* 9 */CT_CLOSURERANGE_MAX = 9,
+        /* 10 */CT_RGEXPBASIC_PAREN = 10,
+        /* 11 */ CT_REGEXPBASIC_SET =11,
+        /* 12 */CT_REGEXPBASIC_SETNEGATION=12,
+        /* 13 */CT_REGEXPBASIC_ANYEXCEPTEOL = 13,
+        /* 14 */ CT_REGEXPBASIC_CHAR = 14,
+        /* 15 */ CT_REGEXPBASIC_ENDOFLINE =15,
+        /* 16 */CT_REGEXPBASIC_STARTOFLINE = 16,
+        /* 17 */CT_REGEXPBASIC_ASSERTIONS =17,
+        /* 18 */ CT_REGEXPBASIC_STRING = 18,
+        /* 19 */CT_ASSERTION_FWDPOS = 19,
+        /* 20 */ CT_ASSERTION_FWDNEG = 20,
+        /* 21 */ CT_ASSERTION_BWDPOS = 21,
+        /* 22 */ CT_ASSERTION_BWDNEG = 22,
+        /* 23 */ CT_RANGE_MIN = 23,
+        /* 24 */ CT_RANGE_MAX = 24,
+        /* 25 */ CT_ACTIONCODE = 25,
         CT_NA
     }
     /// <summary>
@@ -307,14 +310,9 @@ namespace Parser {
             CLT_NA, CLT_ONEORZERO, CLT_ONEORMULTIPLE, CLT_ONEORMULTIPLE_NONGREEDY,
             CLT_NONEORMULTIPLE, CLT_NONEORMULTIPLE_NONGREEDY, CLT_FINITECLOSURE
         }
-
-        internal struct ClosureMultiplicity{
-            internal int lowerBound;
-            internal int upperBound;
-        }
-
+                
         private ClosureType m_closureType;
-        private ClosureMultiplicity m_closureMultiplicity;
+        
 
         public ClosureType M_ClosureType{
             get{
@@ -322,43 +320,11 @@ namespace Parser {
             }
             protected set { m_closureType = value; }
         }
-
-        public int M_ClosureMultiplicityLB
-        {
-            get { return m_closureMultiplicity.lowerBound; }
-            protected set
-            {
-                m_closureMultiplicity.lowerBound = value;
-            }
-        }
-
-        /// <summary>
-        /// It is the multiplicity upper bound. This value is relevant only 
-        /// for the case where closure type is CLT_FINITECLOSURE
-        /// </summary>
-        public int M_ClosureMultiplicityUB
-        {
-            get { return m_closureMultiplicity.upperBound; }
-            protected set
-            {
-                m_closureMultiplicity.upperBound = value;
-            }
-        }
+             
 
         public CRegexpClosure(CASTComposite parent) : base(NodeType.NT_REGEXPCLOSURE, parent, NodeType.CAT_NA)
         {
-        }
-
-        public void SetClosureMultiplicity(int m, bool UB = false){
-            if (!UB)
-            {
-                M_ClosureMultiplicityLB = m;
-            }
-            else
-            {
-                M_ClosureMultiplicityUB = m;
-            }
-        }
+        }             
 
         public void SetClosureType(ClosureType t)
         {
@@ -366,8 +332,7 @@ namespace Parser {
         }
 
         public override string M_Label {
-            get { return m_label + M_ClosureType.ToString() +
-                    M_ClosureMultiplicityLB.ToString() +"-"+ M_ClosureMultiplicityUB.ToString(); }
+            get { return m_label + M_ClosureType.ToString(); }
         }
 
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor)
@@ -394,6 +359,70 @@ namespace Parser {
             if (typedFactory != null)
             {
                 return iteratorFactory.CreateRegexpClosureIteratorEvents(this, events, info);
+            }
+            return iteratorFactory.CreateIteratorASTElementDescentantsFlattenEvents(this, events, info);
+        }
+    }
+
+    public class CClosureRange : CASTComposite {
+        internal struct ClosureRange {
+            internal int lowerBound;
+            internal int upperBound;
+        }
+
+        private ClosureRange m_closureMultiplicity;
+
+        public int M_ClosureMultiplicityLB {
+            get { return m_closureMultiplicity.lowerBound; }
+            protected set {
+                m_closureMultiplicity.lowerBound = value;
+            }
+        }
+
+        /// <summary>
+        /// It is the multiplicity upper bound. This value is relevant only 
+        /// for the case where closure type is CLT_FINITECLOSURE
+        /// </summary>
+        public int M_ClosureMultiplicityUB {
+            get { return m_closureMultiplicity.upperBound; }
+            protected set {
+                m_closureMultiplicity.upperBound = value;
+            }
+        }
+
+        public void SetClosureMultiplicity(int m, bool UB = false) {
+            if (!UB) {
+                M_ClosureMultiplicityLB = m;
+            }
+            else {
+                M_ClosureMultiplicityUB = m;
+            }
+        }
+
+        public override string M_Label {
+            get { return m_label + " " + M_ClosureMultiplicityLB + "-" + (M_ClosureMultiplicityUB == Int32.MaxValue ? "INF" : M_ClosureMultiplicityUB.ToString()); }
+        }
+
+        public CClosureRange(CASTComposite parent) : base(NodeType.NT_CLOSURERANGE, parent, NodeType.CAT_NA) { }
+        public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor) {
+            IASTAbstractConcreteVisitor<Return> typedVisitor = visitor as IASTAbstractConcreteVisitor<Return>;
+            if (typedVisitor != null) return typedVisitor.VisitClosureRange(this);
+            else return visitor.VisitChildren(this);
+        }
+
+        public override CAbstractIterator<CASTElement> AcceptIterator(CASTAbstractConcreteIteratorFactory iteratorFactory) {
+            IASTAbstractConcreteIteratorFactory typedFactory = iteratorFactory as IASTAbstractConcreteIteratorFactory;
+            if (typedFactory != null) {
+                return iteratorFactory.CreateClosureRangeIterator(this);
+            }
+            return iteratorFactory.CreateIteratorASTElementDescentantsFlatten(this);
+        }
+
+        public override CAbstractIterator<CASTElement> AcceptEventIterator(CASTAbstractConcreteIteratorFactory iteratorFactory,
+            CASTGenericIteratorEvents events, object info = null) {
+            IASTAbstractConcreteIteratorFactory typedFactory = iteratorFactory as IASTAbstractConcreteIteratorFactory;
+            if (typedFactory != null) {
+                return iteratorFactory.CreateClosureRangeIteratorEvents(this, events, info);
             }
             return iteratorFactory.CreateIteratorASTElementDescentantsFlattenEvents(this, events, info);
         }

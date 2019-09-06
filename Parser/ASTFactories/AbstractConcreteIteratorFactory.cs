@@ -281,12 +281,24 @@ namespace Parser.ASTFactories {
             throw new NotImplementedException();
         }
 
+        public CAbstractIterator<CASTElement> CreateClosureRangeIterator(CASTElement element) {
+            throw new NotImplementedException();
+        }
 
-        public CAbstractIterator<CASTElement> CreateRegexpbasicParenIteratorEvents(CASTElement element, CASTGenericIteratorEvents events,
+        public CAbstractIterator<CASTElement> CreateClosureRangeIteratorEvents(CASTElement element, CASTGenericIteratorEvents events,
             object info = null)
         {
             throw new NotImplementedException();
         }
+
+        public CAbstractIterator<CASTElement> CreateRegexpbasicParenIteratorEvents(CASTElement element, CASTGenericIteratorEvents events,
+            object info = null) {
+            throw new NotImplementedException();
+        }
+
+
+
+
         #endregion
         #region RegexpbasicSet iterator
 

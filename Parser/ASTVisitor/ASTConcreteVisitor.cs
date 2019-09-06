@@ -43,6 +43,8 @@ namespace Parser.ASTVisitor {
 
         Return VisitRegexpbasicParen(CASTElement currentNode);
 
+        Return VisitClosureRange(CASTElement currentNode);
+
         Return VisitRegexpbasicSet(CASTElement currentNode);
 
         Return VisitRegexpbasicAnyexcepteol(CASTElement currentNode);
@@ -90,6 +92,10 @@ namespace Parser.ASTVisitor {
             return base.VisitChildren(currentNode);
         }
         public virtual Return VisitRegexpClosure(CASTElement currentNode) {
+            return base.VisitChildren(currentNode);
+        }
+
+        public virtual Return VisitClosureRange(CASTElement currentNode) {
             return base.VisitChildren(currentNode);
         }
 

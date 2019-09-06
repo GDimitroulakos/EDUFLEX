@@ -270,7 +270,16 @@ namespace Parser.Thompson_Algorithm
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
                 m_NFA = newFA.SynthesizeOneOrNone(customFA);
             }
-            else{
+            else if ( closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_FINITECLOSURE) {
+                //TODO 
+            }
+            else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE_NONGREEDY) {
+                //TODO 
+            }
+            else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE_NONGREEDY) {
+                //TODO 
+            }
+            else {
                 Console.WriteLine("No proper input");
             }
 

@@ -161,6 +161,7 @@ namespace Parser {
             { M_NumberOfContexts = 1, M_NodeTypeCategory = NodeType.CAT_REGEXP_OPERATORS, M_ColorName = "green", M_Color = Color.C_green };
             CConfigurationSettings.m_nodeTypeConfiguration[NodeType.NT_REGEXPCLOSURE] = new CNodeTypeConfiguration()
             { M_NumberOfContexts = 2, M_NodeTypeCategory = NodeType.CAT_REGEXP_OPERATORS, M_ColorName = "blue", M_Color = Color.C_blue };
+            CConfigurationSettings.m_nodeTypeConfiguration[NodeType.NT_CLOSURERANGE] = new CNodeTypeConfiguration() { M_NumberOfContexts = 2, M_NodeTypeCategory = NodeType.CAT_REGEXP_OPERATORS, M_ColorName = "default", M_Color = Color.C_DEFAULT };
             CConfigurationSettings.m_nodeTypeConfiguration[NodeType.NT_REGEXPBASIC_PAREN] = new CNodeTypeConfiguration()
             { M_NumberOfContexts = 1, M_NodeTypeCategory = NodeType.CAT_NA, M_ColorName = "default", M_Color = Color.C_DEFAULT };
             CConfigurationSettings.m_nodeTypeConfiguration[NodeType.NT_REGEXPBASIC_SET] = new CNodeTypeConfiguration()
@@ -223,6 +224,9 @@ namespace Parser {
             //regexpclosure configuration
             CConfigurationSettings.m_contextTypeConfiguration[ContextType.CT_REGEXPCLOSURE_REGEXP] = new CContextTypeConfiguration()
             { M_ContextIndex = 0, M_HostNodeType = NodeType.NT_REGEXPCLOSURE };
+            CConfigurationSettings.m_contextTypeConfiguration[ContextType.CT_CLOSURERANGE_MIN] = new CContextTypeConfiguration() { M_ContextIndex = 0, M_HostNodeType = NodeType.NT_CLOSURERANGE };
+            CConfigurationSettings.m_contextTypeConfiguration[ContextType.CT_CLOSURERANGE_MAX] = new CContextTypeConfiguration() { M_ContextIndex = 1, M_HostNodeType = NodeType.NT_CLOSURERANGE };
+
             CConfigurationSettings.m_contextTypeConfiguration[ContextType.CT_REGEXPCLOSURE_QUANTIFIER] = new CContextTypeConfiguration()
             { M_ContextIndex = 1, M_HostNodeType = NodeType.NT_REGEXPCLOSURE };
             //regexpbasicparen configuration
