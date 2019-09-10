@@ -57,6 +57,10 @@ namespace Parser {
             }
         }
 
+        public static bool GetOperationModeCode() {
+            return m_parserOptions.IsSet(ParserOptionsEnum.PO_OPERATION_SIMPLECHECK_VS_CODE);
+        }
+
           
 
         public static void VerifyRegExp(string[] args)//Validate the reg exp

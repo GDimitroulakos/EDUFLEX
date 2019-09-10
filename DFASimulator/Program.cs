@@ -323,8 +323,16 @@ namespace DFASimulator {
 
             Facade.VerifyRegExp(args);
 
-            DFASimulatorMulti dfaSimulator = new DFASimulatorMulti(Facade.M_ReRecords,istream);
-            dfaSimulator.yylex();
+            if (Facade.GetOperationModeCode()) {
+                DFASimulatorMulti dfaSimulator = new DFASimulatorMulti(Facade.M_ReRecords, istream);
+                dfaSimulator.yylex();
+            }
+            else {
+                DFASimulator dfaSimulator = new DFASimulator(Facade.M_ReRecords[0].M_MinDfa, istream);
+                dfaSimulator.yylex();
+            }
+
+
 
         }
     }
