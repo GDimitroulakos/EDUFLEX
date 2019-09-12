@@ -4,3 +4,6 @@
 [submodule "RangeIntervals"]
 	path = RangeIntervals
 	url = https://github.com/dhmhgre/RangeIntervals
+[submodule "SeekableTextStreamAccessors"]
+	path = SeekableTextStreamAccessors
+	url = https://github.com/GDimitroulakos/SeekableTextStreamAccessors
