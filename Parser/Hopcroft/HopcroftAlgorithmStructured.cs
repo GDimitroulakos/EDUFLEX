@@ -11,6 +11,16 @@ using Parser.UOPCore;
 
 namespace Parser.Hopcroft {
 
+    public class CHopcroftReporting {
+        List<CGraphNode> m_initialAcceptedStates;
+        List<CGraphNode> m_initialNonAcceptedStates;
+
+        public void SetInitialMinDFAStatesContents(List<CGraphNode> accStates, List<CGraphNode> nonaccStates) {
+            m_initialAcceptedStates = new List<CGraphNode>(accStates);
+            m_initialNonAcceptedStates = new List<CGraphNode>(nonaccStates);
+        }
+    }
+
     // This class represented the Hopcroft Algorithm. The initial DFA has nodes
     // that store the configuration information under the key m_CONFIGURATIONKEY.
     // The result DFA has nodes representing the algorithm's configuration and
@@ -32,12 +42,15 @@ namespace Parser.Hopcroft {
 
         public Dictionary<uint,RERecord> MinimizedDfas => m_inputDFAs;
 
+        CHopcroftReporting m_reporting;
+
         public CHopcroftAlgorithmStructured(Dictionary<uint,RERecord> dfas) {
             m_inputDFAs = dfas;
-            
+            m_reporting = new CHopcroftReporting();
         }
 
         public void Start() {
+            // Apply Hopcroft algorithm separately for each Regular Expression
             foreach (KeyValuePair<uint,RERecord> rec in m_inputDFAs) {
                 m_currentDFA = rec.Value.M_Dfa;
                 m_currentRE = rec.Value.M_Line;
@@ -45,8 +58,7 @@ namespace Parser.Hopcroft {
                 m_currentNodeConfiguration = new HopcroftInputGraphQueryInfo(m_currentDFA, m_HOPCROFTCONFIGURATIONKEY);
                 m_currentMinDFANodeConfiguration = new HopcroftOutputGraphQueryInfo(m_currentMinimizedDFA, m_HOPCROFTCONFIGURATIONKEY);
                 Init();
-            }
-            
+            }            
         }
 
         public void Init() {
@@ -60,6 +72,7 @@ namespace Parser.Hopcroft {
             configurationAcc = new List<CGraphNode>();
             // Store the list for initial-DFA accepted nodes in the min-DFA for accepted nodes
             SetNodesInConfiguration(acceptedConf, configurationAcc);
+
             // Create configuration (min-DFA node) for non-accepted nodes
             CGraphNode non_acceptedConf = m_currentMinimizedDFA.CreateGraphNode<CGraphNode>();
             // Create a list for initial-DFA nodes that are registered as non-accepted nodes
@@ -87,11 +100,16 @@ namespace Parser.Hopcroft {
                 }
             }
 
+            // ************************* Debug Initialization ***************************
+            m_reporting.SetInitialMinDFAStatesContents(configurationAcc, configurationNonAcc);
+
+
             int nodeCount = 0;
             CIt_GraphNodes minDFA_it = new CIt_GraphNodes(m_currentMinimizedDFA);
             // Iterate while the algorithm reaches a fixed point state
             while (nodeCount != m_currentMinimizedDFA.M_NumberOfNodes) {
 
+                // keep the number of nodes before applying a new split
                 nodeCount = m_currentMinimizedDFA.M_NumberOfNodes;
 
                 for (minDFA_it.Begin(); !minDFA_it.End(); minDFA_it.Next()) {
@@ -188,9 +206,8 @@ namespace Parser.Hopcroft {
         /// </summary>
         /// <param name="node">Represents a minimized DFA's node (current configuration)</param>
         public void Split(CGraphNode node) {
-            // Holds the nodes of the initial DFA that are registered in the min-DFA related
-            // configuration for the given node (Split method parameter) of min-DFA 
-            // (Minimized-DFA node)
+            // Holds the nodes of the initial DFA that represent the configuration 
+            // for the given node (Split method parameter) of min-DFA (Minimized-DFA node)
             List<CGraphNode> currentConfiguration = GetNodesInConfiguration(node);
 
             List<CGraphNode> newConfiguration;
@@ -200,7 +217,7 @@ namespace Parser.Hopcroft {
             // <source(DFA node)----------->target(minimizedDFA node)>
             // Each iteration of the following loops considers the transition for
             // each distinct character of the alphabet. Thus, in every iteration 
-            // this dictionary is update
+            // this dictionary is updated
             // <Considered as input >
             Dictionary<CGraphNode, CGraphNode> m_CharConfigurationMappings = new Dictionary<CGraphNode, CGraphNode>();
 
@@ -213,7 +230,7 @@ namespace Parser.Hopcroft {
             // in the dictionary the partition is splitted < Considered as output >
             Dictionary<CGraphNode, CGraphNode> m_NodeConfigurationMappings = new Dictionary<CGraphNode, CGraphNode>();
 
-            CGraphNode sourcePartition, sourceConfiguration, targetConfiguration, NULLPartition = m_currentMinimizedDFA.CreateGraphNode<CGraphNode>();
+            CGraphNode sourcePartition, sourceConfiguration, targetConfigurationNode, NULLPartition = m_currentMinimizedDFA.CreateGraphNode<CGraphNode>();
 
             // For each character range in the initial DFA alphabet character set
             foreach (CCharRange range in m_currentDFA.M_Alphabet) {
@@ -225,15 +242,15 @@ namespace Parser.Hopcroft {
                     foreach (CGraphNode iNode in currentConfiguration) {
                         // Cache initial DFA transitions for the given character from initial DFA's 
                         // nodes in the current considered configuration to the min DFA configurations  
-                        targetConfiguration = GetTargetNodeConfiguration(iNode, ch);
+                        targetConfigurationNode = GetTargetNodeConfiguration(iNode, ch);
 
-                        if (targetConfiguration != null) {
+                        if (targetConfigurationNode != null) {
                             // Node (of the initial-DFA) maps to the targetPartition of the
                             // minimized-DFA for the given character ch (Node,ch)->targetPartition
-                            m_CharConfigurationMappings[iNode] = targetConfiguration;
+                            m_CharConfigurationMappings[iNode] = targetConfigurationNode;
                             if (i == 0) {
                                 sourceConfiguration = GetNodeConfiguration(iNode);
-                                m_NodeConfigurationMappings[targetConfiguration] = sourceConfiguration;
+                                m_NodeConfigurationMappings[targetConfigurationNode] = sourceConfiguration;
                                 //                      (first iNode, ch)
                                 // targetConfiguration ----------------> sourceConfiguration
                                 // m_NodeConfigurationMappings data structure records configurations that
@@ -322,7 +339,8 @@ namespace Parser.Hopcroft {
             m_currentMinimizedDFA.RemoveNode(NULLPartition);
         }
 
-        // Works only for the initial DFA's nodes
+        // Works only for the initial DFA's nodes. Returns the target minDFA node that contains
+        // in its configuration the target of the transition from the given node and character
         public CGraphNode GetTargetNodeConfiguration(CGraphNode node, Int32 character) {
 
             if (m_currentDFA.IsANodeOfGraph(node)) {
