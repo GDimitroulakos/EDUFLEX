@@ -138,6 +138,7 @@
     <Content Include="bin\Debug\test1.txt" />
     <Content Include="bin\Debug\test1AST.gif" />
     <Content Include="bin\Debug\ThompsonSteps.gif" />
+    <Content Include="Testbench\test1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

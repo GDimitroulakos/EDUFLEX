@@ -199,7 +199,7 @@ namespace Parser.Hopcroft {
             serializer.Print();
 
             m_currentDFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_currentMinimizedDFA, new UOPCore.Options<ThompsonOptions>()));
-            m_currentDFA.Generate(@"../Debug/minimizedDFA"+m_currentRE+".dot", true);
+            m_currentDFA.Generate(@"../bin/Debug/minimizedDFA"+m_currentRE+".dot", true);
         }
         /// <summary>
         /// Splits the specified minimized-DFA node.

@@ -78,7 +78,7 @@ namespace Parser.Thompson_Algorithm {
             //2.Synthesize the two FAs to a new one
             m_currentNFA = alttempSyn.Sythesize(leftFa, rightFa, CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Alternation_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Alternation_" + m_currentNFA.M_Label + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
 
@@ -140,7 +140,7 @@ namespace Parser.Thompson_Algorithm {
                 m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Concatenation_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Concatenation_" + m_currentNFA.M_Label + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
             return m_currentNFA;
@@ -174,7 +174,7 @@ namespace Parser.Thompson_Algorithm {
             for (it.Begin(); !it.End(); it.Next()) {
                 m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Closure_" + m_currentNFA.M_Label + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Closure_" + m_currentNFA.M_Label + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
             //4.Pass FA to the predecessor
@@ -201,7 +201,7 @@ namespace Parser.Thompson_Algorithm {
 
             m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
             return m_currentNFA;
@@ -226,7 +226,7 @@ namespace Parser.Thompson_Algorithm {
 
             m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/BasicSet_" + setNode.MSet.ToString() + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
 
             return m_currentNFA;
@@ -251,7 +251,7 @@ namespace Parser.Thompson_Algorithm {
             FAInfo.Info(newEdge).M_TransitionCharSet = (CCharRangeSet)rangeNode.MRange;
             newEdge.SetLabel(rangeNode.MRange.ToString());
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../Debug/Range_" + rangeNode.MRange.ToString() + ".dot");
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Range_" + rangeNode.MRange.ToString() + ".dot");
             m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
             //4.Pass FA to the predecessor
             return m_currentNFA;
