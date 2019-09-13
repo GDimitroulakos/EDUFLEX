@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLibrary", "GraphLibrar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFASimulator", "DFASimulator\DFASimulator.csproj", "{369865DA-C49F-450A-A76C-33E501399E63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeekableStreamReader", "..\..\MyLibraries\SeekableTextStreamAccessors\SeekableStreamReader\SeekableStreamReader.csproj", "{7138FA0B-6D5B-4D51-AFB9-DC5DB6FDDCD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeekableStreamReader", "SeekableTextStreamAccessors\SeekableStreamReader\SeekableStreamReader.csproj", "{7138FA0B-6D5B-4D51-AFB9-DC5DB6FDDCD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
