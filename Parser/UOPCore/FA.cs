@@ -263,6 +263,15 @@ namespace Parser.UOPCore
             m_alphabet = new CCharRangeSet(false);
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="init"></param>
+        public FA(FA init):base(init) {
+            m_FAInfo = new FAGraphQueryInfo(this, m_FAINFOKEY);
+            m_alphabet = new CCharRangeSet(init.M_Alphabet);
+        }
+
         public override N CreateGraphNode<N>() {
             N newNode= base.CreateGraphNode<N>();
             m_FAInfo.CreateInfo(newNode,new FAStateInfo());
@@ -386,6 +395,8 @@ namespace Parser.UOPCore
             }
         }
 
+        
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
@@ -395,7 +406,7 @@ namespace Parser.UOPCore
                 str.Append(finalState.M_Label + ";");
             }
 
-            str.Append("FA edges: \n");
+            str.Append("\nFA edges: \n");
             foreach (CGraphEdge edge in m_graphEdges) {
                 str.Append(edge.M_Source.M_Label + "->" + edge.M_Target.M_Label+";\n");
             }

@@ -287,8 +287,8 @@ namespace Parser.SubsetConstruction {
                 // on the edges
                 m_currentDFA.UpdateAlphabet();
 
-                m_currentDFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
-                m_currentDFA.Generate(@"../bin/Debug/mergeDFA"+m_currentRE+".dot", true);
+                m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
+                m_currentDFA.Generate(@"mergeDFA"+m_currentRE+".dot", true);
                 
 
                 // DEBUG

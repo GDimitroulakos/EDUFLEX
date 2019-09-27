@@ -115,6 +115,14 @@ namespace Parser {
             this.isNegation = isNegation;
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="init"></param>
+        public CCharRangeSet(CCharRangeSet init) :base(init) {
+            isNegation = init.isNegation;
+        }
+
         public static explicit operator System.String(CCharRangeSet set) {
             return set.ToString();
         }

@@ -53,7 +53,7 @@ namespace Parser.Hopcroft {
         /// <param name="node">minimized-DFA node</param>
         /// <returns>list of initial-DFA nodes contained in node</returns>
         public List<CGraphNode> NodesInConfiguration(CGraphNode node) {
-            return Info(node);
+            return Info(node,false);
         }
 
         public void StoreNodesInConfiguration(CGraphNode node, List<CGraphNode> conf) {
@@ -219,7 +219,7 @@ namespace Parser.Hopcroft {
             FASerializer serializer =new FASerializer(m_minimizedDFA);
             serializer.Print();
 
-            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_minimizedDFA,new UOPCore.Options<ThompsonOptions>()));
+            m_DFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_minimizedDFA,new UOPCore.Options<ThompsonOptions>()));
             m_DFA.Generate(@"../Debug/minimizedDFA.dot", true);
         }
         /// <summary>
@@ -354,8 +354,9 @@ namespace Parser.Hopcroft {
 
                     // If yes, do nothing and proceed to the next character
 
-                    // Clear dictionary for the next iteration
+                    // Clear dictionaries for the next iteration
                     m_CharConfigurationMappings.Clear();
+                    m_NodeConfigurationMappings.Clear();
                 }
             }
             m_minimizedDFA.RemoveNode(NULLPartition);

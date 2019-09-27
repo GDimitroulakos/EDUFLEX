@@ -8,16 +8,143 @@ using GraphLibrary.Generics;
 using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
+using System.IO;
 
 namespace Parser.Hopcroft {
 
+    public class CIterationRecord {
+        private int m_iteration;
+        // Nodes to inspect for splitting
+        private List<CGraphNode> m_nodesToInspect=new List<CGraphNode>();
+        // Splitting actions record during the iteration
+        private List<CSplitRecord> m_splitRecord=new List<CSplitRecord>();
+
+        public List<CGraphNode> M_NodesToInspect {
+            get => m_nodesToInspect;
+        }
+
+        public List<CSplitRecord> M_SplitRecord {
+            get => m_splitRecord;
+        }
+
+        public int M_Iteration {
+            get => m_iteration;
+            set => m_iteration = value;
+        }
+    }
+
+    public class CSplitRecord {
+        // Node under inspection for splitting
+        private CGraphNode m_inspectionNode;
+        // Behaviour exhibited by nodes inside the inspection node
+        private List<Tuple<Int32, CGraphNode>> m_behaviour =new List<Tuple<int, CGraphNode>>();
+        // Splitting actions description
+        private List<Tuple<Int32, CGraphNode>> m_splits = new List<Tuple<int, CGraphNode>>();
+
+        public CGraphNode M_InspectionNode {
+            get => m_inspectionNode;
+            set => m_inspectionNode = value;
+        }
+
+        public List<Tuple<int, CGraphNode>> M_Behaviour {
+            get => m_behaviour;
+        }
+
+        public List<Tuple<int, CGraphNode>> M_Splits {
+            get => m_splits;
+        }
+    }
+
     public class CHopcroftReporting {
-        List<CGraphNode> m_initialAcceptedStates;
-        List<CGraphNode> m_initialNonAcceptedStates;
+        private List<CGraphNode> m_initialAcceptedStates;
+        private List<CGraphNode> m_initialNonAcceptedStates;
+        
+
+        private CIterationRecord m_currentIteration;
+        private CSplitRecord m_currentSplitRecord;
+
+        private HopcroftOutputGraphQueryInfo m_HopcroftOutputInfo;
+        private HopcroftInputGraphQueryInfo m_HopcroftInputInfo;
+
+        /// <summary>
+        /// This dictionary marks the nodes in the minimized DFA that result from the spliting
+        /// operation
+        /// </summary>
+        private List<CIterationRecord> m_ActivityRecord= new List<CIterationRecord>();
+
+        public CHopcroftReporting(HopcroftOutputGraphQueryInfo outinfo, HopcroftInputGraphQueryInfo ininfo) {
+            m_HopcroftOutputInfo = outinfo;
+            m_HopcroftInputInfo = ininfo;
+        }
+
+        public CIterationRecord M_CurrentIteration {
+            get => m_currentIteration;
+        }
+
+        public CSplitRecord M_CurrentSplitRecord {
+            get => m_currentSplitRecord;
+        }
+
+        public void AddSplitRecord(CGraphNode initialNode) {
+            m_currentIteration.M_SplitRecord.Add(m_currentSplitRecord = new CSplitRecord(){M_InspectionNode = initialNode});
+        }
+        
+        public CIterationRecord AddIteration(int iteration) {
+            m_ActivityRecord.Add(m_currentIteration = new CIterationRecord(){M_Iteration = iteration});
+            return m_currentIteration;
+        }
 
         public void SetInitialMinDFAStatesContents(List<CGraphNode> accStates, List<CGraphNode> nonaccStates) {
             m_initialAcceptedStates = new List<CGraphNode>(accStates);
             m_initialNonAcceptedStates = new List<CGraphNode>(nonaccStates);
+        }
+
+        private string GetNodesinConfiguration(CGraphNode node) {
+            StringBuilder s=new StringBuilder();
+            List<CGraphNode> conf = m_HopcroftOutputInfo.NodesInConfiguration(node);
+            foreach (CGraphNode n in conf) {
+                s.Append(n.M_Label + ",");
+            }
+            return s.ToString();
+        }
+
+        public void Report(string filename) {
+            StreamWriter ostream = new StreamWriter(filename);
+
+            ostream.WriteLine("***************** Initialization *****************");
+            ostream.Write("Initial Accepted States: ");
+            foreach(var state in m_initialAcceptedStates) {
+                ostream.Write("{0}, ",state.M_Label);
+            }
+            ostream.Write("\n\nInitial Non-Accepted States: ");
+            foreach (var state in m_initialNonAcceptedStates) {
+                ostream.Write("{0}, ", state.M_Label);
+            }
+
+            foreach (CIterationRecord itrec in m_ActivityRecord) {
+                ostream.Write("\nNodes to inspect for splitting: ");
+                foreach (CGraphNode node in itrec.M_NodesToInspect) {
+                    ostream.Write(node.M_Label +"("+ GetNodesinConfiguration(node) + "), ");
+                }
+
+                foreach (CSplitRecord splitRecord in itrec.M_SplitRecord) {
+                    ostream.Write("\n\tNode to inspect:{0}",splitRecord.M_InspectionNode.M_Label);
+                    ostream.Write("\n\tBehaviour:");
+                    foreach (Tuple<int, CGraphNode> behTuple in splitRecord.M_Behaviour) {
+                        ostream.Write("\n\t\t" + splitRecord.M_InspectionNode.M_Label +
+                                      "----"+ (char)behTuple.Item1 + "--->" + behTuple.Item2.M_Label);
+                    }
+                    ostream.Write("\n\tSplitting:");
+                    foreach (Tuple<int, CGraphNode> splitTuple in splitRecord.M_Splits) {
+                        ostream.Write("\n\t\t" + splitRecord.M_InspectionNode.M_Label + "----"
+                                      + (char)splitTuple.Item1 + "--->" + splitTuple.Item2.M_Label);
+                    }
+                }
+
+            }
+
+            
+            ostream.Close();
         }
     }
 
@@ -46,7 +173,7 @@ namespace Parser.Hopcroft {
 
         public CHopcroftAlgorithmStructured(Dictionary<uint,RERecord> dfas) {
             m_inputDFAs = dfas;
-            m_reporting = new CHopcroftReporting();
+            
         }
 
         public void Start() {
@@ -57,6 +184,7 @@ namespace Parser.Hopcroft {
                 rec.Value.M_MinDfa= m_currentMinimizedDFA = new FA();
                 m_currentNodeConfiguration = new HopcroftInputGraphQueryInfo(m_currentDFA, m_HOPCROFTCONFIGURATIONKEY);
                 m_currentMinDFANodeConfiguration = new HopcroftOutputGraphQueryInfo(m_currentMinimizedDFA, m_HOPCROFTCONFIGURATIONKEY);
+                m_reporting = new CHopcroftReporting(m_currentMinDFANodeConfiguration, m_currentNodeConfiguration);
                 Init();
             }            
         }
@@ -101,20 +229,31 @@ namespace Parser.Hopcroft {
             }
 
             // ************************* Debug Initialization ***************************
+            m_currentDFA.RegisterGraphPrinter(new FATextPrinter(m_currentDFA));
+            m_currentDFA.Generate("HopCroft_InitialDFA_"+m_currentRE+".txt");
             m_reporting.SetInitialMinDFAStatesContents(configurationAcc, configurationNonAcc);
 
 
             int nodeCount = 0;
-            CIt_GraphNodes minDFA_it = new CIt_GraphNodes(m_currentMinimizedDFA);
+            int iteration_count = 0;
+
+            CIt_GraphNodes minDFA_it = new CIt_GraphNodes(m_currentMinimizedDFA, true);
             // Iterate while the algorithm reaches a fixed point state
             while (nodeCount != m_currentMinimizedDFA.M_NumberOfNodes) {
 
                 // keep the number of nodes before applying a new split
                 nodeCount = m_currentMinimizedDFA.M_NumberOfNodes;
-
+                // ************************* Debug  ***************************
+                CIterationRecord currentIteration = m_reporting.AddIteration(iteration_count);
+                
                 for (minDFA_it.Begin(); !minDFA_it.End(); minDFA_it.Next()) {
+
+                    // ************************* Debug  ***************************
+                    currentIteration.M_NodesToInspect.Add(minDFA_it.M_CurrentItem);
+
                     Split(minDFA_it.M_CurrentItem);
                 }
+                iteration_count++;
             }
 
             // Draw the final edges
@@ -193,16 +332,18 @@ namespace Parser.Hopcroft {
                 m_currentMinimizedDFA.PrefixElementLabel(m_currentMinimizedDFA.GetFANodePrefix(it1.M_CurrentItem), it1.M_CurrentItem);
             }
 
-
+            m_reporting.Report("HOPCROFTReport"+m_currentRE+".txt");
 
             FASerializer serializer = new FASerializer(m_currentMinimizedDFA);
             serializer.Print();
 
-            m_currentDFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_currentMinimizedDFA, new UOPCore.Options<ThompsonOptions>()));
-            m_currentDFA.Generate(@"../bin/Debug/minimizedDFA"+m_currentRE+".dot", true);
+            m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentMinimizedDFA, new UOPCore.Options<ThompsonOptions>()));
+            m_currentDFA.Generate(@"minimizedDFA"+m_currentRE+".dot", true);
         }
         /// <summary>
-        /// Splits the specified minimized-DFA node.
+        /// Splits the specified minimized-DFA node in as many nodes as necessary.
+        /// The resulting nodes exhibit the property that every internal nodes 
+        /// exhibit the same behaviour for all alphabet characters.
         /// </summary>
         /// <param name="node">Represents a minimized DFA's node (current configuration)</param>
         public void Split(CGraphNode node) {
@@ -217,7 +358,7 @@ namespace Parser.Hopcroft {
             // <source(DFA node)----------->target(minimizedDFA node)>
             // Each iteration of the following loops considers the transition for
             // each distinct character of the alphabet. Thus, in every iteration 
-            // this dictionary is updated
+            // concerning character this dictionary is updated
             // <Considered as input >
             Dictionary<CGraphNode, CGraphNode> m_CharConfigurationMappings = new Dictionary<CGraphNode, CGraphNode>();
 
@@ -230,7 +371,12 @@ namespace Parser.Hopcroft {
             // in the dictionary the partition is splitted < Considered as output >
             Dictionary<CGraphNode, CGraphNode> m_NodeConfigurationMappings = new Dictionary<CGraphNode, CGraphNode>();
 
+            // Create a dummy node for nodes that don't have outward edges for a given character
             CGraphNode sourcePartition, sourceConfiguration, targetConfigurationNode, NULLPartition = m_currentMinimizedDFA.CreateGraphNode<CGraphNode>();
+
+            // ********************** debug ***********************
+            m_reporting.AddSplitRecord(node);
+
 
             // For each character range in the initial DFA alphabet character set
             foreach (CCharRange range in m_currentDFA.M_Alphabet) {
@@ -243,14 +389,13 @@ namespace Parser.Hopcroft {
                         // Cache initial DFA transitions for the given character from initial DFA's 
                         // nodes in the current considered configuration to the min DFA configurations  
                         targetConfigurationNode = GetTargetNodeConfiguration(iNode, ch);
-
+                        
                         if (targetConfigurationNode != null) {
                             // Node (of the initial-DFA) maps to the targetPartition of the
                             // minimized-DFA for the given character ch (Node,ch)->targetPartition
                             m_CharConfigurationMappings[iNode] = targetConfigurationNode;
                             if (i == 0) {
-                                sourceConfiguration = GetNodeConfiguration(iNode);
-                                m_NodeConfigurationMappings[targetConfigurationNode] = sourceConfiguration;
+                                m_NodeConfigurationMappings[targetConfigurationNode] = node;
                                 //                      (first iNode, ch)
                                 // targetConfiguration ----------------> sourceConfiguration
                                 // m_NodeConfigurationMappings data structure records configurations that
@@ -258,15 +403,22 @@ namespace Parser.Hopcroft {
                                 // They are targets in transitions from configurations for the given character
                                 // This behaviour is exhibited by the first node in the currentConfiguration
                                 // So we will look how many other nodes will exhibit the same behaviour in the
-                                // following loop. 
+                                // current loop. 
+                                // m_NodeConfigurationMappings : Holds valid values that refers to the current
+                                // configuration for a specific alphabet character
+
+                                // ********************** debug ***********************
+                                m_reporting.M_CurrentSplitRecord.M_Behaviour.Add(new Tuple<int, CGraphNode>(ch, targetConfigurationNode));
                             }
                         }
                         else {
                             m_CharConfigurationMappings[iNode] = NULLPartition;
                             if (i == 0) {
-                                sourceConfiguration = GetNodeConfiguration(iNode);
-                                m_NodeConfigurationMappings[NULLPartition] = sourceConfiguration;
+                                m_NodeConfigurationMappings[NULLPartition] = node;
                             }
+
+                            // ********************** debug ***********************
+                            m_reporting.M_CurrentSplitRecord.M_Behaviour.Add(new Tuple<int, CGraphNode>(ch, NULLPartition));
                         }
                         i++;
                     }
@@ -298,6 +450,11 @@ namespace Parser.Hopcroft {
 
                                 // a. Create a new node in the minimized DFA
                                 CGraphNode newp = m_currentMinimizedDFA.CreateGraphNode<CGraphNode>();
+
+                                
+                                // ********************** debug ***********************
+                                m_reporting.M_CurrentSplitRecord.M_Splits.Add(new Tuple<int, CGraphNode>(ch,newp));
+
                                 newConfiguration = new List<CGraphNode>();
                                 SetNodesInConfiguration(newp, newConfiguration);
 
@@ -314,7 +471,7 @@ namespace Parser.Hopcroft {
                             else {
                                 //.. else of the partition that n node goes to exists just 
                                 // make the transfer without creating a new partition
-
+                                
                                 sourcePartition = m_NodeConfigurationMappings[m_CharConfigurationMappings[n]];
 
                                 List<CGraphNode> c = GetNodesInConfiguration(sourcePartition);
@@ -332,8 +489,9 @@ namespace Parser.Hopcroft {
 
                     // If yes, do nothing and proceed to the next character
 
-                    // Clear dictionary for the next iteration
+                    // Clear dictionaries for the next iteration
                     m_CharConfigurationMappings.Clear();
+                    m_NodeConfigurationMappings.Clear();
                 }
             }
             m_currentMinimizedDFA.RemoveNode(NULLPartition);

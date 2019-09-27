@@ -78,7 +78,7 @@
     <Compile Include="Hopcroft\HopcroftAlgorithmStructured.cs" />
     <Compile Include="SubsetConstruction\SubsetConstructionStructured.cs" />
     <Compile Include="Thompson Algorithm\ThompsonAlgorithmStructured.cs" />
-    <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
+    <Compile Include="UOPCore\FAGraphVizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
     <Compile Include="Thompson Algorithm\ThompsonVisitorFlatten.cs" />
     <Compile Include="Configuration.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="obj\Debug\RegExpParserVisitor.cs" />
     <Compile Include="Thompson Algorithm\ThomsonMultiGraphPrinter.cs" />
     <Compile Include="UOPCore\FASerializer.cs" />
+    <Compile Include="UOPCore\FATextPrinter.cs" />
     <Compile Include="UOPCore\HelperTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

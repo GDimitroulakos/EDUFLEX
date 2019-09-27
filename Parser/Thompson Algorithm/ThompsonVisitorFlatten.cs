@@ -49,7 +49,7 @@ namespace Parser.Thompson_Algorithm
             m_ThomsonStepsPrinter.e_prelude += new Func<object, string>(p => "digraph Total { ");
             m_ThomsonStepsPrinter.e_epilogue += new Func<object, string>(p => "} ");
             m_ThomsonStepsPrinter.e_intermediate_after += new Func<object, string>(p => {
-                ThompsonGraphVizPrinter pp = p as ThompsonGraphVizPrinter;
+                FAGraphVizPrinter pp = p as FAGraphVizPrinter;
                 return "//" + pp.M_Graph.M_Label;
             });
         }
@@ -58,7 +58,7 @@ namespace Parser.Thompson_Algorithm
         /// Extracts the outcome of one of the steps of the Thompson algorithm to a file
         /// </summary>
         public void ExctractThompsonStep(FA NFA,string filename) {
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>());
+            FAGraphVizPrinter gp = new FAGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>());
             NFA.RegisterGraphPrinter(gp);
             NFA.Generate(filename, true);
         }
@@ -71,7 +71,7 @@ namespace Parser.Thompson_Algorithm
         }
 
         public void AddThompsonStepToReporting(FA NFA, bool generateReport=false) {
-            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
+            FAGraphVizPrinter gp1 = new FAGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
             m_ThomsonStepsPrinter.Add(gp1);
             if (generateReport) {
                 m_ThomsonStepsPrinter.Generate();

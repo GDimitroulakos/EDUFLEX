@@ -1,0 +1,16 @@
+digraph G27{
+"L2G27_N134" [peripheries=2];
+"L2G27_N135" [style=filled,fillcolor=green];
+"L2G27_N137" [peripheries=2];
+"L2G27_N139";
+"L2G27_N134"->"L2G27_N134" [style = bold, label = "[A-Z]"];
+"L2G27_N134"->"L2G27_N139" [style = bold, label = "[0]"];
+"L2G27_N135"->"L2G27_N134" [style = bold, label = "[A-Z]"];
+"L2G27_N135"->"L2G27_N137" [style = bold, label = "[a-z]"];
+"L2G27_N135"->"L2G27_N139" [style = bold, label = "[0]"];
+"L2G27_N137"->"L2G27_N137" [style = bold, label = "[a-z]"];
+"L2G27_N137"->"L2G27_N139" [style = bold, label = "[0]"];
+"L2G27_N139"->"L2G27_N134" [style = bold, label = "[2]"];
+"L2G27_N139"->"L2G27_N137" [style = bold, label = "[1]"];
+}
+

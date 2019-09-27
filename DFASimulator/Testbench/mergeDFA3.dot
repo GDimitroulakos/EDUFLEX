@@ -1,0 +1,11 @@
+digraph G24{
+"L3G24_N123" [style=filled,fillcolor=green];
+"L3G24_N124" [peripheries=2];
+"L3G24_N125" [peripheries=2];
+"L3G24_N126" [peripheries=2];
+"L3G24_N123"->"L3G24_N124" [style = bold, label = "[0]"];
+"L3G24_N123"->"L3G24_N125" [style = bold, label = "[1-9]"];
+"L3G24_N125"->"L3G24_N126" [style = bold, label = "[0-9]"];
+"L3G24_N126"->"L3G24_N126" [style = bold, label = "[0-9]"];
+}
+

@@ -1,0 +1,26 @@
+digraph G23{
+"L2G23_N115" [style=filled,fillcolor=green];
+"L2G23_N116";
+"L2G23_N117" [peripheries=2];
+"L2G23_N118" [peripheries=2];
+"L2G23_N119" [peripheries=2];
+"L2G23_N120" [peripheries=2];
+"L2G23_N121";
+"L2G23_N122";
+"L2G23_N115"->"L2G23_N116" [style = bold, label = "[0]"];
+"L2G23_N115"->"L2G23_N117" [style = bold, label = "[A-Z]"];
+"L2G23_N115"->"L2G23_N118" [style = bold, label = "[a-z]"];
+"L2G23_N116"->"L2G23_N119" [style = bold, label = "[1]"];
+"L2G23_N116"->"L2G23_N120" [style = bold, label = "[2]"];
+"L2G23_N117"->"L2G23_N121" [style = bold, label = "[0]"];
+"L2G23_N117"->"L2G23_N117" [style = bold, label = "[A-Z]"];
+"L2G23_N118"->"L2G23_N122" [style = bold, label = "[0]"];
+"L2G23_N118"->"L2G23_N118" [style = bold, label = "[a-z]"];
+"L2G23_N119"->"L2G23_N122" [style = bold, label = "[0]"];
+"L2G23_N119"->"L2G23_N118" [style = bold, label = "[a-z]"];
+"L2G23_N120"->"L2G23_N121" [style = bold, label = "[0]"];
+"L2G23_N120"->"L2G23_N117" [style = bold, label = "[A-Z]"];
+"L2G23_N121"->"L2G23_N120" [style = bold, label = "[2]"];
+"L2G23_N122"->"L2G23_N119" [style = bold, label = "[1]"];
+}
+

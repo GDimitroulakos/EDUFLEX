@@ -14,11 +14,11 @@ namespace Parser.ASTVisitor.ConcreteVisitors
 {
     
     
-    public class ThompsonGraphVizPrinter : CGraphPrinter {
+    public class FAGraphVizPrinter : CGraphPrinter {
         private FAGraphQueryInfo m_FAInfo;
         private UOPCore.Options<ThompsonOptions> m_options;
 
-        public ThompsonGraphVizPrinter(CGraph graph, UOPCore.Options<ThompsonOptions> options,
+        public FAGraphVizPrinter(CGraph graph, UOPCore.Options<ThompsonOptions> options,
             CGraphLabeling<CGraphNode> nodeLabeling = null,
             CGraphLabeling<CGraphEdge> edgeLabeling = null) : base(graph,nodeLabeling,edgeLabeling) {
             m_FAInfo = new FAGraphQueryInfo(graph,FA.m_FAINFOKEY);

@@ -1,0 +1,8 @@
+digraph G25{
+"L1G25_N127" [peripheries=2];
+"L1G25_N128" [style=filled,fillcolor=green];
+"L1G25_N131";
+"L1G25_N128"->"L1G25_N131" [style = bold, label = "[a]"];
+"L1G25_N131"->"L1G25_N127" [style = bold, label = "[b]"];
+}
+

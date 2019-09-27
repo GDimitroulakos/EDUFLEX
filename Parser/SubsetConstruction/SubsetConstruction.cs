@@ -100,8 +100,8 @@ namespace Parser.SubsetConstruction
                 }
             }
             m_DFA.UpdateAlphabet();
-            m_DFA.RegisterGraphPrinter(new ThompsonGraphVizPrinter(m_DFA,new UOPCore.Options<ThompsonOptions>()));
-            m_DFA.Generate(@"../Debug/mergeDFA.dot", true);
+            m_DFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_DFA,new UOPCore.Options<ThompsonOptions>()));
+            m_DFA.Generate(@"mergeDFA.dot", true);
 
             // DEBUG
             m_reporting.Report("SubsetREPORT.txt");
