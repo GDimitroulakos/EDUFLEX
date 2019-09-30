@@ -1,28 +1,38 @@
 ***************** Initialization *****************
-Initial Accepted States: L1G22_N114, 
+Initial Accepted States (L1G25_N127): L1G22_N114, 
 
-Initial Non-Accepted States: L1G22_N112, L1G22_N113, 
-Nodes to inspect for splitting: G25_N127(L1G22_N114,), G25_N128(L1G22_N112,), 
-	Node to inspect:G25_N127
-	Behaviour:
-		G25_N127----a--->G25_N129
-		G25_N127----b--->G25_N129
-	Splitting:
-	Node to inspect:G25_N128
-	Behaviour:
-		G25_N128----a--->L1G25_N128
-		G25_N128----a--->G25_N130
-		G25_N128----b--->G25_N130
-	Splitting:
-		G25_N128----a--->L1G25_N131
-Nodes to inspect for splitting: G25_N127(L1G22_N114,), G25_N128(L1G22_N112,), 
-	Node to inspect:G25_N127
-	Behaviour:
-		G25_N127----a--->G25_N132
-		G25_N127----b--->G25_N132
-	Splitting:
-	Node to inspect:G25_N128
-	Behaviour:
-		G25_N128----a--->L1G25_N131
-		G25_N128----b--->G25_N133
-	Splitting:
+Initial Non-Accepted States (L1G25_N128): L1G22_N112, L1G22_N113, 
+
+Iteration: 0 
+Nodes to inspect for splitting: L1G25_N127(L1G22_N114,), L1G25_N128(L1G22_N112,L1G22_N113,), 
+
+
+		Node to Inspect for Splitting: L1G25_N127
+			L1G25_N127(L1G22_N114)----a--->NULL()
+			L1G25_N127(L1G22_N114)----b--->NULL()
+
+
+		Node to Inspect for Splitting: L1G25_N128
+			L1G25_N128(L1G22_N112)----a--->L1G25_N128(L1G22_N113)
+			L1G25_N128(L1G22_N113)----a--->NULL()
+			Split:L1G25_N128----a--->L1G25_N129
+						Resulting Nodes Configuration:L1G25_N128(L1G22_N112,)   L1G25_N129(L1G22_N113,)
+			L1G25_N128(L1G22_N112)----b--->NULL()
+
+Iteration: 1 
+Nodes to inspect for splitting: L1G25_N127(L1G22_N114,), L1G25_N128(L1G22_N112,), L1G25_N129(L1G22_N113,), 
+
+
+		Node to Inspect for Splitting: L1G25_N127
+			L1G25_N127(L1G22_N114)----a--->NULL()
+			L1G25_N127(L1G22_N114)----b--->NULL()
+
+
+		Node to Inspect for Splitting: L1G25_N128
+			L1G25_N128(L1G22_N112)----a--->L1G25_N129(L1G22_N113)
+			L1G25_N128(L1G22_N112)----b--->NULL()
+
+
+		Node to Inspect for Splitting: L1G25_N129
+			L1G25_N129(L1G22_N113)----a--->NULL()
+			L1G25_N129(L1G22_N113)----b--->L1G25_N127(L1G22_N114)

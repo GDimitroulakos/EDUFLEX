@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>dhmhgre.EDUFLEX.RunTime</id>
+    <version>1.0.2</version>
+    <title>EDUcational FLEX (EDUFLEX)(</title>
+    <authors>Grigoris Dimitroulakos</authors>
+    <owners>Grigoris Dimitroulakos</owners>
+    <license type="file">LICENSE.txt</license>
+    <projectUrl>https://github.com/GDimitroulakos/EDUFLEX</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Another lexical analyzer generator for educational purposes</description>
+    <releaseNotes>Hopcroft reporting debugging</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>compilers lexical analysis educational</tags>
+  </metadata>
+  <files>
+		<file src="bin\Debug\Parser.exe" target="lib\NET45"/> 
+		<file src="bin\Debug\RangeIntervals.dll" target="lib\NET45"/> 
+		<file src="bin\Debug\SeekableStreamReader.exe" target="lib\NET45"/> 
+		<file src="bin\Debug\GraphLibrary.dll" target="lib\NET45"/> 
+		<file src="LICENSE.txt" target="" />
+  </files>
+</package>
