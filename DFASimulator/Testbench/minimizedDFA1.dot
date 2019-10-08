@@ -1,8 +1,8 @@
-digraph G25{
-"L1G25_N127" [peripheries=2];
-"L1G25_N128" [style=filled,fillcolor=green];
-"L1G25_N129";
-"L1G25_N128"->"L1G25_N129" [style = bold, label = "[a]"];
-"L1G25_N129"->"L1G25_N127" [style = bold, label = "[b]"];
+digraph G48{
+"L1G48_N332" [peripheries=2];
+"L1G48_N333" [style=filled,fillcolor=green];
+"L1G48_N334";
+"L1G48_N333"->"L1G48_N334" [style = bold, label = "[a]"];
+"L1G48_N334"->"L1G48_N332" [style = bold, label = "[b]"];
 }
 

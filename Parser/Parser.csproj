@@ -78,6 +78,7 @@
     <Compile Include="Hopcroft\HopcroftAlgorithmStructured.cs" />
     <Compile Include="SubsetConstruction\SubsetConstructionStructured.cs" />
     <Compile Include="Thompson Algorithm\ThompsonAlgorithmStructured.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
     <Compile Include="UOPCore\FAGraphVizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
     <Compile Include="Thompson Algorithm\ThompsonVisitorFlatten.cs" />

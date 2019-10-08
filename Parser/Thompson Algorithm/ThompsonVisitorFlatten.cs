@@ -83,6 +83,68 @@ namespace Parser.Thompson_Algorithm
         }
     }
 
+    [Serializable]
+    public class ThompsonNodeFAInfo {
+        // True if the node has non-e outward edges
+        private bool m_characterOutwardEdges=false;
+        // True if the node is a closure entrance node
+        private bool m_closureEntrance=false;
+
+        public ThompsonNodeFAInfo() {
+        }
+
+        public bool M_CharacterOutwardEdges {
+            get => m_characterOutwardEdges;
+            set => m_characterOutwardEdges = value;
+        }
+
+        public bool M_ClosureEntrance {
+            get => m_closureEntrance;
+            set => m_closureEntrance = value;
+        }
+    }
+
+    [Serializable]
+    public class ThompsonEdgeFAInfo {
+
+    }
+
+    [Serializable]
+    public class ThompsonFAInfo {
+
+    }
+
+    [Serializable]
+    public class ThompsonInfo : CGraphQueryInfo<ThompsonNodeFAInfo,ThompsonEdgeFAInfo,ThompsonFAInfo> {
+        public ThompsonInfo(CGraph graph, object key) : base(graph, key) {
+           
+        }
+
+        public bool IsNodeWithNon_e_Edges(CGraphNode node) {
+            return Info(node).M_CharacterOutwardEdges;
+        }
+        public bool IsNodeClosureEntrance(CGraphNode node) {
+            return Info(node).M_ClosureEntrance;
+        }
+        public void SetNodeWithNon_e_Edges(CGraphNode node, bool hasNon_e_edges) {
+            if (Info(node) == null) {
+                InitNodeInfo(node,new ThompsonNodeFAInfo());
+            }
+            Info(node).M_CharacterOutwardEdges = hasNon_e_edges;
+        }
+        public void SetNodeClosureEntrance(CGraphNode node, bool closureEntrance) {
+            if (Info(node) == null) {
+                InitNodeInfo(node, new ThompsonNodeFAInfo());
+            }
+            Info(node).M_ClosureEntrance = closureEntrance;
+        }
+        public void InitNodeInfo(CGraphNode node, ThompsonNodeFAInfo info) {
+            CreateInfo(node,new ThompsonNodeFAInfo());
+        }
+
+    }
+
+
     // This class represents the Thompson algorithm. It depends on the classes
     // defined in the ThompsonHelper.cs which take the responsibility of FA
     // transformation during the Thompson algorithm steps
@@ -91,6 +153,12 @@ namespace Parser.Thompson_Algorithm
         /// This field stores the final output NFA when the algorithm execution completes
         /// </summary>
         private FA m_NFA=null;
+
+        /// <summary>
+        /// This dictionary holds thompson-related information for every FA
+        /// produced during the application of the Thompson algorithm
+        /// </summary>
+        Dictionary<FA,ThompsonInfo> m_thompsonInfo = new Dictionary<FA, ThompsonInfo>();
 
         // While the algorithm traverses the AST the following field keeps the 
         // Regular expression owning the current AST subtree
@@ -104,7 +172,7 @@ namespace Parser.Thompson_Algorithm
         private UOPCore.Options<ThompsonOptions> m_options=new UOPCore.Options<ThompsonOptions>((int)ThompsonOptions.TO_DEFAULT);
 
         private ThompsonReporting m_ReportingServices;
-
+        
         public FA M_Nfa{
             get{ return m_NFA; }
         }
@@ -113,6 +181,7 @@ namespace Parser.Thompson_Algorithm
             // Initialize Thompson options 
             m_options = new UOPCore.Options<ThompsonOptions>(options);
             m_ReportingServices = new ThompsonReporting(m_options);
+            
         }
 
         public override FA VisitLexerDescription(CASTElement currentNode) {
@@ -134,7 +203,7 @@ namespace Parser.Thompson_Algorithm
                 if (i > 0) {
                     rightFa = Visit(rExpStatement);
                     //2.Synthesize the two FAs to a new one
-                    CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
+                    CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate(this);
                     leftFa = alttempSyn.Sythesize(leftFa, rightFa, mergeOptions);
 
                     // Prefix node elements of the resulting graph with 
@@ -201,7 +270,7 @@ namespace Parser.Thompson_Algorithm
             CSubsetConstructionAlgorithm subcon;
             CHopcroftAlgorithm hopmin;
             //1. Create FA 
-            CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate();
+            CThompsonAlternationTemplate alttempSyn = new CThompsonAlternationTemplate(this);
             FA leftFa = Visit(altNode.GetChild(ContextType.CT_REGEXPALTERNATION_TERMS, 0));
             
             CIt_GraphNodes it = new CIt_GraphNodes(leftFa);
@@ -233,7 +302,7 @@ namespace Parser.Thompson_Algorithm
             CRegexpConcatenation altNode = currentNode as CRegexpConcatenation;
             
             //1. Create FA 
-            CThompsonConcatenationTemplate alttempSyn = new CThompsonConcatenationTemplate();
+            CThompsonConcatenationTemplate alttempSyn = new CThompsonConcatenationTemplate(this);
             FA leftFa = Visit(altNode.GetChild(ContextType.CT_REGEXPCONCATENATION_TERMS, 0));
             FA rightFa = Visit(altNode.GetChild(ContextType.CT_REGEXPCONCATENATION_TERMS, 1));
             //2.Synthesize the two FAs to a new one
@@ -255,7 +324,7 @@ namespace Parser.Thompson_Algorithm
             CRegexpClosure closNode = currentNode as CRegexpClosure;
             
             //1.Create FA
-            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate();
+            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate(this);
             //2.Check the type of the closure
             if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP,0));
@@ -271,7 +340,10 @@ namespace Parser.Thompson_Algorithm
                 m_NFA = newFA.SynthesizeOneOrNone(customFA);
             }
             else if ( closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_FINITECLOSURE) {
-                //TODO 
+                CClosureRange rangeNode = closNode.GetChild(ContextType.CT_REGEXPCLOSURE_QUANTIFIER, 0) as CClosureRange;
+                FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
+                m_NFA = newFA.SynthesizeFinite(customFA, rangeNode.M_ClosureMultiplicityLB,
+                    rangeNode.M_ClosureMultiplicityUB);
             }
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE_NONGREEDY) {
                 //TODO 

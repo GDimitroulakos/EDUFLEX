@@ -87,6 +87,7 @@
     <Content Include="..\Parser\bin\Debug\source.txt">
       <Link>source.txt</Link>
     </Content>
+    <Content Include="Testbench\test1.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

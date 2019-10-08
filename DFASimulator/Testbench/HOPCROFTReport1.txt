@@ -1,38 +1,38 @@
 ***************** Initialization *****************
-Initial Accepted States (L1G25_N127): L1G22_N114, 
+Initial Accepted States (L1G48_N332): L1G44_N308, 
 
-Initial Non-Accepted States (L1G25_N128): L1G22_N112, L1G22_N113, 
+Initial Non-Accepted States (L1G48_N333): L1G44_N306, L1G44_N307, 
 
 Iteration: 0 
-Nodes to inspect for splitting: L1G25_N127(L1G22_N114,), L1G25_N128(L1G22_N112,L1G22_N113,), 
+Nodes to inspect for splitting: L1G48_N332(L1G44_N308,), L1G48_N333(L1G44_N306,L1G44_N307,), 
 
 
-		Node to Inspect for Splitting: L1G25_N127
-			L1G25_N127(L1G22_N114)----a--->NULL()
-			L1G25_N127(L1G22_N114)----b--->NULL()
+		Node to Inspect for Splitting: L1G48_N332
+			L1G48_N332(L1G44_N308)----a--->NULL()
+			L1G48_N332(L1G44_N308)----b--->NULL()
 
 
-		Node to Inspect for Splitting: L1G25_N128
-			L1G25_N128(L1G22_N112)----a--->L1G25_N128(L1G22_N113)
-			L1G25_N128(L1G22_N113)----a--->NULL()
-			Split:L1G25_N128----a--->L1G25_N129
-						Resulting Nodes Configuration:L1G25_N128(L1G22_N112,)   L1G25_N129(L1G22_N113,)
-			L1G25_N128(L1G22_N112)----b--->NULL()
+		Node to Inspect for Splitting: L1G48_N333
+			L1G48_N333(L1G44_N306)----a--->L1G48_N333(L1G44_N307)
+			L1G48_N333(L1G44_N307)----a--->NULL()
+			Split:L1G48_N333----a--->L1G48_N334
+						Resulting Nodes Configuration:L1G48_N333(L1G44_N306,)   L1G48_N334(L1G44_N307,)
+			L1G48_N333(L1G44_N306)----b--->NULL()
 
 Iteration: 1 
-Nodes to inspect for splitting: L1G25_N127(L1G22_N114,), L1G25_N128(L1G22_N112,), L1G25_N129(L1G22_N113,), 
+Nodes to inspect for splitting: L1G48_N332(L1G44_N308,), L1G48_N333(L1G44_N306,), L1G48_N334(L1G44_N307,), 
 
 
-		Node to Inspect for Splitting: L1G25_N127
-			L1G25_N127(L1G22_N114)----a--->NULL()
-			L1G25_N127(L1G22_N114)----b--->NULL()
+		Node to Inspect for Splitting: L1G48_N332
+			L1G48_N332(L1G44_N308)----a--->NULL()
+			L1G48_N332(L1G44_N308)----b--->NULL()
 
 
-		Node to Inspect for Splitting: L1G25_N128
-			L1G25_N128(L1G22_N112)----a--->L1G25_N129(L1G22_N113)
-			L1G25_N128(L1G22_N112)----b--->NULL()
+		Node to Inspect for Splitting: L1G48_N333
+			L1G48_N333(L1G44_N306)----a--->L1G48_N334(L1G44_N307)
+			L1G48_N333(L1G44_N306)----b--->NULL()
 
 
-		Node to Inspect for Splitting: L1G25_N129
-			L1G25_N129(L1G22_N113)----a--->NULL()
-			L1G25_N129(L1G22_N113)----b--->L1G25_N127(L1G22_N114)
+		Node to Inspect for Splitting: L1G48_N334
+			L1G48_N334(L1G44_N307)----a--->NULL()
+			L1G48_N334(L1G44_N307)----b--->L1G48_N332(L1G44_N308)

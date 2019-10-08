@@ -1,0 +1,44 @@
+digraph G47{
+"L4G47_N321" [style=filled,fillcolor=green];
+"L4G47_N322" [peripheries=2];
+"L4G47_N323";
+"L4G47_N324";
+"L4G47_N325";
+"L4G47_N326";
+"L4G47_N327";
+"L4G47_N328";
+"L4G47_N329" [peripheries=2];
+"L4G47_N330";
+"L4G47_N331";
+"L4G47_N321"->"L4G47_N322" [style = bold, label = "[f]"];
+"L4G47_N321"->"L4G47_N323" [style = bold, label = "[g]"];
+"L4G47_N323"->"L4G47_N324" [style = bold, label = "[d]"];
+"L4G47_N323"->"L4G47_N325" [style = bold, label = "[e]"];
+"L4G47_N324"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N324"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N324"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N325"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N325"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N325"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N326"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N326"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N326"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N326"->"L4G47_N329" [style = bold, label = "[z]"];
+"L4G47_N327"->"L4G47_N330" [style = bold, label = "[b]"];
+"L4G47_N328"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N328"->"L4G47_N331" [style = bold, label = "[c]"];
+"L4G47_N328"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N328"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N328"->"L4G47_N329" [style = bold, label = "[z]"];
+"L4G47_N330"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N330"->"L4G47_N330" [style = bold, label = "[b]"];
+"L4G47_N330"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N330"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N330"->"L4G47_N329" [style = bold, label = "[z]"];
+"L4G47_N331"->"L4G47_N326" [style = bold, label = "[a]"];
+"L4G47_N331"->"L4G47_N331" [style = bold, label = "[c]"];
+"L4G47_N331"->"L4G47_N327" [style = bold, label = "[d]"];
+"L4G47_N331"->"L4G47_N328" [style = bold, label = "[l]"];
+"L4G47_N331"->"L4G47_N329" [style = bold, label = "[z]"];
+}
+

@@ -388,7 +388,6 @@ namespace Parser.Hopcroft {
 
         public CHopcroftAlgorithmStructured(Dictionary<uint, RERecord> dfas) {
             m_inputDFAs = dfas;
-
         }
 
         public void Start() {
