@@ -32,6 +32,11 @@ namespace Parser.Thompson_Algorithm
 
     public class ThompsonReporting {
         /// <summary>
+        /// When true every intermediate step of the Thompson Algorithm generates its outcome
+        /// </summary>
+        public static bool mb_enableLogging = false;
+
+        /// <summary>
         /// This fields stores Thompson Algorithm execution and reporting options
         /// </summary>
         private UOPCore.Options<ThompsonOptions> m_options;
@@ -49,7 +54,7 @@ namespace Parser.Thompson_Algorithm
             m_ThomsonStepsPrinter.e_prelude += new Func<object, string>(p => "digraph Total { ");
             m_ThomsonStepsPrinter.e_epilogue += new Func<object, string>(p => "} ");
             m_ThomsonStepsPrinter.e_intermediate_after += new Func<object, string>(p => {
-                FAGraphVizPrinter pp = p as FAGraphVizPrinter;
+                ThompsonGraphVizPrinter pp = p as ThompsonGraphVizPrinter;
                 return "//" + pp.M_Graph.M_Label;
             });
         }
@@ -57,10 +62,13 @@ namespace Parser.Thompson_Algorithm
         /// <summary>
         /// Extracts the outcome of one of the steps of the Thompson algorithm to a file
         /// </summary>
-        public void ExctractThompsonStep(FA NFA,string filename, object key) {
-            ThompsonGraphVizPrinter gp = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(),key);
-            NFA.RegisterGraphPrinter(gp);
-            NFA.Generate(filename, true);
+        public void ExctractThompsonStep(FA NFA,string filename, object key, bool overrideEnableLoggingSwitch = false) {
+            if (mb_enableLogging || overrideEnableLoggingSwitch) {
+                ThompsonGraphVizPrinter gp =
+                    new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(), key);
+                NFA.RegisterGraphPrinter(gp);
+                NFA.Generate(filename, true);
+            }
         }
 
         /// <summary>
@@ -70,8 +78,15 @@ namespace Parser.Thompson_Algorithm
             m_ThomsonStepsPrinter.Generate();
         }
 
-        public void AddThompsonStepToReporting(FA NFA, bool generateReport=false) {
-            FAGraphVizPrinter gp1 = new FAGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS));
+        /// <summary>
+        /// Add an intermediate NFA to the list of NFA produced during the
+        /// execution of the algorithm
+        /// </summary>
+        /// <param name="NFA"></param>
+        /// <param name="infokey"></param>
+        /// <param name="generateReport"></param>
+        public void AddThompsonStepToReporting(FA NFA, object infokey, bool generateReport=false) {
+            ThompsonGraphVizPrinter gp1 = new ThompsonGraphVizPrinter(NFA, new UOPCore.Options<ThompsonOptions>(ThompsonOptions.TO_COMBINEGRAPHS),infokey);
             m_ThomsonStepsPrinter.Add(gp1);
             if (generateReport) {
                 m_ThomsonStepsPrinter.Generate();
@@ -220,9 +235,9 @@ namespace Parser.Thompson_Algorithm
             }
 
             m_NFA = leftFa;
-            m_ReportingServices.ExctractThompsonStep(m_NFA,@"../bin/Debug/merge.dot", this.GetHashCode());
+            m_ReportingServices.ExctractThompsonStep(m_NFA,@"merge.dot", this.GetHashCode());
             if (i > 1) {
-                m_ReportingServices.AddThompsonStepToReporting(m_NFA, true);
+                m_ReportingServices.AddThompsonStepToReporting(m_NFA, this.GetHashCode(), true);
             }
             else {
                 m_ReportingServices.ThompsonStepsGenerate();
@@ -290,8 +305,8 @@ namespace Parser.Thompson_Algorithm
             m_NFA = alttempSyn.Sythesize(leftFa, rightFa,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../bin/Debug/Alternation_" + m_NFA.M_Label + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"Alternation_" + m_NFA.M_Label + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
 
             
             //return the final-synthesized FA
@@ -314,8 +329,8 @@ namespace Parser.Thompson_Algorithm
                 m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../bin/Debug/Concatenation_" + m_NFA.M_Label + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"Concatenation_" + m_NFA.M_Label + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
 
             return m_NFA;
         }
@@ -360,8 +375,8 @@ namespace Parser.Thompson_Algorithm
             for (it.Begin(); !it.End(); it.Next()) {
                 m_NFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../bin/Debug/Closure_" + m_NFA.M_Label + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"Closure_" + m_NFA.M_Label + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
 
             //4.Pass FA to the predecessor
             return m_NFA;
@@ -375,8 +390,8 @@ namespace Parser.Thompson_Algorithm
             
             m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../bin/Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
             
             return m_NFA;
         }
@@ -389,8 +404,8 @@ namespace Parser.Thompson_Algorithm
             
             m_NFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID,GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../bin/Debug/BasicSet_" + setNode.MSet.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"BasicSet_" + setNode.MSet.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
 
             return m_NFA;
         }
@@ -401,8 +416,8 @@ namespace Parser.Thompson_Algorithm
 
             m_NFA = rangeTemplate.Synthesize(rangeNode);
             
-            m_ReportingServices.ExctractThompsonStep(m_NFA, @"../Debug/Range_" + rangeNode.MRange.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_NFA);
+            m_ReportingServices.ExctractThompsonStep(m_NFA, @"Range_" + rangeNode.MRange.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_NFA,this.GetHashCode());
             //4.Pass FA to the predecessor
             return m_NFA;
         }

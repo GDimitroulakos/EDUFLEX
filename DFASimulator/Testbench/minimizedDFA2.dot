@@ -1,20 +1,20 @@
 digraph G51{
-"L2G51_N335" [peripheries=2];
-"L2G51_N336" [style=filled,fillcolor=green];
-"L2G51_N337" [peripheries=2];
-"L2G51_N338";
-"L2G51_N339";
-"L2G51_N340";
-"L2G51_N335"->"L2G51_N335" [style = bold, label = "[A-Z]"];
-"L2G51_N335"->"L2G51_N339" [style = bold, label = "[0]"];
-"L2G51_N336"->"L2G51_N335" [style = bold, label = "[A-Z]"];
-"L2G51_N336"->"L2G51_N337" [style = bold, label = "[a-z]"];
-"L2G51_N336"->"L2G51_N338" [style = bold, label = "[0]"];
-"L2G51_N337"->"L2G51_N337" [style = bold, label = "[a-z]"];
-"L2G51_N337"->"L2G51_N340" [style = bold, label = "[0]"];
-"L2G51_N338"->"L2G51_N335" [style = bold, label = "[2]"];
-"L2G51_N338"->"L2G51_N337" [style = bold, label = "[1]"];
-"L2G51_N339"->"L2G51_N335" [style = bold, label = "[2]"];
-"L2G51_N340"->"L2G51_N337" [style = bold, label = "[1]"];
+"L2G51_N340" [peripheries=2];
+"L2G51_N341" [style=filled,fillcolor=green];
+"L2G51_N342" [peripheries=2];
+"L2G51_N343";
+"L2G51_N344";
+"L2G51_N345";
+"L2G51_N340"->"L2G51_N340" [style = bold, label = "[A-Z]"];
+"L2G51_N340"->"L2G51_N344" [style = bold, label = "[0]"];
+"L2G51_N341"->"L2G51_N340" [style = bold, label = "[A-Z]"];
+"L2G51_N341"->"L2G51_N342" [style = bold, label = "[a-z]"];
+"L2G51_N341"->"L2G51_N343" [style = bold, label = "[0]"];
+"L2G51_N342"->"L2G51_N342" [style = bold, label = "[a-z]"];
+"L2G51_N342"->"L2G51_N345" [style = bold, label = "[0]"];
+"L2G51_N343"->"L2G51_N340" [style = bold, label = "[2]"];
+"L2G51_N343"->"L2G51_N342" [style = bold, label = "[1]"];
+"L2G51_N344"->"L2G51_N340" [style = bold, label = "[2]"];
+"L2G51_N345"->"L2G51_N342" [style = bold, label = "[1]"];
 }
 

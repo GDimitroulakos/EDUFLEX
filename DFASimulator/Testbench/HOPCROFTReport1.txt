@@ -1,38 +1,19 @@
 ***************** Initialization *****************
-Initial Accepted States (L1G48_N332): L1G44_N308, 
+Initial Accepted States (L1G49_N338): L1G45_N313, L1G45_N314, 
 
-Initial Non-Accepted States (L1G48_N333): L1G44_N306, L1G44_N307, 
+Initial Non-Accepted States (L1G49_N339): L1G45_N312, 
 
 Iteration: 0 
-Nodes to inspect for splitting: L1G48_N332(L1G44_N308,), L1G48_N333(L1G44_N306,L1G44_N307,), 
+Nodes to inspect for splitting: L1G49_N338(L1G45_N313,L1G45_N314,), L1G49_N339(L1G45_N312,), 
 
 
-		Node to Inspect for Splitting: L1G48_N332
-			L1G48_N332(L1G44_N308)----a--->NULL()
-			L1G48_N332(L1G44_N308)----b--->NULL()
+		Node to Inspect for Splitting: L1G49_N338
+			L1G49_N338(L1G45_N313)----a--->NULL()
+			L1G49_N338(L1G45_N314)----a--->NULL()
+			L1G49_N338(L1G45_N313)----b--->L1G49_N338(L1G45_N314)
+			L1G49_N338(L1G45_N314)----b--->L1G49_N338(L1G45_N314)
 
 
-		Node to Inspect for Splitting: L1G48_N333
-			L1G48_N333(L1G44_N306)----a--->L1G48_N333(L1G44_N307)
-			L1G48_N333(L1G44_N307)----a--->NULL()
-			Split:L1G48_N333----a--->L1G48_N334
-						Resulting Nodes Configuration:L1G48_N333(L1G44_N306,)   L1G48_N334(L1G44_N307,)
-			L1G48_N333(L1G44_N306)----b--->NULL()
-
-Iteration: 1 
-Nodes to inspect for splitting: L1G48_N332(L1G44_N308,), L1G48_N333(L1G44_N306,), L1G48_N334(L1G44_N307,), 
-
-
-		Node to Inspect for Splitting: L1G48_N332
-			L1G48_N332(L1G44_N308)----a--->NULL()
-			L1G48_N332(L1G44_N308)----b--->NULL()
-
-
-		Node to Inspect for Splitting: L1G48_N333
-			L1G48_N333(L1G44_N306)----a--->L1G48_N334(L1G44_N307)
-			L1G48_N333(L1G44_N306)----b--->NULL()
-
-
-		Node to Inspect for Splitting: L1G48_N334
-			L1G48_N334(L1G44_N307)----a--->NULL()
-			L1G48_N334(L1G44_N307)----b--->L1G48_N332(L1G44_N308)
+		Node to Inspect for Splitting: L1G49_N339
+			L1G49_N339(L1G45_N312)----a--->L1G49_N338(L1G45_N313)
+			L1G49_N339(L1G45_N312)----b--->NULL()

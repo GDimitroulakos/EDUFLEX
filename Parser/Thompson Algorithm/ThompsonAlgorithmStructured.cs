@@ -78,8 +78,8 @@ namespace Parser.Thompson_Algorithm {
             //2.Synthesize the two FAs to a new one
             m_currentNFA = alttempSyn.Sythesize(leftFa, rightFa, CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Alternation_" + m_currentNFA.M_Label + ".dot",this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"Alternation_" + m_currentNFA.M_Label + ".dot",this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
 
 
             //return the final-synthesized FA
@@ -111,7 +111,7 @@ namespace Parser.Thompson_Algorithm {
             m_currentNFA = fa;
             m_currentLine = curNode.M_Line;
 
-            m_ReportingServices.ExctractThompsonStep(fa,"merge"+m_currentLine+".dot",this.GetHashCode());
+            m_ReportingServices.ExctractThompsonStep(fa,"merge"+m_currentLine+".dot",this.GetHashCode(),true);
 
             // Record the derived NFA to the RERecords 
             m_reRecords[curNode.M_Line].M_Nfa = fa;
@@ -140,8 +140,8 @@ namespace Parser.Thompson_Algorithm {
                 m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Concatenation_" + m_currentNFA.M_Label + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"Concatenation_" + m_currentNFA.M_Label + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
 
             return m_currentNFA;
         }
@@ -186,8 +186,8 @@ namespace Parser.Thompson_Algorithm {
             for (it.Begin(); !it.End(); it.Next()) {
                 m_currentNFA.PrefixElementLabel(m_currentRegularExpression.M_StatementID, it.M_CurrentItem);
             }
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Closure_" + m_currentNFA.M_Label + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"Closure_" + m_currentNFA.M_Label + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
 
             //4.Pass FA to the predecessor
             return m_currentNFA;
@@ -201,8 +201,8 @@ namespace Parser.Thompson_Algorithm {
 
             m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"BasicChar_" + charNode.M_CharRangeSet.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
 
             return m_currentNFA;
         }
@@ -215,8 +215,8 @@ namespace Parser.Thompson_Algorithm {
 
             m_currentNFA.PrefixGraphElementLabels(m_currentRegularExpression.M_StatementID, GraphElementType.ET_NODE);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/BasicSet_" + setNode.MSet.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"BasicSet_" + setNode.MSet.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
 
             return m_currentNFA;
         }
@@ -227,8 +227,8 @@ namespace Parser.Thompson_Algorithm {
 
             m_currentNFA = rangeTemplate.Synthesize(rangeNode);
 
-            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"../bin/Debug/Range_" + rangeNode.MRange.ToString() + ".dot", this.GetHashCode());
-            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA);
+            m_ReportingServices.ExctractThompsonStep(m_currentNFA, @"Range_" + rangeNode.MRange.ToString() + ".dot", this.GetHashCode());
+            m_ReportingServices.AddThompsonStepToReporting(m_currentNFA,this.GetHashCode());
             //4.Pass FA to the predecessor
             return m_currentNFA;
         }

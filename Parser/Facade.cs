@@ -45,7 +45,7 @@ namespace Parser {
         }
 
         static Facade() {
-            SetOperationModeCode(false);
+            SetOperationModeCode(true);
         }
 
         public static void SetOperationModeCode(bool code = true) {

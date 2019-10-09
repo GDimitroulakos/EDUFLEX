@@ -1,10 +1,16 @@
-digraph G2{
-"L1G2_N4" [style=filled,fillcolor=green];
-"L1G2_N5";
-"L1G2_N6";
-"L1G2_N7" [peripheries=2];
-"L1G2_N4"->"L1G2_N5" [style = bold, label = "[a]"];
-"L1G2_N6"->"L1G2_N7" [style = bold, label = "[b]"];
-"L1G2_N5"->"L1G2_N6";
+digraph G3{
+"L1G3_N8" [style=filled,fillcolor=green];
+"L1G3_N9";
+"L1G3_N10" [style=filled,fillcolor=red];
+"L1G3_N11";
+"L1G3_N12";
+"L1G3_N13" [peripheries=2];
+"L1G3_N8"->"L1G3_N9" [style = bold, label = "[a]"];
+"L1G3_N10"->"L1G3_N11" [style = bold, label = "[b]"];
+"L1G3_N12"->"L1G3_N10";
+"L1G3_N11"->"L1G3_N13";
+"L1G3_N12"->"L1G3_N13";
+"L1G3_N11"->"L1G3_N10";
+"L1G3_N9"->"L1G3_N12";
 }
 

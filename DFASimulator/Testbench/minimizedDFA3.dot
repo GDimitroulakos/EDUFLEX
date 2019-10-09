@@ -1,9 +1,9 @@
 digraph G55{
-"L3G55_N341" [peripheries=2];
-"L3G55_N342" [style=filled,fillcolor=green];
-"L3G55_N343" [peripheries=2];
-"L3G55_N342"->"L3G55_N341" [style = bold, label = "[0]"];
-"L3G55_N342"->"L3G55_N343" [style = bold, label = "[1-9]"];
-"L3G55_N343"->"L3G55_N343" [style = bold, label = "[0-9]"];
+"L3G55_N346" [peripheries=2];
+"L3G55_N347" [style=filled,fillcolor=green];
+"L3G55_N348" [peripheries=2];
+"L3G55_N347"->"L3G55_N346" [style = bold, label = "[0]"];
+"L3G55_N347"->"L3G55_N348" [style = bold, label = "[1-9]"];
+"L3G55_N348"->"L3G55_N348" [style = bold, label = "[0-9]"];
 }
 
