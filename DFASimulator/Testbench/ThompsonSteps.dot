@@ -1,0 +1,936 @@
+digraph Total { 
+
+"L1G0_N0" [style=filled,fillcolor=green];
+"L1G0_N1" [peripheries=2];
+"L1G0_N0"->"L1G0_N1" [style = bold, label = "[a]"];
+
+//G0
+
+"L1G1_N2" [style=filled,fillcolor=green];
+"L1G1_N3" [peripheries=2];
+"L1G1_N2"->"L1G1_N3" [style = bold, label = "[b]"];
+
+//G1
+
+"L1L1G2_N4" [style=filled,fillcolor=green];
+"L1L1G2_N5";
+"L1L1G2_N6";
+"L1L1G2_N7" [peripheries=2];
+"L1L1G2_N4"->"L1L1G2_N5" [style = bold, label = "[a]"];
+"L1L1G2_N6"->"L1L1G2_N7" [style = bold, label = "[b]"];
+"L1L1G2_N5"->"L1L1G2_N6";
+
+//G2
+
+"L2G3_N8" [style=filled,fillcolor=green];
+"L2G3_N9" [peripheries=2];
+"L2G3_N8"->"L2G3_N9" [style = bold, label = "[0]"];
+
+//G3
+
+"L2G4_N10" [style=filled,fillcolor=green];
+"L2G4_N11" [peripheries=2];
+"L2G4_N10"->"L2G4_N11" [style = bold, label = "[1]"];
+
+//G4
+
+"L2G5_N12" [style=filled,fillcolor=green];
+"L2G5_N13";
+"L2G5_N14";
+"L2G5_N15" [peripheries=2];
+"L2G5_N12"->"L2G5_N13" [style = bold, label = "[0]"];
+"L2G5_N14"->"L2G5_N15" [style = bold, label = "[1]"];
+"L2G5_N13"->"L2G5_N14";
+
+//G5
+
+"L2G6_N16" [style=filled,fillcolor=green];
+"L2G6_N17" [peripheries=2];
+"L2G6_N16"->"L2G6_N17" [style = bold, label = "[a-z]"];
+
+//G6
+
+"G7_N18";
+"G7_N19";
+"G7_N20";
+"G7_N21";
+"G7_N22";
+"G7_N23";
+"G7_N24" [style=filled,fillcolor=green];
+"G7_N25" [peripheries=2];
+"G7_N18"->"G7_N19" [style = bold, label = "[0]"];
+"G7_N20"->"G7_N21" [style = bold, label = "[1]"];
+"G7_N19"->"G7_N20";
+"G7_N22"->"G7_N23" [style = bold, label = "[a-z]"];
+"G7_N24"->"G7_N18";
+"G7_N24"->"G7_N22";
+"G7_N23"->"G7_N25";
+"G7_N21"->"G7_N25";
+
+//G7
+
+"L2G8_N26";
+"L2G8_N27";
+"L2G8_N28";
+"L2G8_N29";
+"L2G8_N30";
+"L2G8_N31";
+"L2G8_N32";
+"L2G8_N33";
+"L2G8_N34" [style=filled,fillcolor=green];
+"L2G8_N35" [peripheries=2];
+"L2G8_N26"->"L2G8_N27" [style = bold, label = "[0]"];
+"L2G8_N28"->"L2G8_N29" [style = bold, label = "[1]"];
+"L2G8_N27"->"L2G8_N28";
+"L2G8_N30"->"L2G8_N31" [style = bold, label = "[a-z]"];
+"L2G8_N32"->"L2G8_N26";
+"L2G8_N32"->"L2G8_N30";
+"L2G8_N31"->"L2G8_N33";
+"L2G8_N29"->"L2G8_N33";
+"L2G8_N34"->"L2G8_N32";
+"L2G8_N33"->"L2G8_N35";
+"L2G8_N33"->"L2G8_N32";
+
+//G8
+
+"L2G9_N36" [style=filled,fillcolor=green];
+"L2G9_N37" [peripheries=2];
+"L2G9_N36"->"L2G9_N37" [style = bold, label = "[0]"];
+
+//G9
+
+"L2G10_N38" [style=filled,fillcolor=green];
+"L2G10_N39" [peripheries=2];
+"L2G10_N38"->"L2G10_N39" [style = bold, label = "[2]"];
+
+//G10
+
+"L2G11_N40" [style=filled,fillcolor=green];
+"L2G11_N41";
+"L2G11_N42";
+"L2G11_N43" [peripheries=2];
+"L2G11_N40"->"L2G11_N41" [style = bold, label = "[0]"];
+"L2G11_N42"->"L2G11_N43" [style = bold, label = "[2]"];
+"L2G11_N41"->"L2G11_N42";
+
+//G11
+
+"L2G12_N44" [style=filled,fillcolor=green];
+"L2G12_N45" [peripheries=2];
+"L2G12_N44"->"L2G12_N45" [style = bold, label = "[A-Z]"];
+
+//G12
+
+"G13_N46";
+"G13_N47";
+"G13_N48";
+"G13_N49";
+"G13_N50";
+"G13_N51";
+"G13_N52" [style=filled,fillcolor=green];
+"G13_N53" [peripheries=2];
+"G13_N46"->"G13_N47" [style = bold, label = "[0]"];
+"G13_N48"->"G13_N49" [style = bold, label = "[2]"];
+"G13_N47"->"G13_N48";
+"G13_N50"->"G13_N51" [style = bold, label = "[A-Z]"];
+"G13_N52"->"G13_N46";
+"G13_N52"->"G13_N50";
+"G13_N51"->"G13_N53";
+"G13_N49"->"G13_N53";
+
+//G13
+
+"L2G14_N54";
+"L2G14_N55";
+"L2G14_N56";
+"L2G14_N57";
+"L2G14_N58";
+"L2G14_N59";
+"L2G14_N60";
+"L2G14_N61";
+"L2G14_N62" [style=filled,fillcolor=green];
+"L2G14_N63" [peripheries=2];
+"L2G14_N54"->"L2G14_N55" [style = bold, label = "[0]"];
+"L2G14_N56"->"L2G14_N57" [style = bold, label = "[2]"];
+"L2G14_N55"->"L2G14_N56";
+"L2G14_N58"->"L2G14_N59" [style = bold, label = "[A-Z]"];
+"L2G14_N60"->"L2G14_N54";
+"L2G14_N60"->"L2G14_N58";
+"L2G14_N59"->"L2G14_N61";
+"L2G14_N57"->"L2G14_N61";
+"L2G14_N62"->"L2G14_N60";
+"L2G14_N61"->"L2G14_N63";
+"L2G14_N61"->"L2G14_N60";
+
+//G14
+
+"L2G15_N64";
+"L2G15_N65";
+"L2G15_N66";
+"L2G15_N67";
+"L2G15_N68";
+"L2G15_N69";
+"L2G15_N70";
+"L2G15_N71";
+"L2G15_N72";
+"L2G15_N73";
+"L2G15_N74";
+"L2G15_N75";
+"L2G15_N76";
+"L2G15_N77";
+"L2G15_N78";
+"L2G15_N79";
+"L2G15_N80";
+"L2G15_N81";
+"L2G15_N82";
+"L2G15_N83";
+"L2G15_N84" [style=filled,fillcolor=green];
+"L2G15_N85" [peripheries=2];
+"L2G15_N64"->"L2G15_N65" [style = bold, label = "[0]"];
+"L2G15_N66"->"L2G15_N67" [style = bold, label = "[1]"];
+"L2G15_N65"->"L2G15_N66";
+"L2G15_N68"->"L2G15_N69" [style = bold, label = "[a-z]"];
+"L2G15_N70"->"L2G15_N64";
+"L2G15_N70"->"L2G15_N68";
+"L2G15_N69"->"L2G15_N71";
+"L2G15_N67"->"L2G15_N71";
+"L2G15_N72"->"L2G15_N70";
+"L2G15_N71"->"L2G15_N73";
+"L2G15_N71"->"L2G15_N70";
+"L2G15_N74"->"L2G15_N75" [style = bold, label = "[0]"];
+"L2G15_N76"->"L2G15_N77" [style = bold, label = "[2]"];
+"L2G15_N75"->"L2G15_N76";
+"L2G15_N78"->"L2G15_N79" [style = bold, label = "[A-Z]"];
+"L2G15_N80"->"L2G15_N74";
+"L2G15_N80"->"L2G15_N78";
+"L2G15_N79"->"L2G15_N81";
+"L2G15_N77"->"L2G15_N81";
+"L2G15_N82"->"L2G15_N80";
+"L2G15_N81"->"L2G15_N83";
+"L2G15_N81"->"L2G15_N80";
+"L2G15_N84"->"L2G15_N72";
+"L2G15_N84"->"L2G15_N82";
+"L2G15_N83"->"L2G15_N85";
+"L2G15_N73"->"L2G15_N85";
+
+//G15
+
+"L3G17_N114" [style=filled,fillcolor=green];
+"L3G17_N115" [peripheries=2];
+"L3G17_N114"->"L3G17_N115" [style = bold, label = "[0]"];
+
+//G17
+
+"L3G18_N116" [style=filled,fillcolor=green];
+"L3G18_N117" [peripheries=2];
+"L3G18_N116"->"L3G18_N117" [style = bold, label = "[1-9]"];
+
+//G18
+
+"L3G19_N118" [style=filled,fillcolor=green];
+"L3G19_N119" [peripheries=2];
+"L3G19_N118"->"L3G19_N119" [style = bold, label = "[0-9]"];
+
+//G19
+
+"L3G20_N120";
+"L3G20_N121";
+"L3G20_N122" [style=filled,fillcolor=green];
+"L3G20_N123" [peripheries=2];
+"L3G20_N120"->"L3G20_N121" [style = bold, label = "[0-9]"];
+"L3G20_N122"->"L3G20_N120";
+"L3G20_N121"->"L3G20_N123";
+"L3G20_N122"->"L3G20_N123";
+"L3G20_N121"->"L3G20_N120";
+
+//G20
+
+"L3G21_N124" [style=filled,fillcolor=green];
+"L3G21_N125";
+"L3G21_N126";
+"L3G21_N127";
+"L3G21_N128";
+"L3G21_N129" [peripheries=2];
+"L3G21_N124"->"L3G21_N125" [style = bold, label = "[1-9]"];
+"L3G21_N126"->"L3G21_N127" [style = bold, label = "[0-9]"];
+"L3G21_N128"->"L3G21_N126";
+"L3G21_N127"->"L3G21_N129";
+"L3G21_N128"->"L3G21_N129";
+"L3G21_N127"->"L3G21_N126";
+"L3G21_N125"->"L3G21_N128";
+
+//G21
+
+"L3G22_N130";
+"L3G22_N131";
+"L3G22_N132";
+"L3G22_N133";
+"L3G22_N134";
+"L3G22_N135";
+"L3G22_N136";
+"L3G22_N137";
+"L3G22_N138" [style=filled,fillcolor=green];
+"L3G22_N139" [peripheries=2];
+"L3G22_N130"->"L3G22_N131" [style = bold, label = "[0]"];
+"L3G22_N132"->"L3G22_N133" [style = bold, label = "[1-9]"];
+"L3G22_N134"->"L3G22_N135" [style = bold, label = "[0-9]"];
+"L3G22_N136"->"L3G22_N134";
+"L3G22_N135"->"L3G22_N137";
+"L3G22_N136"->"L3G22_N137";
+"L3G22_N135"->"L3G22_N134";
+"L3G22_N133"->"L3G22_N136";
+"L3G22_N138"->"L3G22_N130";
+"L3G22_N138"->"L3G22_N132";
+"L3G22_N137"->"L3G22_N139";
+"L3G22_N131"->"L3G22_N139";
+
+//G22
+
+"L4G24_N180" [style=filled,fillcolor=green];
+"L4G24_N181" [peripheries=2];
+"L4G24_N180"->"L4G24_N181" [style = bold, label = "[g]"];
+
+//G24
+
+"L4G25_N182" [style=filled,fillcolor=green];
+"L4G25_N183" [peripheries=2];
+"L4G25_N182"->"L4G25_N183" [style = bold, label = "[d]"];
+
+//G25
+
+"L4G26_N184" [style=filled,fillcolor=green];
+"L4G26_N185" [peripheries=2];
+"L4G26_N184"->"L4G26_N185" [style = bold, label = "[e]"];
+
+//G26
+
+"G27_N186";
+"G27_N187";
+"G27_N188";
+"G27_N189";
+"G27_N190" [style=filled,fillcolor=green];
+"G27_N191" [peripheries=2];
+"G27_N186"->"G27_N187" [style = bold, label = "[d]"];
+"G27_N188"->"G27_N189" [style = bold, label = "[e]"];
+"G27_N190"->"G27_N186";
+"G27_N190"->"G27_N188";
+"G27_N189"->"G27_N191";
+"G27_N187"->"G27_N191";
+
+//G27
+
+"L4G28_N192" [style=filled,fillcolor=green];
+"L4G28_N193";
+"L4G28_N194";
+"L4G28_N195";
+"L4G28_N196";
+"L4G28_N197";
+"L4G28_N198";
+"L4G28_N199" [peripheries=2];
+"L4G28_N192"->"L4G28_N193" [style = bold, label = "[g]"];
+"L4G28_N194"->"L4G28_N195" [style = bold, label = "[d]"];
+"L4G28_N196"->"L4G28_N197" [style = bold, label = "[e]"];
+"L4G28_N198"->"L4G28_N194";
+"L4G28_N198"->"L4G28_N196";
+"L4G28_N197"->"L4G28_N199";
+"L4G28_N195"->"L4G28_N199";
+"L4G28_N193"->"L4G28_N198";
+
+//G28
+
+"L4G29_N200" [style=filled,fillcolor=green];
+"L4G29_N201" [peripheries=2];
+"L4G29_N200"->"L4G29_N201" [style = bold, label = "[a]"];
+
+//G29
+
+"L4G30_N202" [style=filled,fillcolor=green];
+"L4G30_N203" [peripheries=2];
+"L4G30_N202"->"L4G30_N203" [style = bold, label = "[d]"];
+
+//G30
+
+"L4G31_N204" [style=filled,fillcolor=green];
+"L4G31_N205" [peripheries=2];
+"L4G31_N204"->"L4G31_N205" [style = bold, label = "[b]"];
+
+//G31
+
+"L4G32_N206";
+"L4G32_N207";
+"L4G32_N208" [style=filled,fillcolor=green];
+"L4G32_N209" [peripheries=2];
+"L4G32_N206"->"L4G32_N207" [style = bold, label = "[b]"];
+"L4G32_N208"->"L4G32_N206";
+"L4G32_N207"->"L4G32_N209";
+"L4G32_N207"->"L4G32_N206";
+
+//G32
+
+"L4G33_N210" [style=filled,fillcolor=green];
+"L4G33_N211";
+"L4G33_N212";
+"L4G33_N213";
+"L4G33_N214";
+"L4G33_N215" [peripheries=2];
+"L4G33_N210"->"L4G33_N211" [style = bold, label = "[d]"];
+"L4G33_N212"->"L4G33_N213" [style = bold, label = "[b]"];
+"L4G33_N214"->"L4G33_N212";
+"L4G33_N213"->"L4G33_N215";
+"L4G33_N213"->"L4G33_N212";
+"L4G33_N211"->"L4G33_N214";
+
+//G33
+
+"G34_N216";
+"G34_N217";
+"G34_N218";
+"G34_N219";
+"G34_N220";
+"G34_N221";
+"G34_N222";
+"G34_N223";
+"G34_N224" [style=filled,fillcolor=green];
+"G34_N225" [peripheries=2];
+"G34_N216"->"G34_N217" [style = bold, label = "[a]"];
+"G34_N218"->"G34_N219" [style = bold, label = "[d]"];
+"G34_N220"->"G34_N221" [style = bold, label = "[b]"];
+"G34_N222"->"G34_N220";
+"G34_N221"->"G34_N223";
+"G34_N221"->"G34_N220";
+"G34_N219"->"G34_N222";
+"G34_N224"->"G34_N216";
+"G34_N224"->"G34_N218";
+"G34_N223"->"G34_N225";
+"G34_N217"->"G34_N225";
+
+//G34
+
+"L4G35_N226" [style=filled,fillcolor=green];
+"L4G35_N227" [peripheries=2];
+"L4G35_N226"->"L4G35_N227" [style = bold, label = "[l]"];
+
+//G35
+
+"L4G36_N228" [style=filled,fillcolor=green];
+"L4G36_N229" [peripheries=2];
+"L4G36_N228"->"L4G36_N229" [style = bold, label = "[c]"];
+
+//G36
+
+"L4G37_N230";
+"L4G37_N231";
+"L4G37_N232" [style=filled,fillcolor=green];
+"L4G37_N233" [peripheries=2];
+"L4G37_N230"->"L4G37_N231" [style = bold, label = "[c]"];
+"L4G37_N232"->"L4G37_N230";
+"L4G37_N231"->"L4G37_N233";
+"L4G37_N232"->"L4G37_N233";
+"L4G37_N231"->"L4G37_N230";
+
+//G37
+
+"L4G38_N234" [style=filled,fillcolor=green];
+"L4G38_N235";
+"L4G38_N236";
+"L4G38_N237";
+"L4G38_N238";
+"L4G38_N239" [peripheries=2];
+"L4G38_N234"->"L4G38_N235" [style = bold, label = "[l]"];
+"L4G38_N236"->"L4G38_N237" [style = bold, label = "[c]"];
+"L4G38_N238"->"L4G38_N236";
+"L4G38_N237"->"L4G38_N239";
+"L4G38_N238"->"L4G38_N239";
+"L4G38_N237"->"L4G38_N236";
+"L4G38_N235"->"L4G38_N238";
+
+//G38
+
+"G39_N240";
+"G39_N241";
+"G39_N242";
+"G39_N243";
+"G39_N244";
+"G39_N245";
+"G39_N246";
+"G39_N247";
+"G39_N248";
+"G39_N249";
+"G39_N250";
+"G39_N251";
+"G39_N252";
+"G39_N253";
+"G39_N254";
+"G39_N255";
+"G39_N256" [style=filled,fillcolor=green];
+"G39_N257" [peripheries=2];
+"G39_N240"->"G39_N241" [style = bold, label = "[a]"];
+"G39_N242"->"G39_N243" [style = bold, label = "[d]"];
+"G39_N244"->"G39_N245" [style = bold, label = "[b]"];
+"G39_N246"->"G39_N244";
+"G39_N245"->"G39_N247";
+"G39_N245"->"G39_N244";
+"G39_N243"->"G39_N246";
+"G39_N248"->"G39_N240";
+"G39_N248"->"G39_N242";
+"G39_N247"->"G39_N249";
+"G39_N241"->"G39_N249";
+"G39_N250"->"G39_N251" [style = bold, label = "[l]"];
+"G39_N252"->"G39_N253" [style = bold, label = "[c]"];
+"G39_N254"->"G39_N252";
+"G39_N253"->"G39_N255";
+"G39_N254"->"G39_N255";
+"G39_N253"->"G39_N252";
+"G39_N251"->"G39_N254";
+"G39_N256"->"G39_N248";
+"G39_N256"->"G39_N250";
+"G39_N255"->"G39_N257";
+"G39_N249"->"G39_N257";
+
+//G39
+
+"L4G40_N258";
+"L4G40_N259";
+"L4G40_N260";
+"L4G40_N261";
+"L4G40_N262";
+"L4G40_N263";
+"L4G40_N264";
+"L4G40_N265";
+"L4G40_N266";
+"L4G40_N267";
+"L4G40_N268";
+"L4G40_N269";
+"L4G40_N270";
+"L4G40_N271";
+"L4G40_N272";
+"L4G40_N273";
+"L4G40_N274";
+"L4G40_N275";
+"L4G40_N276" [style=filled,fillcolor=green];
+"L4G40_N277" [peripheries=2];
+"L4G40_N258"->"L4G40_N259" [style = bold, label = "[a]"];
+"L4G40_N260"->"L4G40_N261" [style = bold, label = "[d]"];
+"L4G40_N262"->"L4G40_N263" [style = bold, label = "[b]"];
+"L4G40_N264"->"L4G40_N262";
+"L4G40_N263"->"L4G40_N265";
+"L4G40_N263"->"L4G40_N262";
+"L4G40_N261"->"L4G40_N264";
+"L4G40_N266"->"L4G40_N258";
+"L4G40_N266"->"L4G40_N260";
+"L4G40_N265"->"L4G40_N267";
+"L4G40_N259"->"L4G40_N267";
+"L4G40_N268"->"L4G40_N269" [style = bold, label = "[l]"];
+"L4G40_N270"->"L4G40_N271" [style = bold, label = "[c]"];
+"L4G40_N272"->"L4G40_N270";
+"L4G40_N271"->"L4G40_N273";
+"L4G40_N272"->"L4G40_N273";
+"L4G40_N271"->"L4G40_N270";
+"L4G40_N269"->"L4G40_N272";
+"L4G40_N274"->"L4G40_N266";
+"L4G40_N274"->"L4G40_N268";
+"L4G40_N273"->"L4G40_N275";
+"L4G40_N267"->"L4G40_N275";
+"L4G40_N276"->"L4G40_N274";
+"L4G40_N275"->"L4G40_N277";
+"L4G40_N275"->"L4G40_N274";
+
+//G40
+
+"L4G41_N278" [style=filled,fillcolor=green];
+"L4G41_N279";
+"L4G41_N280";
+"L4G41_N281";
+"L4G41_N282";
+"L4G41_N283";
+"L4G41_N284";
+"L4G41_N285";
+"L4G41_N286";
+"L4G41_N287";
+"L4G41_N288";
+"L4G41_N289";
+"L4G41_N290";
+"L4G41_N291";
+"L4G41_N292";
+"L4G41_N293";
+"L4G41_N294";
+"L4G41_N295";
+"L4G41_N296";
+"L4G41_N297";
+"L4G41_N298";
+"L4G41_N299";
+"L4G41_N300";
+"L4G41_N301";
+"L4G41_N302";
+"L4G41_N303";
+"L4G41_N304";
+"L4G41_N305" [peripheries=2];
+"L4G41_N278"->"L4G41_N279" [style = bold, label = "[g]"];
+"L4G41_N280"->"L4G41_N281" [style = bold, label = "[d]"];
+"L4G41_N282"->"L4G41_N283" [style = bold, label = "[e]"];
+"L4G41_N284"->"L4G41_N280";
+"L4G41_N284"->"L4G41_N282";
+"L4G41_N283"->"L4G41_N285";
+"L4G41_N281"->"L4G41_N285";
+"L4G41_N279"->"L4G41_N284";
+"L4G41_N286"->"L4G41_N287" [style = bold, label = "[a]"];
+"L4G41_N288"->"L4G41_N289" [style = bold, label = "[d]"];
+"L4G41_N290"->"L4G41_N291" [style = bold, label = "[b]"];
+"L4G41_N292"->"L4G41_N290";
+"L4G41_N291"->"L4G41_N293";
+"L4G41_N291"->"L4G41_N290";
+"L4G41_N289"->"L4G41_N292";
+"L4G41_N294"->"L4G41_N286";
+"L4G41_N294"->"L4G41_N288";
+"L4G41_N293"->"L4G41_N295";
+"L4G41_N287"->"L4G41_N295";
+"L4G41_N296"->"L4G41_N297" [style = bold, label = "[l]"];
+"L4G41_N298"->"L4G41_N299" [style = bold, label = "[c]"];
+"L4G41_N300"->"L4G41_N298";
+"L4G41_N299"->"L4G41_N301";
+"L4G41_N300"->"L4G41_N301";
+"L4G41_N299"->"L4G41_N298";
+"L4G41_N297"->"L4G41_N300";
+"L4G41_N302"->"L4G41_N294";
+"L4G41_N302"->"L4G41_N296";
+"L4G41_N301"->"L4G41_N303";
+"L4G41_N295"->"L4G41_N303";
+"L4G41_N304"->"L4G41_N302";
+"L4G41_N303"->"L4G41_N305";
+"L4G41_N303"->"L4G41_N302";
+"L4G41_N285"->"L4G41_N304";
+
+//G41
+
+"L4G42_N306" [style=filled,fillcolor=green];
+"L4G42_N307" [peripheries=2];
+"L4G42_N306"->"L4G42_N307" [style = bold, label = "[z]"];
+
+//G42
+
+"L4G43_N308" [style=filled,fillcolor=green];
+"L4G43_N309";
+"L4G43_N310";
+"L4G43_N311";
+"L4G43_N312";
+"L4G43_N313";
+"L4G43_N314";
+"L4G43_N315";
+"L4G43_N316";
+"L4G43_N317";
+"L4G43_N318";
+"L4G43_N319";
+"L4G43_N320";
+"L4G43_N321";
+"L4G43_N322";
+"L4G43_N323";
+"L4G43_N324";
+"L4G43_N325";
+"L4G43_N326";
+"L4G43_N327";
+"L4G43_N328";
+"L4G43_N329";
+"L4G43_N330";
+"L4G43_N331";
+"L4G43_N332";
+"L4G43_N333";
+"L4G43_N334";
+"L4G43_N335";
+"L4G43_N336";
+"L4G43_N337" [peripheries=2];
+"L4G43_N308"->"L4G43_N309" [style = bold, label = "[g]"];
+"L4G43_N310"->"L4G43_N311" [style = bold, label = "[d]"];
+"L4G43_N312"->"L4G43_N313" [style = bold, label = "[e]"];
+"L4G43_N314"->"L4G43_N310";
+"L4G43_N314"->"L4G43_N312";
+"L4G43_N313"->"L4G43_N315";
+"L4G43_N311"->"L4G43_N315";
+"L4G43_N309"->"L4G43_N314";
+"L4G43_N316"->"L4G43_N317" [style = bold, label = "[a]"];
+"L4G43_N318"->"L4G43_N319" [style = bold, label = "[d]"];
+"L4G43_N320"->"L4G43_N321" [style = bold, label = "[b]"];
+"L4G43_N322"->"L4G43_N320";
+"L4G43_N321"->"L4G43_N323";
+"L4G43_N321"->"L4G43_N320";
+"L4G43_N319"->"L4G43_N322";
+"L4G43_N324"->"L4G43_N316";
+"L4G43_N324"->"L4G43_N318";
+"L4G43_N323"->"L4G43_N325";
+"L4G43_N317"->"L4G43_N325";
+"L4G43_N326"->"L4G43_N327" [style = bold, label = "[l]"];
+"L4G43_N328"->"L4G43_N329" [style = bold, label = "[c]"];
+"L4G43_N330"->"L4G43_N328";
+"L4G43_N329"->"L4G43_N331";
+"L4G43_N330"->"L4G43_N331";
+"L4G43_N329"->"L4G43_N328";
+"L4G43_N327"->"L4G43_N330";
+"L4G43_N332"->"L4G43_N324";
+"L4G43_N332"->"L4G43_N326";
+"L4G43_N331"->"L4G43_N333";
+"L4G43_N325"->"L4G43_N333";
+"L4G43_N334"->"L4G43_N332";
+"L4G43_N333"->"L4G43_N335";
+"L4G43_N333"->"L4G43_N332";
+"L4G43_N315"->"L4G43_N334";
+"L4G43_N336"->"L4G43_N337" [style = bold, label = "[z]"];
+"L4G43_N335"->"L4G43_N336";
+
+//G43
+
+"L4G44_N338" [style=filled,fillcolor=green];
+"L4G44_N339" [peripheries=2];
+"L4G44_N338"->"L4G44_N339" [style = bold, label = "[f]"];
+
+//G44
+
+"L4G45_N340";
+"L4G45_N341";
+"L4G45_N342";
+"L4G45_N343";
+"L4G45_N344";
+"L4G45_N345";
+"L4G45_N346";
+"L4G45_N347";
+"L4G45_N348";
+"L4G45_N349";
+"L4G45_N350";
+"L4G45_N351";
+"L4G45_N352";
+"L4G45_N353";
+"L4G45_N354";
+"L4G45_N355";
+"L4G45_N356";
+"L4G45_N357";
+"L4G45_N358";
+"L4G45_N359";
+"L4G45_N360";
+"L4G45_N361";
+"L4G45_N362";
+"L4G45_N363";
+"L4G45_N364";
+"L4G45_N365";
+"L4G45_N366";
+"L4G45_N367";
+"L4G45_N368";
+"L4G45_N369";
+"L4G45_N370";
+"L4G45_N371";
+"L4G45_N372" [style=filled,fillcolor=green];
+"L4G45_N373" [peripheries=2];
+"L4G45_N340"->"L4G45_N341" [style = bold, label = "[g]"];
+"L4G45_N342"->"L4G45_N343" [style = bold, label = "[d]"];
+"L4G45_N344"->"L4G45_N345" [style = bold, label = "[e]"];
+"L4G45_N346"->"L4G45_N342";
+"L4G45_N346"->"L4G45_N344";
+"L4G45_N345"->"L4G45_N347";
+"L4G45_N343"->"L4G45_N347";
+"L4G45_N341"->"L4G45_N346";
+"L4G45_N348"->"L4G45_N349" [style = bold, label = "[a]"];
+"L4G45_N350"->"L4G45_N351" [style = bold, label = "[d]"];
+"L4G45_N352"->"L4G45_N353" [style = bold, label = "[b]"];
+"L4G45_N354"->"L4G45_N352";
+"L4G45_N353"->"L4G45_N355";
+"L4G45_N353"->"L4G45_N352";
+"L4G45_N351"->"L4G45_N354";
+"L4G45_N356"->"L4G45_N348";
+"L4G45_N356"->"L4G45_N350";
+"L4G45_N355"->"L4G45_N357";
+"L4G45_N349"->"L4G45_N357";
+"L4G45_N358"->"L4G45_N359" [style = bold, label = "[l]"];
+"L4G45_N360"->"L4G45_N361" [style = bold, label = "[c]"];
+"L4G45_N362"->"L4G45_N360";
+"L4G45_N361"->"L4G45_N363";
+"L4G45_N362"->"L4G45_N363";
+"L4G45_N361"->"L4G45_N360";
+"L4G45_N359"->"L4G45_N362";
+"L4G45_N364"->"L4G45_N356";
+"L4G45_N364"->"L4G45_N358";
+"L4G45_N363"->"L4G45_N365";
+"L4G45_N357"->"L4G45_N365";
+"L4G45_N366"->"L4G45_N364";
+"L4G45_N365"->"L4G45_N367";
+"L4G45_N365"->"L4G45_N364";
+"L4G45_N347"->"L4G45_N366";
+"L4G45_N368"->"L4G45_N369" [style = bold, label = "[z]"];
+"L4G45_N367"->"L4G45_N368";
+"L4G45_N370"->"L4G45_N371" [style = bold, label = "[f]"];
+"L4G45_N372"->"L4G45_N340";
+"L4G45_N372"->"L4G45_N370";
+"L4G45_N371"->"L4G45_N373";
+"L4G45_N369"->"L4G45_N373";
+
+//G45
+
+"L1G46_N374";
+"L1G46_N375";
+"L1G46_N376";
+"L1G46_N377";
+"L2G46_N378";
+"L2G46_N379";
+"L2G46_N380";
+"L2G46_N381";
+"L2G46_N382";
+"L2G46_N383";
+"L2G46_N384";
+"L2G46_N385";
+"L2G46_N386";
+"L2G46_N387";
+"L2G46_N388";
+"L2G46_N389";
+"L2G46_N390";
+"L2G46_N391";
+"L2G46_N392";
+"L2G46_N393";
+"L2G46_N394";
+"L2G46_N395";
+"L2G46_N396";
+"L2G46_N397";
+"L2G46_N398";
+"L2G46_N399";
+"G46_N400";
+"G46_N401";
+"L3G46_N402";
+"L3G46_N403";
+"L3G46_N404";
+"L3G46_N405";
+"L3G46_N406";
+"L3G46_N407";
+"L3G46_N408";
+"L3G46_N409";
+"L3G46_N410";
+"L3G46_N411";
+"G46_N412";
+"G46_N413";
+"L4G46_N414";
+"L4G46_N415";
+"L4G46_N416";
+"L4G46_N417";
+"L4G46_N418";
+"L4G46_N419";
+"L4G46_N420";
+"L4G46_N421";
+"L4G46_N422";
+"L4G46_N423";
+"L4G46_N424";
+"L4G46_N425";
+"L4G46_N426";
+"L4G46_N427";
+"L4G46_N428";
+"L4G46_N429";
+"L4G46_N430";
+"L4G46_N431";
+"L4G46_N432";
+"L4G46_N433";
+"L4G46_N434";
+"L4G46_N435";
+"L4G46_N436";
+"L4G46_N437";
+"L4G46_N438";
+"L4G46_N439";
+"L4G46_N440";
+"L4G46_N441";
+"L4G46_N442";
+"L4G46_N443";
+"L4G46_N444";
+"L4G46_N445";
+"L4G46_N446";
+"L4G46_N447";
+"G46_N448" [style=filled,fillcolor=green];
+"G46_N449" [peripheries=2];
+"L1G46_N374"->"L1G46_N375" [style = bold, label = "[a]"];
+"L1G46_N376"->"L1G46_N377" [style = bold, label = "[b]"];
+"L1G46_N375"->"L1G46_N376";
+"L2G46_N378"->"L2G46_N379" [style = bold, label = "[0]"];
+"L2G46_N380"->"L2G46_N381" [style = bold, label = "[1]"];
+"L2G46_N379"->"L2G46_N380";
+"L2G46_N382"->"L2G46_N383" [style = bold, label = "[a-z]"];
+"L2G46_N384"->"L2G46_N378";
+"L2G46_N384"->"L2G46_N382";
+"L2G46_N383"->"L2G46_N385";
+"L2G46_N381"->"L2G46_N385";
+"L2G46_N386"->"L2G46_N384";
+"L2G46_N385"->"L2G46_N387";
+"L2G46_N385"->"L2G46_N384";
+"L2G46_N388"->"L2G46_N389" [style = bold, label = "[0]"];
+"L2G46_N390"->"L2G46_N391" [style = bold, label = "[2]"];
+"L2G46_N389"->"L2G46_N390";
+"L2G46_N392"->"L2G46_N393" [style = bold, label = "[A-Z]"];
+"L2G46_N394"->"L2G46_N388";
+"L2G46_N394"->"L2G46_N392";
+"L2G46_N393"->"L2G46_N395";
+"L2G46_N391"->"L2G46_N395";
+"L2G46_N396"->"L2G46_N394";
+"L2G46_N395"->"L2G46_N397";
+"L2G46_N395"->"L2G46_N394";
+"L2G46_N398"->"L2G46_N386";
+"L2G46_N398"->"L2G46_N396";
+"L2G46_N397"->"L2G46_N399";
+"L2G46_N387"->"L2G46_N399";
+"G46_N400"->"L1G46_N374";
+"G46_N400"->"L2G46_N398";
+"L2G46_N399"->"G46_N401";
+"L1G46_N377"->"G46_N401";
+"L3G46_N402"->"L3G46_N403" [style = bold, label = "[0]"];
+"L3G46_N404"->"L3G46_N405" [style = bold, label = "[1-9]"];
+"L3G46_N406"->"L3G46_N407" [style = bold, label = "[0-9]"];
+"L3G46_N408"->"L3G46_N406";
+"L3G46_N407"->"L3G46_N409";
+"L3G46_N408"->"L3G46_N409";
+"L3G46_N407"->"L3G46_N406";
+"L3G46_N405"->"L3G46_N408";
+"L3G46_N410"->"L3G46_N402";
+"L3G46_N410"->"L3G46_N404";
+"L3G46_N409"->"L3G46_N411";
+"L3G46_N403"->"L3G46_N411";
+"G46_N412"->"G46_N400";
+"G46_N412"->"L3G46_N410";
+"L3G46_N411"->"G46_N413";
+"G46_N401"->"G46_N413";
+"L4G46_N414"->"L4G46_N415" [style = bold, label = "[g]"];
+"L4G46_N416"->"L4G46_N417" [style = bold, label = "[d]"];
+"L4G46_N418"->"L4G46_N419" [style = bold, label = "[e]"];
+"L4G46_N420"->"L4G46_N416";
+"L4G46_N420"->"L4G46_N418";
+"L4G46_N419"->"L4G46_N421";
+"L4G46_N417"->"L4G46_N421";
+"L4G46_N415"->"L4G46_N420";
+"L4G46_N422"->"L4G46_N423" [style = bold, label = "[a]"];
+"L4G46_N424"->"L4G46_N425" [style = bold, label = "[d]"];
+"L4G46_N426"->"L4G46_N427" [style = bold, label = "[b]"];
+"L4G46_N428"->"L4G46_N426";
+"L4G46_N427"->"L4G46_N429";
+"L4G46_N427"->"L4G46_N426";
+"L4G46_N425"->"L4G46_N428";
+"L4G46_N430"->"L4G46_N422";
+"L4G46_N430"->"L4G46_N424";
+"L4G46_N429"->"L4G46_N431";
+"L4G46_N423"->"L4G46_N431";
+"L4G46_N432"->"L4G46_N433" [style = bold, label = "[l]"];
+"L4G46_N434"->"L4G46_N435" [style = bold, label = "[c]"];
+"L4G46_N436"->"L4G46_N434";
+"L4G46_N435"->"L4G46_N437";
+"L4G46_N436"->"L4G46_N437";
+"L4G46_N435"->"L4G46_N434";
+"L4G46_N433"->"L4G46_N436";
+"L4G46_N438"->"L4G46_N430";
+"L4G46_N438"->"L4G46_N432";
+"L4G46_N437"->"L4G46_N439";
+"L4G46_N431"->"L4G46_N439";
+"L4G46_N440"->"L4G46_N438";
+"L4G46_N439"->"L4G46_N441";
+"L4G46_N439"->"L4G46_N438";
+"L4G46_N421"->"L4G46_N440";
+"L4G46_N442"->"L4G46_N443" [style = bold, label = "[z]"];
+"L4G46_N441"->"L4G46_N442";
+"L4G46_N444"->"L4G46_N445" [style = bold, label = "[f]"];
+"L4G46_N446"->"L4G46_N414";
+"L4G46_N446"->"L4G46_N444";
+"L4G46_N445"->"L4G46_N447";
+"L4G46_N443"->"L4G46_N447";
+"G46_N448"->"G46_N412";
+"G46_N448"->"L4G46_N446";
+"L4G46_N447"->"G46_N449";
+"G46_N413"->"G46_N449";
+
+//G46
+} 

@@ -112,7 +112,6 @@ namespace Parser.UOPCore
         internal FAInfo(FA fa) {
             m_fa = fa;
         }
-
         
         internal CGraphNode M_Initial {
             get => m_initial;
@@ -127,7 +126,6 @@ namespace Parser.UOPCore
         internal List<CGraphNode> GetFinalStates(){
             return new List<CGraphNode>(m_final);
         }
-
     }
 
     /// <summary>
@@ -135,7 +133,7 @@ namespace Parser.UOPCore
     /// the information through methods and properties
     /// </summary>
     [Serializable]
-    public class FAStateInfo :CGraphNode{
+    public class FAStateInfo {
         private FAStateType m_stateType;
         /// <summary>
         /// It is the string prefix applied to the current node of the FA

@@ -28,6 +28,11 @@ namespace Parser.SubsetConstruction {
 
             private Dictionary<uint, FA> m_resultDFAs=new Dictionary<uint, FA>();
 
+            /// <summary>
+            /// This dictionary records the configurations derived from each algorithm's iteration
+            /// </summary>
+            private Dictionary<uint,CConfigurations> m_configurations = new Dictionary<uint, CConfigurations>();
+
             public class IterationRecord {
                 HashSet<CGraphNode> m_currentConfiguration;
                 CGraphNode m_currentDFAnode;
@@ -126,6 +131,16 @@ namespace Parser.SubsetConstruction {
                 }
             }
 
+            /// <summary>
+            /// At the end of subset construction for each regular expression when configurations
+            /// have been produced call this method to update the configurations field in
+            /// the current class object
+            /// </summary>
+            /// <param name="conf"></param>
+            public void UpdateConfigurations(CConfigurations conf, uint iteration) {
+                m_configurations[iteration] = conf;
+            }
+
             public void Report(string filename) {
 
                 StreamWriter wstream = new StreamWriter(filename);
@@ -161,7 +176,25 @@ namespace Parser.SubsetConstruction {
                     wstream.Write("\n\nNet RE {0} Result :",iteration.Key);
                     CIt_GraphNodes itf =  new CIt_GraphNodes(M_ResultDfAs[iteration.Key]);
                     for (itf.Begin(); !itf.End(); itf.Next()) {
-                        wstream.Write("{0},",itf.M_CurrentItem.M_Label);
+                        wstream.Write("{0} (",itf.M_CurrentItem.M_Label);
+                        if (Facade.GetOperationModeCode()) {
+                            foreach (CGraphNode node in m_configurations[iteration.Key]
+                                .GetDFANodeConfiguration(itf.M_CurrentItem)) {
+                                wstream.Write("{0},", node.M_Label);
+                            }
+
+                            wstream.Write("),");
+                        }
+                        else {
+                            wstream.Write("{0} (", itf.M_CurrentItem.M_Label);
+                            if (Facade.GetOperationModeCode()) {
+                                foreach (CGraphNode node in m_configurations[0]
+                                    .GetDFANodeConfiguration(itf.M_CurrentItem)) {
+                                    wstream.Write("{0},", node.M_Label);
+                                }
+                                wstream.Write("),");
+                            }
+                        }
                     }
                 }
                 wstream.Close();
@@ -223,6 +256,9 @@ namespace Parser.SubsetConstruction {
                 m_configurations = new CConfigurations(m_currentDFA, m_currentNFA);
                 m_configurations.CreateDFANode(q0);
 
+                /// ******************** DEBUG *************************
+                m_reporting.UpdateConfigurations(m_configurations, m_currentRE);
+                
                 //WorkList ← { q0};
                 m_workList.Enqueue(q0);
 
@@ -286,7 +322,7 @@ namespace Parser.SubsetConstruction {
                 // Update the DFA alphabet to reflect all the characters appearing 
                 // on the edges
                 m_currentDFA.UpdateAlphabet();
-
+                
                 m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
                 m_currentDFA.Generate(@"mergeDFA"+m_currentRE+".dot", true);
                 
@@ -393,6 +429,15 @@ namespace Parser.SubsetConstruction {
                     }
                 }
                 return DFAnode;
+            }
+
+            /// <summary>
+            /// Returns the NFA nodes included in a DFA node
+            /// </summary>
+            /// <param name="node">The DFA node</param>
+            /// <returns></returns>
+            public List<CGraphNode> GetDFANodeConfiguration(CGraphNode node) {
+                return new List<CGraphNode>(m_mappings[node]);
             }
 
             public bool ContainsFinalState(HashSet<CGraphNode> q) {

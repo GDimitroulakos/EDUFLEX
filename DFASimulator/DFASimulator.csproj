@@ -87,6 +87,11 @@
     <Content Include="..\Parser\bin\Debug\source.txt">
       <Link>source.txt</Link>
     </Content>
+    <Content Include="Testbench\HOPCROFTReport1.txt" />
+    <Content Include="Testbench\HOPCROFTReport2.txt" />
+    <Content Include="Testbench\HOPCROFTReport3.txt" />
+    <Content Include="Testbench\HOPCROFTReport4.txt" />
+    <Content Include="Testbench\SubsetREPORT.txt" />
     <Content Include="Testbench\test1.txt" />
   </ItemGroup>
   <ItemGroup>

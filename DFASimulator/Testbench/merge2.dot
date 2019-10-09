@@ -5,7 +5,7 @@ digraph G15{
 "G15_N67";
 "G15_N68";
 "G15_N69";
-"G15_N70";
+"G15_N70" [style=filled,fillcolor=red];
 "G15_N71";
 "G15_N72";
 "G15_N73";
@@ -15,7 +15,7 @@ digraph G15{
 "G15_N77";
 "G15_N78";
 "G15_N79";
-"G15_N80";
+"G15_N80" [style=filled,fillcolor=red];
 "G15_N81";
 "G15_N82";
 "G15_N83";

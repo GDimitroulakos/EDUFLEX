@@ -77,6 +77,7 @@
     <Compile Include="ASTVisitor\ConcreteVisitors\ASTPrinter.cs" />
     <Compile Include="Hopcroft\HopcroftAlgorithmStructured.cs" />
     <Compile Include="SubsetConstruction\SubsetConstructionStructured.cs" />
+    <Compile Include="SubsetConstruction\SubsetGraphvizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonAlgorithmStructured.cs" />
     <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
     <Compile Include="UOPCore\FAGraphVizPrinter.cs" />

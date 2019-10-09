@@ -81,11 +81,14 @@ namespace Parser.Hopcroft {
 
         public FA MinimizedDfa => m_minimizedDFA;
 
+        CHopcroftReporting m_reporting;
+
         public CHopcroftAlgorithm(FA dfa) {
             m_DFA = dfa;
             m_minimizedDFA = new FA();
             m_nodeConfiguration = new HopcroftInputGraphQueryInfo(m_DFA,m_HOPCROFTCONFIGURATIONKEY);
             m_minDFANodeConfiguration = new HopcroftOutputGraphQueryInfo(m_minimizedDFA,m_HOPCROFTCONFIGURATIONKEY);
+            m_reporting = new CHopcroftReporting(m_minDFANodeConfiguration, m_nodeConfiguration);
         }
 
         public void Init() {
@@ -126,14 +129,28 @@ namespace Parser.Hopcroft {
                 }
             }
 
+            // ************************* Debug Initialization ***************************
+            m_DFA.RegisterGraphPrinter(new FATextPrinter(m_DFA));
+            m_DFA.Generate("HopCroft_InitialDFA_.txt");
+            m_reporting.SetInitialMinDFAStatesContents(acceptedConf, configurationAcc, non_acceptedConf, configurationNonAcc);
+
             int nodeCount = 0;
+            int iteration_count = 0;
             CIt_GraphNodes minDFA_it = new CIt_GraphNodes(m_minimizedDFA);
             // Iterate while the algorithm reaches a fixed point state
             while (nodeCount != m_minimizedDFA.M_NumberOfNodes) {
 
                 nodeCount = m_minimizedDFA.M_NumberOfNodes;
 
+                // ************************* Debug  ***************************
+                CIterationRecord currentIteration = m_reporting.AddIteration(iteration_count);
+
                 for (minDFA_it.Begin(); !minDFA_it.End(); minDFA_it.Next()) {
+
+                    // ************************* Debug  ***************************
+                    currentIteration.M_NodesToInspect.Add(minDFA_it.M_CurrentItem);
+                    currentIteration.M_InitialNodesConfiguration.Add(minDFA_it.M_CurrentItem, new List<CGraphNode>(GetNodesInConfiguration(minDFA_it.M_CurrentItem)));
+
                     Split(minDFA_it.M_CurrentItem);
                 }
             }
@@ -214,13 +231,13 @@ namespace Parser.Hopcroft {
                 m_minimizedDFA.PrefixElementLabel(m_minimizedDFA.GetFANodePrefix(it1.M_CurrentItem), it1.M_CurrentItem);
             }
 
-            
+            m_reporting.Report("HOPCROFTReport.txt");
 
             FASerializer serializer =new FASerializer(m_minimizedDFA);
             serializer.Print();
 
             m_DFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_minimizedDFA,new UOPCore.Options<ThompsonOptions>()));
-            m_DFA.Generate(@"../Debug/minimizedDFA.dot", true);
+            m_DFA.Generate(@"minimizedDFA.dot", true);
         }
         /// <summary>
         /// Splits the specified minimized-DFA node.
@@ -254,6 +271,9 @@ namespace Parser.Hopcroft {
 
             CGraphNode sourcePartition,sourceConfiguration,targetConfiguration, NULLPartition = m_minimizedDFA.CreateGraphNode<CGraphNode>();
 
+            // ********************** debug ***********************
+            m_reporting.AddSplitRecord(node);
+
             // For each character range in the initial DFA alphabet character set
             foreach (CCharRange range in m_DFA.M_Alphabet) {
                 // For each character in the given range
@@ -262,9 +282,12 @@ namespace Parser.Hopcroft {
                     // For each initial DFA node in the current minimized-DFA node check
                     // the transitions for each given character. 
                     foreach (CGraphNode iNode in currentConfiguration) {
+
+                        CGraphNode targetConfigurationNode;
+
                         // Cache initial DFA transitions for the given character from initial DFA's 
                         // nodes in the current considered configuration to the min DFA configurations  
-                        targetConfiguration = GetTargetNodeConfiguration(iNode, ch);
+                        targetConfiguration = GetTargetNodeConfiguration(iNode, ch, out targetConfigurationNode);
 
                         if (targetConfiguration != null) {
                             // Node (of the initial-DFA) maps to the targetPartition of the
@@ -282,6 +305,8 @@ namespace Parser.Hopcroft {
                                 // So we will look how many other nodes will exhibit the same behaviour in the
                                 // following loop. 
                             }
+                            // ********************** debug ***********************
+                            m_reporting.AddBehaviour(new Tuple<CGraphNode, int, CGraphNode, CGraphNode>(iNode, ch, targetConfigurationNode, targetConfiguration));
                         }
                         else {
                             m_CharConfigurationMappings[iNode] = NULLPartition;
@@ -289,6 +314,9 @@ namespace Parser.Hopcroft {
                                 sourceConfiguration = GetNodeConfiguration(iNode);
                                 m_NodeConfigurationMappings[NULLPartition] = sourceConfiguration;
                             }
+
+                            // ********************** debug ***********************
+                            m_reporting.AddBehaviour(new Tuple<CGraphNode, int, CGraphNode, CGraphNode>(iNode, ch, targetConfigurationNode, NULLPartition));
                         }
                         i++;
                     }
@@ -306,6 +334,8 @@ namespace Parser.Hopcroft {
                             // currentConfiguration. The expected behaviour is to have the same 
                             // target configuration. If not, then they must be separated
 
+                            // ********************** debug ***********************
+                            CHopcroftSplitAction splitAct;
 
                             if (!m_NodeConfigurationMappings.ContainsKey(m_CharConfigurationMappings[n])){
                                 // Check if a configuration has already being identified that has 
@@ -332,6 +362,9 @@ namespace Parser.Hopcroft {
                                 newConfiguration.Add(n);
                                 // b4. Update partitions' configuration
                                 m_NodeConfigurationMappings[m_CharConfigurationMappings[n]] = newp;
+
+                                // ********************** debug ***********************
+                                splitAct = m_reporting.AddSplit(new Tuple<int, CGraphNode>(ch, newp), GetNodesInConfiguration(node), GetNodesInConfiguration(newp));
                             }
                             else {
                                 //.. else of the partition that n node goes to exists just 
@@ -348,6 +381,9 @@ namespace Parser.Hopcroft {
                                 currentConfiguration.Remove(n);
                                 // b3. Update new configuration
                                 c.Add(n);
+
+                                // ********************** debug ***********************
+                                splitAct = m_reporting.AddSplit(new Tuple<int, CGraphNode>(ch, sourcePartition), GetNodesInConfiguration(node), GetNodesInConfiguration(sourcePartition));
                             }
                         }
                     }
@@ -363,7 +399,7 @@ namespace Parser.Hopcroft {
         }
 
         // Works only for the initial DFA's nodes
-        public CGraphNode GetTargetNodeConfiguration(CGraphNode node, Int32 character) {
+        /*public CGraphNode GetTargetNodeConfiguration(CGraphNode node, Int32 character) {
 
             if (m_DFA.IsANodeOfGraph(node)) {
 
@@ -376,6 +412,23 @@ namespace Parser.Hopcroft {
                 }
             }
             else {
+                return null;
+            }
+        }*/
+        public CGraphNode GetTargetNodeConfiguration(CGraphNode node, Int32 character, out CGraphNode targetConfigurationNode) {
+
+            if (m_DFA.IsANodeOfGraph(node)) {
+
+                targetConfigurationNode = m_DFA.GetTransitionTarget(node, character);
+                if (targetConfigurationNode != null) {
+                    return GetNodeConfiguration(targetConfigurationNode) as CGraphNode;
+                }
+                else {
+                    return null;
+                }
+            }
+            else {
+                targetConfigurationNode = null;
                 return null;
             }
         }

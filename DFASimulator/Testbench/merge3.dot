@@ -3,7 +3,7 @@ digraph G21{
 "G21_N103";
 "G21_N104";
 "G21_N105";
-"G21_N106";
+"G21_N106" [style=filled,fillcolor=red];
 "G21_N107";
 "G21_N108";
 "G21_N109";

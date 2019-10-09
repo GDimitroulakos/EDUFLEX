@@ -11,7 +11,7 @@ digraph G43{
 "G43_N281";
 "G43_N282";
 "G43_N283";
-"G43_N284";
+"G43_N284" [style=filled,fillcolor=red];
 "G43_N285";
 "G43_N286";
 "G43_N287";
@@ -19,11 +19,11 @@ digraph G43{
 "G43_N289";
 "G43_N290";
 "G43_N291";
-"G43_N292";
+"G43_N292" [style=filled,fillcolor=red];
 "G43_N293";
 "G43_N294";
 "G43_N295";
-"G43_N296";
+"G43_N296" [style=filled,fillcolor=red];
 "G43_N297";
 "G43_N298";
 "G43_N299";

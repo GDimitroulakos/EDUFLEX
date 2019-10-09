@@ -67,6 +67,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_newFASource, m_newFATarget, GraphType.GT_DIRECTED);
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), true);
 
         //7.Return result
         return m_currentFA;
