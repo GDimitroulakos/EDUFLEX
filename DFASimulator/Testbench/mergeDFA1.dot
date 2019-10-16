@@ -1,9 +1,9 @@
-digraph G45{
-"L1G45_N312" [style=filled,fillcolor=green];
-"L1G45_N313" [peripheries=2];
-"L1G45_N314" [peripheries=2];
-"L1G45_N312"->"L1G45_N313" [style = bold, label = "[a]"];
-"L1G45_N313"->"L1G45_N314" [style = bold, label = "[b]"];
-"L1G45_N314"->"L1G45_N314" [style = bold, label = "[b]"];
+digraph G47{
+"L1G47_N338" [style=filled,fillcolor=green];
+"L1G47_N339" [peripheries=2];
+"L1G47_N340" [peripheries=2];
+"L1G47_N338"->"L1G47_N339" [style = bold, label = "[a]"];
+"L1G47_N339"->"L1G47_N340" [style = bold, label = "[b]"];
+"L1G47_N340"->"L1G47_N340" [style = bold, label = "[b]"];
 }
 

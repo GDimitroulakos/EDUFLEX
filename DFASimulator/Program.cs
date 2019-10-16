@@ -195,10 +195,8 @@ namespace DFASimulator {
                 }
                 else {
                     Console.WriteLine("Lexical Error !!!");
+                    break;
                 }
-
-
-
             }
             
             return 0;

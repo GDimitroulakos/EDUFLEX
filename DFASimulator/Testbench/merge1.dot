@@ -2,7 +2,7 @@ digraph G3{
 "L1G3_N8" [style=filled,fillcolor=green];
 "L1G3_N9";
 "L1G3_N10" [style=filled,fillcolor=red];
-"L1G3_N11";
+"L1G3_N11" [style=filled,fillcolor=purple];
 "L1G3_N12";
 "L1G3_N13" [peripheries=2];
 "L1G3_N8"->"L1G3_N9" [style = bold, label = "[a]"];
@@ -10,7 +10,7 @@ digraph G3{
 "L1G3_N12"->"L1G3_N10";
 "L1G3_N11"->"L1G3_N13";
 "L1G3_N12"->"L1G3_N13";
-"L1G3_N11"->"L1G3_N10";
+"L1G3_N11"->"L1G3_N10" [color=red,style = bold, label = ""];
 "L1G3_N9"->"L1G3_N12";
 }
 

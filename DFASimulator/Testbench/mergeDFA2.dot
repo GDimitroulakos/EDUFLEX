@@ -1,26 +1,28 @@
-digraph G46{
-"L2G46_N315" [style=filled,fillcolor=green];
-"L2G46_N316";
-"L2G46_N317" [peripheries=2];
-"L2G46_N318" [peripheries=2];
-"L2G46_N319" [peripheries=2];
-"L2G46_N320" [peripheries=2];
-"L2G46_N321";
-"L2G46_N322";
-"L2G46_N315"->"L2G46_N316" [style = bold, label = "[0]"];
-"L2G46_N315"->"L2G46_N317" [style = bold, label = "[A-Z]"];
-"L2G46_N315"->"L2G46_N318" [style = bold, label = "[a-z]"];
-"L2G46_N316"->"L2G46_N319" [style = bold, label = "[1]"];
-"L2G46_N316"->"L2G46_N320" [style = bold, label = "[2]"];
-"L2G46_N317"->"L2G46_N321" [style = bold, label = "[0]"];
-"L2G46_N317"->"L2G46_N317" [style = bold, label = "[A-Z]"];
-"L2G46_N318"->"L2G46_N322" [style = bold, label = "[0]"];
-"L2G46_N318"->"L2G46_N318" [style = bold, label = "[a-z]"];
-"L2G46_N319"->"L2G46_N322" [style = bold, label = "[0]"];
-"L2G46_N319"->"L2G46_N318" [style = bold, label = "[a-z]"];
-"L2G46_N320"->"L2G46_N321" [style = bold, label = "[0]"];
-"L2G46_N320"->"L2G46_N317" [style = bold, label = "[A-Z]"];
-"L2G46_N321"->"L2G46_N320" [style = bold, label = "[2]"];
-"L2G46_N322"->"L2G46_N319" [style = bold, label = "[1]"];
+digraph G48{
+"L2G48_N341" [style=filled,fillcolor=green];
+"L2G48_N342";
+"L2G48_N343";
+"L2G48_N344" [peripheries=2];
+"L2G48_N345" [peripheries=2];
+"L2G48_N346" [peripheries=2];
+"L2G48_N347" [peripheries=2];
+"L2G48_N348";
+"L2G48_N349";
+"L2G48_N341"->"L2G48_N342" [style = bold, label = "[d]"];
+"L2G48_N342"->"L2G48_N343" [style = bold, label = "[0]"];
+"L2G48_N342"->"L2G48_N344" [style = bold, label = "[A-Z]"];
+"L2G48_N342"->"L2G48_N345" [style = bold, label = "[a-z]"];
+"L2G48_N343"->"L2G48_N346" [style = bold, label = "[1]"];
+"L2G48_N343"->"L2G48_N347" [style = bold, label = "[2]"];
+"L2G48_N344"->"L2G48_N348" [style = bold, label = "[0]"];
+"L2G48_N344"->"L2G48_N344" [style = bold, label = "[A-Z]"];
+"L2G48_N345"->"L2G48_N349" [style = bold, label = "[0]"];
+"L2G48_N345"->"L2G48_N345" [style = bold, label = "[a-z]"];
+"L2G48_N346"->"L2G48_N349" [style = bold, label = "[0]"];
+"L2G48_N346"->"L2G48_N345" [style = bold, label = "[a-z]"];
+"L2G48_N347"->"L2G48_N348" [style = bold, label = "[0]"];
+"L2G48_N347"->"L2G48_N344" [style = bold, label = "[A-Z]"];
+"L2G48_N348"->"L2G48_N347" [style = bold, label = "[2]"];
+"L2G48_N349"->"L2G48_N346" [style = bold, label = "[1]"];
 }
 

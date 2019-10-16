@@ -64,10 +64,13 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         // 1. Create new FA
         FA m_currentFA = CreateNewFA(synth);
         
+        // Draw closure override edge that connects the initial and the final node
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_newFASource, m_newFATarget, GraphType.GT_DIRECTED);
+        // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
         m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), true);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
 
         //7.Return result
         return m_currentFA;
@@ -75,11 +78,12 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
 
     internal FA SynthesisOneOrMul(FA synth){
         m_currentFA = CreateNewFA(synth);
-
+        // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
-        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),true);
 
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),true);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
         //7.Return result
         return m_currentFA;
     }
@@ -104,6 +108,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
             m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
                 GraphType.GT_DIRECTED);
             m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), true);
+            m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
         }
 
         return m_currentFA;

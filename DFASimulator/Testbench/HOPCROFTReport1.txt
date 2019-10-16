@@ -1,19 +1,19 @@
 ***************** Initialization *****************
-Initial Accepted States (L1G49_N338): L1G45_N313, L1G45_N314, 
+Initial Accepted States (L1G51_N365): L1G47_N339, L1G47_N340, 
 
-Initial Non-Accepted States (L1G49_N339): L1G45_N312, 
+Initial Non-Accepted States (L1G51_N366): L1G47_N338, 
 
 Iteration: 0 
-Nodes to inspect for splitting: L1G49_N338(L1G45_N313,L1G45_N314,), L1G49_N339(L1G45_N312,), 
+Nodes to inspect for splitting: L1G51_N365(L1G47_N339,L1G47_N340,), L1G51_N366(L1G47_N338,), 
 
 
-		Node to Inspect for Splitting: L1G49_N338
-			L1G49_N338(L1G45_N313)----a--->NULL()
-			L1G49_N338(L1G45_N314)----a--->NULL()
-			L1G49_N338(L1G45_N313)----b--->L1G49_N338(L1G45_N314)
-			L1G49_N338(L1G45_N314)----b--->L1G49_N338(L1G45_N314)
+		Node to Inspect for Splitting: L1G51_N365
+			L1G51_N365(L1G47_N339)----a--->NULL()
+			L1G51_N365(L1G47_N340)----a--->NULL()
+			L1G51_N365(L1G47_N339)----b--->L1G51_N365(L1G47_N340)
+			L1G51_N365(L1G47_N340)----b--->L1G51_N365(L1G47_N340)
 
 
-		Node to Inspect for Splitting: L1G49_N339
-			L1G49_N339(L1G45_N312)----a--->L1G49_N338(L1G45_N313)
-			L1G49_N339(L1G45_N312)----b--->NULL()
+		Node to Inspect for Splitting: L1G51_N366
+			L1G51_N366(L1G47_N338)----a--->L1G51_N365(L1G47_N339)
+			L1G51_N366(L1G47_N338)----b--->NULL()

@@ -1,25 +1,25 @@
-digraph G22{
-"G22_N108";
-"G22_N109";
-"G22_N110";
-"G22_N111";
-"G22_N112" [style=filled,fillcolor=red];
-"G22_N113";
-"G22_N114";
-"G22_N115";
-"G22_N116" [style=filled,fillcolor=green];
-"G22_N117" [peripheries=2];
-"G22_N108"->"G22_N109" [style = bold, label = "[0]"];
-"G22_N110"->"G22_N111" [style = bold, label = "[1-9]"];
-"G22_N112"->"G22_N113" [style = bold, label = "[0-9]"];
-"G22_N114"->"G22_N112";
-"G22_N113"->"G22_N115";
-"G22_N114"->"G22_N115";
-"G22_N113"->"G22_N112";
-"G22_N111"->"G22_N114";
-"G22_N116"->"G22_N108";
-"G22_N116"->"G22_N110";
-"G22_N115"->"G22_N117";
-"G22_N109"->"G22_N117";
+digraph G24{
+"G24_N134";
+"G24_N135";
+"G24_N136";
+"G24_N137";
+"G24_N138" [style=filled,fillcolor=red];
+"G24_N139" [style=filled,fillcolor=purple];
+"G24_N140";
+"G24_N141";
+"G24_N142" [style=filled,fillcolor=green];
+"G24_N143" [peripheries=2];
+"G24_N134"->"G24_N135" [style = bold, label = "[0]"];
+"G24_N136"->"G24_N137" [style = bold, label = "[1-9]"];
+"G24_N138"->"G24_N139" [style = bold, label = "[0-9]"];
+"G24_N140"->"G24_N138";
+"G24_N139"->"G24_N141";
+"G24_N140"->"G24_N141";
+"G24_N139"->"G24_N138" [color=red,style = bold, label = ""];
+"G24_N137"->"G24_N140";
+"G24_N142"->"G24_N134";
+"G24_N142"->"G24_N136";
+"G24_N141"->"G24_N143";
+"G24_N135"->"G24_N143";
 }
 

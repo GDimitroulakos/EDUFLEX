@@ -16,14 +16,14 @@ namespace Parser.Thompson_Algorithm {
         private ThompsonInfo m_thompsonInfo;
         private FAGraphQueryInfo m_FAInfo;
 
-        internal ThompsonGraphVizPrinter(CGraph graph, UOPCore.Options<ThompsonOptions> options, 
+        internal ThompsonGraphVizPrinter(CGraph graph, UOPCore.Options<ThompsonOptions> options,
             object thompsonkeyinfo,
             CGraphLabeling<CGraphNode> nodeLabeling = null,
             CGraphLabeling<CGraphEdge> edgeLabeling = null
             ) : base(graph, nodeLabeling, edgeLabeling) {
             m_options = options;
             m_thompsonKeyInfo = thompsonkeyinfo;
-            m_thompsonInfo = new ThompsonInfo(graph,m_thompsonKeyInfo);
+            m_thompsonInfo = new ThompsonInfo(graph, m_thompsonKeyInfo);
             m_FAInfo = new FAGraphQueryInfo(graph, FA.m_FAINFOKEY);
         }
 
@@ -52,6 +52,9 @@ namespace Parser.Thompson_Algorithm {
                 else if (m_thompsonInfo.IsNodeClosureEntrance(itn.M_CurrentItem)) {
                     graphvizStringBuilder.Append("\"" + itn.M_CurrentItem.M_Label + "\" [style=filled,fillcolor=red];\n");
                 }
+                else if (m_thompsonInfo.IsNodeClosureExit(itn.M_CurrentItem)) {
+                    graphvizStringBuilder.Append("\"" + itn.M_CurrentItem.M_Label + "\" [style=filled,fillcolor=purple];\n");
+                }
                 else {
                     graphvizStringBuilder.Append("\"" + itn.M_CurrentItem.M_Label + "\";\n");
                 }
@@ -70,6 +73,12 @@ namespace Parser.Thompson_Algorithm {
                 string s = m_FAInfo.Info(g).M_TransitionCharSet?.ToString();
                 if (s != null) {
                     graphvizStringBuilder.AppendFormat(" [style = bold, label = \"" + m_FAInfo.Info(g).M_TransitionCharSet?.ToString() + "\"]");
+                }
+                else {
+                    if (m_thompsonInfo.IsNodeClosureExit(g.M_Source) &&
+                        m_thompsonInfo.IsNodeClosureEntrance(g.M_Target)) {
+                        graphvizStringBuilder.AppendFormat(" [color=red,style = bold, label = \"" + m_FAInfo.Info(g).M_TransitionCharSet?.ToString() + "\"]");
+                    }
                 }
 
                 graphvizStringBuilder.Append(";\r\n");
