@@ -2,21 +2,21 @@ digraph G53{
 "L2G53_N367" [peripheries=2];
 "L2G53_N368" [style=filled,fillcolor=green];
 "L2G53_N369" [peripheries=2];
-"L2G53_N370";
+"L2G53_N370" [peripheries=2];
 "L2G53_N371";
 "L2G53_N372";
 "L2G53_N373";
-"L2G53_N367"->"L2G53_N367" [style = bold, label = "[A-Z]"];
-"L2G53_N367"->"L2G53_N372" [style = bold, label = "[0]"];
-"L2G53_N368"->"L2G53_N370" [style = bold, label = "[d]"];
+"L2G53_N367"->"L2G53_N369" [style = bold, label = "[a-z]"];
+"L2G53_N367"->"L2G53_N370" [style = bold, label = "[A-Z]"];
+"L2G53_N367"->"L2G53_N371" [style = bold, label = "[0]"];
+"L2G53_N368"->"L2G53_N367" [style = bold, label = "[d]"];
 "L2G53_N369"->"L2G53_N369" [style = bold, label = "[a-z]"];
 "L2G53_N369"->"L2G53_N373" [style = bold, label = "[0]"];
-"L2G53_N370"->"L2G53_N367" [style = bold, label = "[A-Z]"];
-"L2G53_N370"->"L2G53_N369" [style = bold, label = "[a-z]"];
-"L2G53_N370"->"L2G53_N371" [style = bold, label = "[0]"];
-"L2G53_N371"->"L2G53_N367" [style = bold, label = "[2]"];
+"L2G53_N370"->"L2G53_N370" [style = bold, label = "[A-Z]"];
+"L2G53_N370"->"L2G53_N372" [style = bold, label = "[0]"];
 "L2G53_N371"->"L2G53_N369" [style = bold, label = "[1]"];
-"L2G53_N372"->"L2G53_N367" [style = bold, label = "[2]"];
+"L2G53_N371"->"L2G53_N370" [style = bold, label = "[2]"];
+"L2G53_N372"->"L2G53_N370" [style = bold, label = "[2]"];
 "L2G53_N373"->"L2G53_N369" [style = bold, label = "[1]"];
 }
 

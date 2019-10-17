@@ -117,8 +117,8 @@ digraph test1{
 "Setchar_114"->"<Z>115";
 "Setofitems_106"->"<]>116";
 "Regexpbasic_parenthesized_88"->"<)>117";
-"Regexp_clos_86"->"Quantifier_oneormultiple_118";
-"Quantifier_oneormultiple_118"->"<+>119";
+"Regexp_clos_86"->"Quantifier_noneormultiple_118";
+"Quantifier_noneormultiple_118"->"<*>119";
 "Regexpbasic_parenthesized_82"->"<)>120";
 "Regexpbasic_parenthesized_34"->"<)>121";
 "Regexp_statement_23"->"Action_code_122";

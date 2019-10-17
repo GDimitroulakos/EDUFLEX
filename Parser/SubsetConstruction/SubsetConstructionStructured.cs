@@ -296,6 +296,15 @@ namespace Parser.SubsetConstruction {
                                     // analysis
                                     m_workList.Enqueue(qprime);
                                     Qprime = m_configurations.CreateDFANode(qprime);
+
+                                    // 1. Check if this node contains both the source and 
+                                    // sink node of a closure loop
+
+                                    // 2. If yes mark this node as a closure node and
+                                    // store closure information
+
+                                    
+
                                 }
 
                                 // Check if an edge between Q and Qprime alredy exists...
@@ -368,9 +377,11 @@ namespace Parser.SubsetConstruction {
             }
 
             /// <summary>
-            /// Creates a unique dfa node for a given configuration
-            /// The method assures that the configuration-dfa node mapping
-            /// is unique
+            /// Creates a unique dfa node for a given configuration or returns
+            /// the existing dfa that corresponds to the given configuration
+            /// The method assures that the configuration-dfa node mapping is unique.
+            /// If the DFA node is a closure node then this information is recorded
+            /// in the SubsetConstructionNodeInfo  
             /// </summary>
             /// <param name="q">The q.</param>
             /// <returns></returns>
@@ -430,7 +441,7 @@ namespace Parser.SubsetConstruction {
                 }
                 return DFAnode;
             }
-
+            
             /// <summary>
             /// Returns the NFA nodes included in a DFA node
             /// </summary>

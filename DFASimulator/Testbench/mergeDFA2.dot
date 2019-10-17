@@ -1,6 +1,6 @@
 digraph G48{
 "L2G48_N341" [style=filled,fillcolor=green];
-"L2G48_N342";
+"L2G48_N342" [peripheries=2];
 "L2G48_N343";
 "L2G48_N344" [peripheries=2];
 "L2G48_N345" [peripheries=2];

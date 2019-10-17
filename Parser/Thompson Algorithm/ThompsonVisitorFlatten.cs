@@ -100,28 +100,34 @@ namespace Parser.Thompson_Algorithm
 
     [Serializable]
     public class ThompsonNodeFAInfo {
-        // True if the node has non-e outward edges
-        private bool m_characterOutwardEdges=false;
         // True if the node is a closure entrance node
         private bool m_closureEntrance=false;
         // True if the node is a closure exit node
         private bool m_closureExit = false;
+        // Refers to the closure subexpression in a regular expression
+        private string m_closureExpression=null;
+        // Unique integer identifying the closure
+        private readonly int? m_closureSerialNumber=null;
 
-        public ThompsonNodeFAInfo() {
+        public ThompsonNodeFAInfo(int? closureSerial = null) {
+            m_closureSerialNumber = closureSerial;
         }
 
-        public bool M_CharacterOutwardEdges {
-            get => m_characterOutwardEdges;
-            set => m_characterOutwardEdges = value;
-        }
-
-        public bool M_ClosureEntrance {
+       public bool M_ClosureEntrance {
             get => m_closureEntrance;
             set => m_closureEntrance = value;
         }
         public bool M_ClosureExit {
             get => m_closureExit;
             set => m_closureExit = value;
+        }
+        public string M_ClosureExpression {
+            get => m_closureExpression;
+            set => m_closureExpression = value;
+        }
+        public int? M_ClosureSerialNumber {
+            get => m_closureSerialNumber;
+            
         }
     }
 
@@ -132,6 +138,13 @@ namespace Parser.Thompson_Algorithm
 
     [Serializable]
     public class ThompsonFAInfo {
+        private static int m_closureCounter = 0;
+
+        public static int M_ClosureCounter => m_closureCounter;
+
+        public static int GetNewClosureSerial() {
+            return m_closureCounter++;
+        }
 
         public ThompsonFAInfo() { }
     }
@@ -142,35 +155,33 @@ namespace Parser.Thompson_Algorithm
            
         }
 
-        public bool IsNodeWithNon_e_Edges(CGraphNode node) {
-            return Info(node).M_CharacterOutwardEdges;
+        public string GetNodeClosureExpression(CGraphNode node) {
+            return Info(node).M_ClosureExpression;
         }
+        public void SetNodeClosureExpression(CGraphNode node, string expression) {
+            Info(node).M_ClosureExpression = expression;
+        }
+
         public bool IsNodeClosureEntrance(CGraphNode node) {
             return Info(node).M_ClosureEntrance;
         }
         public bool IsNodeClosureExit(CGraphNode node) {
             return Info(node).M_ClosureExit;
         }
-        public void SetNodeWithNon_e_Edges(CGraphNode node, bool hasNon_e_edges) {
+        public void SetNodeClosureEntrance(CGraphNode node, int closureSerialNumber) {
             if (Info(node) == null) {
-                InitNodeInfo(node,new ThompsonNodeFAInfo());
+                InitNodeInfo(node, new ThompsonNodeFAInfo(closureSerialNumber));
             }
-            Info(node).M_CharacterOutwardEdges = hasNon_e_edges;
+            Info(node).M_ClosureEntrance = true;
         }
-        public void SetNodeClosureEntrance(CGraphNode node, bool closureEntrance) {
+        public void SetNodeClosureExit(CGraphNode node, int closureSerialNumber) {
             if (Info(node) == null) {
-                InitNodeInfo(node, new ThompsonNodeFAInfo());
+                InitNodeInfo(node, new ThompsonNodeFAInfo(closureSerialNumber));
             }
-            Info(node).M_ClosureEntrance = closureEntrance;
-        }
-        public void SetNodeClosureExit(CGraphNode node, bool closureExit) {
-            if (Info(node) == null) {
-                InitNodeInfo(node, new ThompsonNodeFAInfo());
-            }
-            Info(node).M_ClosureExit = closureExit;
+            Info(node).M_ClosureExit = true;
         }
         public void InitNodeInfo(CGraphNode node, ThompsonNodeFAInfo info) {
-            CreateInfo(node,new ThompsonNodeFAInfo());
+            CreateInfo(node,info);
         }
 
     }

@@ -60,7 +60,8 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         return m_currentFA;
     }
 
-    internal FA SynthesizeNoneOrMul(FA synth){
+    internal FA SynthesizeNoneOrMul(FA synth) {
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         // 1. Create new FA
         FA m_currentFA = CreateNewFA(synth);
         
@@ -69,26 +70,28 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
-        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), true);
-        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
 
         //7.Return result
         return m_currentFA;
     }
 
     internal FA SynthesisOneOrMul(FA synth){
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
         // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
 
-        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),true);
-        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),closureSerial);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
         //7.Return result
         return m_currentFA;
     }
 
     internal FA SynthesizeOneOrNone(FA synth){
+
         m_currentFA = CreateNewFA(synth);
         
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_newFASource, m_newFATarget, GraphType.GT_DIRECTED);
@@ -98,6 +101,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
     }
 
     internal FA SynthesizeFinite(FA synth, int lb, int up) {
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
        
         if (lb == 0) {
@@ -107,8 +111,8 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         if (up > 1) {
             m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
                 GraphType.GT_DIRECTED);
-            m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), true);
-            m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), true);
+            m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
+            m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
         }
 
         return m_currentFA;
@@ -231,6 +235,8 @@ internal class CThompsonRangeTemplate : CThompsonTemplates {
         //2.Create nodes initial-final
         CGraphNode init = m_currentFA.CreateGraphNode<CGraphNode>();
         CGraphNode final = m_currentFA.CreateGraphNode<CGraphNode>();
+        m_ThompsonInfo.InitNodeInfo(init, new ThompsonNodeFAInfo());
+        m_ThompsonInfo.InitNodeInfo(final, new ThompsonNodeFAInfo());
         m_currentFA.M_Initial = init;
         m_currentFA.SetFinalState(final);
         m_currentFA.M_Alphabet.AddRange(rangeNode.MRange);
@@ -239,9 +245,7 @@ internal class CThompsonRangeTemplate : CThompsonTemplates {
         CGraphEdge newEdge = m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
         FAInfo.Info(newEdge).M_TransitionCharSet = (CCharRangeSet)rangeNode.MRange;
         newEdge.SetLabel(rangeNode.MRange.ToString());
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(init, true);
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(final, false);
-
+       
         return m_currentFA;
     }
 }
@@ -259,14 +263,15 @@ internal class CThompsonBasicSet : CThompsonTemplates {
         //Create FA
         CGraphNode init = m_currentFA.CreateGraphNode<CGraphNode>();
         CGraphNode final = m_currentFA.CreateGraphNode<CGraphNode>();
+        m_ThompsonInfo.InitNodeInfo(init, new ThompsonNodeFAInfo());
+        m_ThompsonInfo.InitNodeInfo(final, new ThompsonNodeFAInfo());
+
         m_currentFA.M_Initial = init;
         m_currentFA.SetFinalState(final);
         m_currentFA.M_Alphabet.AddSet(set);
 
         CGraphEdge newEdge = m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
         FAInfo.Info(newEdge).M_TransitionCharSet =set;
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(init, true);
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(final, false);
 
         return m_currentFA;
     }
@@ -285,6 +290,9 @@ internal class CThompsonCharTemplate : CThompsonTemplates {
         //2.Create nodes initial-final
         CGraphNode init = m_currentFA.CreateGraphNode<CGraphNode>();
         CGraphNode final = m_currentFA.CreateGraphNode<CGraphNode>();
+        m_ThompsonInfo.InitNodeInfo(init, new ThompsonNodeFAInfo());
+        m_ThompsonInfo.InitNodeInfo(final, new ThompsonNodeFAInfo());
+
         m_currentFA.M_Initial = init;
         m_currentFA.SetFinalState(final);
         m_currentFA.M_Alphabet.AddSet(set);
@@ -292,8 +300,6 @@ internal class CThompsonCharTemplate : CThompsonTemplates {
         //3.Draw the edge including the character
         CGraphEdge newEdge = m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(init, final, GraphType.GT_DIRECTED);
         FAInfo.Info(newEdge).M_TransitionCharSet = set;
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(init,true);
-        m_ThompsonInfo.SetNodeWithNon_e_Edges(final, false);
         
         return m_currentFA;
     }
