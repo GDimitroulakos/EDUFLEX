@@ -23,14 +23,25 @@ internal abstract class CThompsonTemplates {
     
 }
 
-internal class CThompsonClosureTemplate : CThompsonTemplates
-{
-    public CThompsonClosureTemplate(object infokey) :base(infokey) {
+internal class CThompsonClosureTemplate : CThompsonTemplates {
+    // The text representing the closure in the source text
+    private string m_closureText;
 
+    public string M_ClosureText => m_closureText;
+
+    /// <summary>
+    /// Constructor of the thompson algorithm template class taking the
+    /// Thompson algorithm info key. The key where information about the
+    /// thompson algorithm application will be stored
+    /// </summary>
+    /// <param name="infokey">Thompson algorithm info key</param>
+    public CThompsonClosureTemplate(object infokey,string closureText) :base(infokey) {
+        m_closureText = closureText;
     }
     private FA CreateNewFA(FA synth) {
         FA m_currentFA = new FA();
         m_ThompsonInfo = new ThompsonInfo(m_currentFA, m_ThompsonInfoKey);
+        m_ThompsonInfo.InitFAInfo(new ThompsonFAInfo());
 
         //2.Merge graph
         m_mergeOperation = m_currentFA.Merge(synth, CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
@@ -71,7 +82,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
         m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
+        m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial),m_closureText);
         m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
+        m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]),m_closureText);
 
         //7.Return result
         return m_currentFA;
@@ -85,7 +98,10 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
             GraphType.GT_DIRECTED);
 
         m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),closureSerial);
+        m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_closureText);
         m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
+        m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_closureText);
+
         //7.Return result
         return m_currentFA;
     }
@@ -112,7 +128,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates
             m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
                 GraphType.GT_DIRECTED);
             m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
+            m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_closureText);
             m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
+            m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_closureText);
         }
 
         return m_currentFA;

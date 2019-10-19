@@ -183,6 +183,9 @@ namespace Parser {
         public override int VisitRegexp_clos(RegExpParser.Regexp_closContext context) {
             // 1. Create new AST node
             CASTComposite newNode = new CRegexpClosure(m_parents.Peek());
+            // record the text of the closure element
+            newNode.M_Text = context.GetText();
+
             m_closureDetected = true;
 
             // Add new element to the parent's descentants

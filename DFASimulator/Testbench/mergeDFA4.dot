@@ -1,5 +1,23 @@
 digraph G50{
-"L4G50_N354" [style=filled,fillcolor=green];
+	subgraph cluster6 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="(a|db+|lc*)~{1,3}";
+		L4G50_N359;L4G50_N361;
+	}	subgraph cluster4 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="b+";
+		L4G50_N363;
+	}	subgraph cluster5 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="c*";
+		L4G50_N364;
+	}"L4G50_N354" [style=filled,fillcolor=green];
 "L4G50_N355" [peripheries=2];
 "L4G50_N356";
 "L4G50_N357";

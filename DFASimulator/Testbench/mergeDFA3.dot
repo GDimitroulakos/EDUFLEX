@@ -1,5 +1,11 @@
 digraph G49{
-"L3G49_N350" [style=filled,fillcolor=green];
+	subgraph cluster3 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="[0-9]*";
+		L3G49_N353;
+	}"L3G49_N350" [style=filled,fillcolor=green];
 "L3G49_N351" [peripheries=2];
 "L3G49_N352" [peripheries=2];
 "L3G49_N353" [peripheries=2];

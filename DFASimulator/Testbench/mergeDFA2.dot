@@ -1,5 +1,17 @@
 digraph G48{
-"L2G48_N341" [style=filled,fillcolor=green];
+	subgraph cluster2 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="(02|[A-Z])*";
+		L2G48_N344;L2G48_N347;
+	}	subgraph cluster1 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="(01|[a-z])+";
+		L2G48_N345;L2G48_N346;
+	}"L2G48_N341" [style=filled,fillcolor=green];
 "L2G48_N342" [peripheries=2];
 "L2G48_N343";
 "L2G48_N344" [peripheries=2];

@@ -115,7 +115,7 @@ namespace Parser {
                 ThompsonAlgorithmStructured thompson = new ThompsonAlgorithmStructured(ThompsonOptions.TO_STEPS | ThompsonOptions.TO_NFAGENERATION_FLATTEN_VS_STRUCTURED,m_reRecords);
                 thompson.Visit(astGeneration.M_ASTRoot);
                 
-                CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(m_reRecords);
+                CSubsetConstructionStructuredAlgorithm subsetcontruction = new CSubsetConstructionStructuredAlgorithm(m_reRecords,thompson.GetHashCode());
                 subsetcontruction.Start();
 
                 CHopcroftAlgorithmStructured hopcroftAlgorithm = new CHopcroftAlgorithmStructured(m_reRecords);

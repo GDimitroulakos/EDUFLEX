@@ -1,5 +1,11 @@
 digraph G47{
-"L1G47_N338" [style=filled,fillcolor=green];
+	subgraph cluster0 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="b*";
+		L1G47_N340;
+	}"L1G47_N338" [style=filled,fillcolor=green];
 "L1G47_N339" [peripheries=2];
 "L1G47_N340" [peripheries=2];
 "L1G47_N338"->"L1G47_N339" [style = bold, label = "[a]"];

@@ -9,9 +9,9 @@ namespace Parser.SubsetConstruction {
 
     [Serializable]
     public class CSubsetConstructionNodeInfo {
-        private bool m_isClosureNode;
+        private bool m_isClosureNode =false;
 
-        private string m_closureExpression;
+        private string m_closureExpression=null;
 
         public bool M_IsClosureNode {
             get => m_isClosureNode;
@@ -21,6 +21,8 @@ namespace Parser.SubsetConstruction {
             get => m_closureExpression;
             set => m_closureExpression = value;
         }
+
+
     }
 
     [Serializable]
@@ -30,7 +32,19 @@ namespace Parser.SubsetConstruction {
 
     [Serializable]
     public class CSubsetConstructionGraphInfo {
+        // The following dictionary records which DFA nodes belong to each closure.
+        // The key is an integer referring to the closure and the value is the 
+        // list of DFA nodes participating in the closure
+        private Dictionary<int, List<CGraphNode>> m_closureNodesMapping = new Dictionary<int, List<CGraphNode>>();
 
+        public Dictionary<int, List<CGraphNode>> M_ClosureNodesMapping => m_closureNodesMapping;
+
+        public void AddClosureNode(int serial, CGraphNode node) {
+            if (!m_closureNodesMapping.ContainsKey(serial)) {
+                m_closureNodesMapping[serial] = new List<CGraphNode>();
+            }
+            m_closureNodesMapping[serial].Add(node);
+        }
     }
 
     [Serializable]
@@ -50,10 +64,28 @@ namespace Parser.SubsetConstruction {
             return Info(node).M_ClosureExpression;
         }
 
+        public Dictionary<int, List<CGraphNode>> GetClosureNodesMapping() {
+            return Info().M_ClosureNodesMapping;
+        }
+
+        public void AddClosureNode(int serial, CGraphNode node) {
+            Info().AddClosureNode(serial,node);
+        }
+
         public void SetNodeClosureExpression(CGraphNode node, string expression) {
             Info(node).M_ClosureExpression = expression;
         }
 
+        public void InitNodeInfo(CGraphNode node, CSubsetConstructionNodeInfo info) {
+            CreateInfo(node,info);
+        }
 
+        public void InitEdgeInfo(CGraphEdge edge, CSubsetConstructionEdgeInfo info) {
+            CreateInfo(edge, info);
+        }
+
+        public void InitGraphInfo(CSubsetConstructionGraphInfo info) {
+            CreateInfo(info);
+        }
     }
 }

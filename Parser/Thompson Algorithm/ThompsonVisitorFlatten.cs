@@ -98,94 +98,7 @@ namespace Parser.Thompson_Algorithm
         }
     }
 
-    [Serializable]
-    public class ThompsonNodeFAInfo {
-        // True if the node is a closure entrance node
-        private bool m_closureEntrance=false;
-        // True if the node is a closure exit node
-        private bool m_closureExit = false;
-        // Refers to the closure subexpression in a regular expression
-        private string m_closureExpression=null;
-        // Unique integer identifying the closure
-        private readonly int? m_closureSerialNumber=null;
-
-        public ThompsonNodeFAInfo(int? closureSerial = null) {
-            m_closureSerialNumber = closureSerial;
-        }
-
-       public bool M_ClosureEntrance {
-            get => m_closureEntrance;
-            set => m_closureEntrance = value;
-        }
-        public bool M_ClosureExit {
-            get => m_closureExit;
-            set => m_closureExit = value;
-        }
-        public string M_ClosureExpression {
-            get => m_closureExpression;
-            set => m_closureExpression = value;
-        }
-        public int? M_ClosureSerialNumber {
-            get => m_closureSerialNumber;
-            
-        }
-    }
-
-    [Serializable]
-    public class ThompsonEdgeFAInfo {
-        public ThompsonEdgeFAInfo() { }
-    }
-
-    [Serializable]
-    public class ThompsonFAInfo {
-        private static int m_closureCounter = 0;
-
-        public static int M_ClosureCounter => m_closureCounter;
-
-        public static int GetNewClosureSerial() {
-            return m_closureCounter++;
-        }
-
-        public ThompsonFAInfo() { }
-    }
-
-    [Serializable]
-    public class ThompsonInfo : CGraphQueryInfo<ThompsonNodeFAInfo,ThompsonEdgeFAInfo,ThompsonFAInfo> {
-        public ThompsonInfo(CGraph graph, object key) : base(graph, key) {
-           
-        }
-
-        public string GetNodeClosureExpression(CGraphNode node) {
-            return Info(node).M_ClosureExpression;
-        }
-        public void SetNodeClosureExpression(CGraphNode node, string expression) {
-            Info(node).M_ClosureExpression = expression;
-        }
-
-        public bool IsNodeClosureEntrance(CGraphNode node) {
-            return Info(node).M_ClosureEntrance;
-        }
-        public bool IsNodeClosureExit(CGraphNode node) {
-            return Info(node).M_ClosureExit;
-        }
-        public void SetNodeClosureEntrance(CGraphNode node, int closureSerialNumber) {
-            if (Info(node) == null) {
-                InitNodeInfo(node, new ThompsonNodeFAInfo(closureSerialNumber));
-            }
-            Info(node).M_ClosureEntrance = true;
-        }
-        public void SetNodeClosureExit(CGraphNode node, int closureSerialNumber) {
-            if (Info(node) == null) {
-                InitNodeInfo(node, new ThompsonNodeFAInfo(closureSerialNumber));
-            }
-            Info(node).M_ClosureExit = true;
-        }
-        public void InitNodeInfo(CGraphNode node, ThompsonNodeFAInfo info) {
-            CreateInfo(node,info);
-        }
-
-    }
-
+   
 
     // This class represents the Thompson algorithm. It depends on the classes
     // defined in the ThompsonHelper.cs which take the responsibility of FA
@@ -366,7 +279,7 @@ namespace Parser.Thompson_Algorithm
             CRegexpClosure closNode = currentNode as CRegexpClosure;
             
             //1.Create FA
-            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate(this.GetHashCode());
+            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate(this.GetHashCode(),currentNode.M_Text);
             //2.Check the type of the closure
             if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP,0));

@@ -215,6 +215,11 @@ namespace Parser.SubsetConstruction {
 
             private CSubsetConstructionReporting m_reporting;
 
+            private CSubsetConstructionInfo m_subsetInfo;
+
+            // The key to access thompson algorithm information stored in each of the NFAs
+            private object m_thompsonInfoKey;
+
             public Dictionary<uint,RERecord> M_RERecords{
                 get { return m_NFAs; }
             }
@@ -249,11 +254,14 @@ namespace Parser.SubsetConstruction {
 
                 // Create DFA
                 m_currentDFA = new FA();
+                m_subsetInfo = new CSubsetConstructionInfo(m_currentDFA,this.GetHashCode());
+                m_subsetInfo.InitGraphInfo(new CSubsetConstructionGraphInfo());
+
                 // DEBUG 
                 m_reporting.AddDFA(m_currentRE,m_currentDFA);
 
                 m_DFAInfo = new FAGraphQueryInfo(m_currentDFA, FA.m_FAINFOKEY);
-                m_configurations = new CConfigurations(m_currentDFA, m_currentNFA);
+                m_configurations = new CConfigurations(m_currentDFA, m_currentNFA, m_thompsonInfoKey,this.GetHashCode());
                 m_configurations.CreateDFANode(q0);
 
                 /// ******************** DEBUG *************************
@@ -331,8 +339,9 @@ namespace Parser.SubsetConstruction {
                 // Update the DFA alphabet to reflect all the characters appearing 
                 // on the edges
                 m_currentDFA.UpdateAlphabet();
-                
-                m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
+
+                //m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
+                m_currentDFA.RegisterGraphPrinter(new SubsetGraphvizPrinter(m_currentDFA,this.GetHashCode()));
                 m_currentDFA.Generate(@"mergeDFA"+m_currentRE+".dot", true);
                 
 
@@ -345,9 +354,11 @@ namespace Parser.SubsetConstruction {
                 //initial configuration
             }
             
-            public CSubsetConstructionStructuredAlgorithm(Dictionary<uint,RERecord> NFAs) {
+            public CSubsetConstructionStructuredAlgorithm(Dictionary<uint,RERecord> NFAs,object thompsonInfoKey) {
                 m_NFAs = NFAs;
                 m_reporting = new CSubsetConstructionReporting();
+                // pass the information from thompson algorithm here
+                m_thompsonInfoKey = thompsonInfoKey;
             }
 
             public override int Run() {
@@ -367,13 +378,17 @@ namespace Parser.SubsetConstruction {
 
             private FAGraphQueryInfo m_NFAStateInfo;
             private FAGraphQueryInfo m_DFAStateInfo;
+            private ThompsonInfo m_thompsonInfo;
+            private CSubsetConstructionInfo m_subsetInfo;
 
-            public CConfigurations(FA DFA, FA NFA) {
+            public CConfigurations(FA DFA, FA NFA, object thompsonInfoKey ,object subsetInfokey) {
                 m_DFA = DFA;
                 m_NFA = NFA;
                 m_mappings = new Dictionary<CGraphNode, HashSet<CGraphNode>>();
                 m_NFAStateInfo = new FAGraphQueryInfo(m_NFA, FA.m_FAINFOKEY);
                 m_DFAStateInfo = new FAGraphQueryInfo(m_DFA, FA.m_FAINFOKEY);
+                m_thompsonInfo = new ThompsonInfo(NFA,thompsonInfoKey);
+                m_subsetInfo = new CSubsetConstructionInfo(m_DFA,subsetInfokey);
             }
 
             /// <summary>
@@ -388,12 +403,15 @@ namespace Parser.SubsetConstruction {
             public CGraphNode CreateDFANode(HashSet<CGraphNode> q) {
                 CGraphNode DFAnode = null;
                 HashSet<string> prefixes = new HashSet<string>();
+                CGraphNode qIsClosureSource =null;
+                CGraphNode qIsClosureExit=null;
                 string prefix = "";
                 //check if q configuration corresponds to a DFA state
                 DFAnode = GetDFANode(q);
                 //if not create a new DFA node
                 if (DFAnode == null) {
                     DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
+                    m_subsetInfo.InitNodeInfo(DFAnode,new CSubsetConstructionNodeInfo());
 
                     foreach (CGraphNode node in q) {
                         if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelPrefix)) {
@@ -404,6 +422,23 @@ namespace Parser.SubsetConstruction {
                         foreach (uint lineDependency in m_NFAStateInfo.Info(node).M_LineDependencies) {
                             m_DFA.SetFANodeLineDependency(lineDependency, DFAnode);
                         }
+
+                        // Check if the given configuration q contains closure entry and
+                        // exit nodes
+                        if (m_thompsonInfo.IsNodeClosureEntrance(node)) {
+                            qIsClosureSource = node;
+                        }
+                        if (m_thompsonInfo.IsNodeClosureExit(node)) {
+                            qIsClosureExit = node;
+                        }
+                    }
+
+                    // if configuration contains source and exit closure nodes 
+                    // add this information to the current created DFA node
+                    if (qIsClosureSource!=null && qIsClosureExit!=null) {
+                        m_subsetInfo.SetClosureNode(DFAnode);
+                        m_subsetInfo.SetNodeClosureExpression(DFAnode,m_thompsonInfo.GetNodeClosureExpression(qIsClosureSource));
+                       m_subsetInfo.AddClosureNode(m_thompsonInfo.GetClosureSerial(qIsClosureSource),DFAnode);
                     }
 
                     foreach (string s in prefixes) {

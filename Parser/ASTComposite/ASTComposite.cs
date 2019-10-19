@@ -62,6 +62,12 @@ namespace Parser {
         private int m_serialNumber;
 
         /// <summary>
+        /// Textual representation of the element in the source program. By default is null.
+        /// Set it to a non-null value if required
+        /// </summary>
+        private string m_text=null;
+
+        /// <summary>
         /// The node label consist of the type and serial number
         /// </summary>
         protected string m_label=null;
@@ -169,7 +175,14 @@ namespace Parser {
             get { return CConfigurationSettings.m_nodeTypeConfiguration[m_nodeType]; }
         }
 
-    }
+        /// <summary>
+        /// Textual representation of the element in the source code
+        /// </summary>
+        internal string M_Text {
+            get => m_text;
+            set => m_text = value;
+        }
+   }
 
     /// <summary>
     /// Represents an AST Leaf node.

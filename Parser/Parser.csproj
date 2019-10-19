@@ -81,6 +81,7 @@
     <Compile Include="SubsetConstruction\SubsetGraphvizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonAlgorithmStructured.cs" />
     <Compile Include="Thompson Algorithm\ThompsonGraphVizPrinter.cs" />
+    <Compile Include="Thompson Algorithm\ThompsonInfo.cs" />
     <Compile Include="UOPCore\FAGraphVizPrinter.cs" />
     <Compile Include="Thompson Algorithm\ThompsonHelpers.cs" />
     <Compile Include="Thompson Algorithm\ThompsonVisitorFlatten.cs" />

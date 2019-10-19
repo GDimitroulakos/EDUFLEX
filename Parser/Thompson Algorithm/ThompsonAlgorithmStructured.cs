@@ -149,18 +149,33 @@ namespace Parser.Thompson_Algorithm {
         public override FA VisitRegexpClosure(CASTElement currentNode) {
 
             CRegexpClosure closNode = currentNode as CRegexpClosure;
-
+            ThompsonInfo tinfo;
+            
             //1.Create FA
-            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate(this.GetHashCode());
+            CThompsonClosureTemplate newFA = new CThompsonClosureTemplate(this.GetHashCode(), currentNode.M_Text);
             //2.Check the type of the closure
             if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
                 m_currentNFA = newFA.SynthesizeNoneOrMul(customFA);
+                tinfo = new ThompsonInfo(m_currentNFA,this.GetHashCode());
+                if (currentNode.M_Text != null) {
+                    tinfo.SetNodeClosureExpression(currentNode.M_Text);
+                }
+                else {
+                    Console.WriteLine("Warning!!! Closure text representation is null");
+                }
             }
 
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_ONEORMULTIPLE) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
                 m_currentNFA = newFA.SynthesisOneOrMul(customFA);
+                tinfo = new ThompsonInfo(m_currentNFA, this.GetHashCode());
+                if (currentNode.M_Text != null) {
+                    tinfo.SetNodeClosureExpression(currentNode.M_Text);
+                }
+                else {
+                    Console.WriteLine("Warning!!! Closure text representation is null");
+                }
             }
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_ONEORZERO) {
                 FA customFA = Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP, 0));
@@ -171,6 +186,13 @@ namespace Parser.Thompson_Algorithm {
                 FA customFA=Visit(closNode.GetChild(ContextType.CT_REGEXPCLOSURE_REGEXP,0));
                 m_currentNFA = newFA.SynthesizeFinite(customFA, rangeNode.M_ClosureMultiplicityLB,
                     rangeNode.M_ClosureMultiplicityUB);
+                tinfo = new ThompsonInfo(m_currentNFA, this.GetHashCode());
+                if (currentNode.M_Text != null) {
+                    tinfo.SetNodeClosureExpression(currentNode.M_Text);
+                }
+                else {
+                    Console.WriteLine("Warning!!! Closure text representation is null");
+                }
             }
             else if (closNode.M_ClosureType == CRegexpClosure.ClosureType.CLT_NONEORMULTIPLE_NONGREEDY) {
                 //TODO 
