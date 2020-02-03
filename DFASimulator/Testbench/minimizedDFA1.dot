@@ -1,7 +1,7 @@
-digraph G51{
-"L1G51_N365" [peripheries=2];
-"L1G51_N366" [style=filled,fillcolor=green];
-"L1G51_N365"->"L1G51_N365" [style = bold, label = "[b]"];
-"L1G51_N366"->"L1G51_N365" [style = bold, label = "[a]"];
+digraph G64{
+"L1G64_N475" [peripheries=2];
+"L1G64_N476" [style=filled,fillcolor=green];
+"L1G64_N475"->"L1G64_N475" [style = bold, label = "[b]"];
+"L1G64_N476"->"L1G64_N475" [style = bold, label = "[a]"];
 }
 

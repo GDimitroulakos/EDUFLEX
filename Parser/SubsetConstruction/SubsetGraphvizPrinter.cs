@@ -37,6 +37,7 @@ namespace Parser.SubsetConstruction {
             string header = "digraph G" + m_graph.M_SerialNumber + "{\r\n";
             graphvizStringBuilder.Append(header);
 
+            
             foreach (KeyValuePair<int, List<CGraphNode>> closure in closuresMap) {
                 string subgraphHeader = "\tsubgraph cluster" + closure.Key + " {\r\n";
                 string subgraphBody = "\t\tnode [style=filled];\r\n" +
@@ -52,6 +53,7 @@ namespace Parser.SubsetConstruction {
                 graphvizStringBuilder.AppendLine();
                 graphvizStringBuilder.Append("\t}");
             }
+            
 
             // Print all  nodes
             for (itn.Begin(); !itn.End(); itn.Next()) {

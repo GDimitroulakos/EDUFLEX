@@ -76,6 +76,12 @@
     <Compile Include="ASTVisitor\ASTConcreteVisitor.cs" />
     <Compile Include="ASTVisitor\ConcreteVisitors\ASTPrinter.cs" />
     <Compile Include="Hopcroft\HopcroftAlgorithmStructured.cs" />
+    <None Include="obj\Release\RegExpLexer.cs" />
+    <None Include="obj\Release\RegExpParser.cs" />
+    <None Include="obj\Release\RegExpParserBaseListener.cs" />
+    <None Include="obj\Release\RegExpParserBaseVisitor.cs" />
+    <None Include="obj\Release\RegExpParserListener.cs" />
+    <None Include="obj\Release\RegExpParserVisitor.cs" />
     <Compile Include="SubsetConstruction\SubsetConstructionInfo.cs" />
     <Compile Include="SubsetConstruction\SubsetConstructionStructured.cs" />
     <Compile Include="SubsetConstruction\SubsetGraphvizPrinter.cs" />

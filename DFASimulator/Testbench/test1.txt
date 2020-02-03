@@ -1,4 +1,5 @@
 L1:ab*			{ Console.WriteLine("L1");};
 L2:d(((01|[a-z])+)|((02|[A-Z])*)){ Console.WriteLine("L2");};
 L3:0|[1-9][0-9]* { Console.WriteLine("L3");};
-L4:g(d|e)(a|db+|lc*)~{1,3}z|f;
+L4:g(d|e)(a+g|db+s|lc*k)~{1,3}z|f;
+L5:(a|b+)+;

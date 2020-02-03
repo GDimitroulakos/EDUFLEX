@@ -22,6 +22,8 @@ namespace Parser.SubsetConstruction {
 
         [Serializable]
         public class CSubsetConstructionReporting {
+            // The dictionary stores the alphabet for each regular expression ( uint ). Each
+            // regular expression is identified by sequence number in the input file
             private Dictionary<uint,CCharRangeSet> m_alphabet= new Dictionary<uint, CCharRangeSet>();
 
             Dictionary<uint, List<IterationRecord>> m_iterations = new Dictionary<uint, List<IterationRecord>>();
@@ -33,10 +35,18 @@ namespace Parser.SubsetConstruction {
             /// </summary>
             private Dictionary<uint,CConfigurations> m_configurations = new Dictionary<uint, CConfigurations>();
 
+            /// <summary>
+            ///  This class describes the outcome of one particular iteration of the
+            /// Subset Construction algorithm. In detail it records
+            /// 1) The DFA node for which the iteration applies
+            /// 2) The NFA nodes configuration that forms the given DFA node
+            /// 3) The subset construction intermediate results ( delta , e-closure ) for
+            /// each derived edge
+            /// </summary>
             public class IterationRecord {
                 HashSet<CGraphNode> m_currentConfiguration;
                 CGraphNode m_currentDFAnode;
-                Dictionary<CGraphEdge,CharacterRecord> m_characterAnalysis = new Dictionary<CGraphEdge, CharacterRecord>(); 
+                Dictionary<CGraphEdge,EdgeRecord> m_characterAnalysis = new Dictionary<CGraphEdge, EdgeRecord>(); 
 
 
                 public HashSet<CGraphNode> M_CurrentConfiguration {
@@ -49,27 +59,50 @@ namespace Parser.SubsetConstruction {
                     set => m_currentDFAnode = value;
                 }
 
-                internal Dictionary<CGraphEdge, CharacterRecord> M_CharacterAnalysis {
+                internal Dictionary<CGraphEdge, EdgeRecord> M_CharacterAnalysis {
                     get => m_characterAnalysis;
                     set => m_characterAnalysis = value;
                 }
 
-                internal CharacterRecord AddCharacterRecord(HashSet<CGraphNode> edelta,
+                internal EdgeRecord AddEdgeRecord(HashSet<CGraphNode> edelta,
                     HashSet<CGraphNode> eclos, CGraphEdge DFAedge) {
                     if (!m_characterAnalysis.ContainsKey(DFAedge)) {
-                        m_characterAnalysis[DFAedge] = new CharacterRecord() { M_ClosureOutcome = eclos, M_DeltaOutcome = edelta, M_DfAedge = DFAedge};
+                        m_characterAnalysis[DFAedge] = new EdgeRecord() { M_ClosureOutcome = eclos, M_DeltaOutcome = edelta, M_DfAedge = DFAedge};
                     }
                     return m_characterAnalysis[DFAedge];
                 }
 
             }
 
-            public class CharacterRecord {
+            /// <summary>
+            /// This class stores the intermediate results produced during the
+            /// iteration of the subset construction algorithm that derives a
+            /// specific edge  ( m_DFAedge )
+            /// </summary>
+            public class EdgeRecord {
+                /// <summary>
+                /// The chararacter set that decorates the given character edge
+                /// </summary>
                 private CCharRangeSet m_characterRangeCode = new CCharRangeSet(false);
+                /// <summary>
+                /// The result of the delta algorithm
+                /// </summary>
                 HashSet<CGraphNode> m_deltaOutcome;
+                /// <summary>
+                /// The result of the e-closure algorithm that executes after the delta algorithm
+                /// </summary>
                 HashSet<CGraphNode> m_closureOutcome;
+                /// <summary>
+                /// The generated DFA edge
+                /// </summary>
                 private CGraphEdge m_DFAedge;
 
+                /// <summary>
+                /// Each alphabet character is studied separately and a set
+                /// of characters may generate the same edge. This method
+                /// updates the 
+                /// </summary>
+                /// <param name="character"></param>
                 public void AddCharacterCode(Int32 character) {
                     m_characterRangeCode.AddRange(character);
                 }
@@ -157,7 +190,7 @@ namespace Parser.SubsetConstruction {
                         }
                         wstream.WriteLine();
                         wstream.WriteLine("\tDFA Node : {0}", iterationRecord.M_CurrentDFANode.M_Label);
-                        foreach (KeyValuePair<CGraphEdge, CharacterRecord> charRecord in iterationRecord.M_CharacterAnalysis) {
+                        foreach (KeyValuePair<CGraphEdge, EdgeRecord> charRecord in iterationRecord.M_CharacterAnalysis) {
                             wstream.WriteLine("\t\tCharacter : {0}", charRecord.Value.M_CharacterRangeCode);
                             wstream.Write("\t\t\tDelta Configuration : ");
                             foreach (CGraphNode graphNode in charRecord.Value.M_DeltaOutcome) {
@@ -202,34 +235,41 @@ namespace Parser.SubsetConstruction {
         }
 
         public class CSubsetConstructionStructuredAlgorithm : CGraphAlgorithm<int> {
-            //inputs
+            //input/output
             private Dictionary<uint,RERecord> m_NFAs;
-            //outputs
+
+            // internal fields
             private FA m_currentDFA;
-
             private FA m_currentNFA;
-
             private uint m_currentRE;
 
-            private FAGraphQueryInfo m_DFAInfo;
-
-            private CSubsetConstructionReporting m_reporting;
-
-            private CSubsetConstructionInfo m_subsetInfo;
-
-            // The key to access thompson algorithm information stored in each of the NFAs
+            // Class CConfiguration is associated to the SubsetConstruction algorithm
+            // that uses it for deriving information related to the DFA Nodeconfigurations
+            private CConfigurations m_configurations;
+            // The key to access thompson algorithm information stored in each of the NFAs.
+            // This key is used by the Configurations class and it is stored in this class
+            // to be forwarded to the Configurations class
             private object m_thompsonInfoKey;
 
-            public Dictionary<uint,RERecord> M_RERecords{
-                get { return m_NFAs; }
-            }
-
-            private object m_key;
-            //internals
-            private CConfigurations m_configurations;
             private List<string> m_alphabet;
             private Queue<HashSet<CGraphNode>> m_workList = new Queue<HashSet<CGraphNode>>();
 
+            // GRAPH INFORMATION ACCESSORS
+            // Information access for each derived DFA. Stores/Reads DFA related
+            // information to/from the DFA
+            private FAGraphQueryInfo m_DFAInfo;
+            // Information access for each derived DFA. Stores/Reads Subset Construction related
+            // information to/from the DFA
+            private CSubsetConstructionInfo m_subsetInfo;
+
+            // DEBUGGING/REPORTING DT
+            private CSubsetConstructionReporting m_reporting;
+            
+
+            // Property to access the outcome and income of the Subset Construction algorithm
+            public Dictionary<uint,RERecord> M_RERecords{
+                get { return m_NFAs; }
+            }
             
             public void Start() {
                 foreach (KeyValuePair<uint, RERecord> keyValuePair in m_NFAs) {
@@ -246,7 +286,7 @@ namespace Parser.SubsetConstruction {
                 GraphLibrary.CGraphNode Qprime, Q;
                 CGraphEdge e;
                 CCharRangeSet set;
-                //q0 ← -closure({n0});
+                //q0 ← e-closure({n0});
 
                 HashSet<CGraphNode> q0 = CEclosureAlgorithm.Init(m_currentNFA, new HashSet<CGraphNode>() { m_currentNFA.M_Initial }).Start();
 
@@ -284,7 +324,7 @@ namespace Parser.SubsetConstruction {
                         foreach (Int32 i in range) {
                             // For each character in the current character range
 
-                            // Calculate the the target nodes given the current states (q) where the 
+                            // Calculate the target nodes given the current states (q) where the 
                             // NFA is in and the characters in the current character-range
                             CDeltaAlgorithm delta = CDeltaAlgorithm.Init(m_currentNFA, i, q);
 
@@ -310,9 +350,6 @@ namespace Parser.SubsetConstruction {
 
                                     // 2. If yes mark this node as a closure node and
                                     // store closure information
-
-                                    
-
                                 }
 
                                 // Check if an edge between Q and Qprime alredy exists...
@@ -330,7 +367,7 @@ namespace Parser.SubsetConstruction {
                                 set.AddRange(i);
 
                                 // ********** DEBUG ************
-                                CSubsetConstructionReporting.CharacterRecord charRecord =cRecord.AddCharacterRecord( deltaResult, qprime, e);
+                                CSubsetConstructionReporting.EdgeRecord charRecord =cRecord.AddEdgeRecord( deltaResult, qprime, e);
                                 charRecord.AddCharacterCode(i);
                             }
                         }

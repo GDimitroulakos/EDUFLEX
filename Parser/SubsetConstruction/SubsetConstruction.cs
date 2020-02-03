@@ -93,7 +93,7 @@ namespace Parser.SubsetConstruction
                             set.AddRange(i);
 
                             // ********** DEBUG ************
-                            CSubsetConstructionReporting.CharacterRecord charRecord = cRecord.AddCharacterRecord(deltaResult, qprime, e);
+                            CSubsetConstructionReporting.EdgeRecord charRecord = cRecord.AddEdgeRecord(deltaResult, qprime, e);
                             charRecord.AddCharacterCode(i);
                         }
                     }

@@ -1,0 +1,18 @@
+digraph G63{
+	subgraph cluster8 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="b+";
+		L5G63_N473;L5G63_N474;
+	}"L5G63_N472" [style=filled,fillcolor=green];
+"L5G63_N473" [peripheries=2];
+"L5G63_N474" [peripheries=2];
+"L5G63_N472"->"L5G63_N473" [style = bold, label = "[a]"];
+"L5G63_N472"->"L5G63_N474" [style = bold, label = "[b]"];
+"L5G63_N473"->"L5G63_N473" [style = bold, label = "[a]"];
+"L5G63_N473"->"L5G63_N474" [style = bold, label = "[b]"];
+"L5G63_N474"->"L5G63_N473" [style = bold, label = "[a]"];
+"L5G63_N474"->"L5G63_N474" [style = bold, label = "[b]"];
+}
+

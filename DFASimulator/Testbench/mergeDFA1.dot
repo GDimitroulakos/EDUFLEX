@@ -1,15 +1,15 @@
-digraph G47{
+digraph G59{
 	subgraph cluster0 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
 		label ="b*";
-		L1G47_N340;
-	}"L1G47_N338" [style=filled,fillcolor=green];
-"L1G47_N339" [peripheries=2];
-"L1G47_N340" [peripheries=2];
-"L1G47_N338"->"L1G47_N339" [style = bold, label = "[a]"];
-"L1G47_N339"->"L1G47_N340" [style = bold, label = "[b]"];
-"L1G47_N340"->"L1G47_N340" [style = bold, label = "[b]"];
+		L1G59_N444;
+	}"L1G59_N442" [style=filled,fillcolor=green];
+"L1G59_N443" [peripheries=2];
+"L1G59_N444" [peripheries=2];
+"L1G59_N442"->"L1G59_N443" [style = bold, label = "[a]"];
+"L1G59_N443"->"L1G59_N444" [style = bold, label = "[b]"];
+"L1G59_N444"->"L1G59_N444" [style = bold, label = "[b]"];
 }
 
