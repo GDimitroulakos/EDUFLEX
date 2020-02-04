@@ -216,7 +216,7 @@ namespace Parser.SubsetConstruction {
                                 wstream.Write("{0},", node.M_Label);
                             }
 
-                            wstream.Write("),");
+                            wstream.WriteLine("),");
                         }
                         else {
                             wstream.Write("{0} (", itf.M_CurrentItem.M_Label);
@@ -450,12 +450,17 @@ namespace Parser.SubsetConstruction {
                     DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
                     m_subsetInfo.InitNodeInfo(DFAnode,new CSubsetConstructionNodeInfo());
 
+                    // Search the configuration's nodes for...
                     foreach (CGraphNode node in q) {
+
+                        // the prefixes derived from the thompson algorithm. Gather the prefixes
+                        // of nodes from the Thompson algorithm to the prefixes set.
                         if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelPrefix)) {
                             prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelPrefix);
+                            // Assign to the current DFA node the identified prefix
                             m_DFAStateInfo.Info(DFAnode).M_NodeLabelPrefix = m_NFAStateInfo.Info(node).M_NodeLabelPrefix;
                         }
-
+                        // Store the dependence of new DFANode on the input file lines
                         foreach (uint lineDependency in m_NFAStateInfo.Info(node).M_LineDependencies) {
                             m_DFA.SetFANodeLineDependency(lineDependency, DFAnode);
                         }
@@ -473,8 +478,12 @@ namespace Parser.SubsetConstruction {
                     // if configuration contains source and exit closure nodes 
                     // add this information to the current created DFA node
                     if (qIsClosureSource!=null && qIsClosureExit!=null) {
+                        // Mark the DFAnode as a closure node
                         m_subsetInfo.SetClosureNode(DFAnode);
+                        // Mark the DFAnode with the closure expression it participates
                         m_subsetInfo.SetNodeClosureExpression(DFAnode,m_thompsonInfo.GetNodeClosureExpression(qIsClosureSource));
+                        // Mark the DFAnode with the closure it participates using the 
+                        // serial number of the closure
                        m_subsetInfo.AddClosureNode(m_thompsonInfo.GetClosureSerial(qIsClosureSource),DFAnode);
                     }
 
@@ -483,11 +492,13 @@ namespace Parser.SubsetConstruction {
                     }
                     m_DFA.PrefixElementLabel(prefix, DFAnode);
 
-
+                    // Mark the DFA node as a final state if it
+                    // contains NFA final states 
                     if (ContainsFinalState(q)) {
                         m_DFA.SetFinalState(DFAnode);
                     }
-
+                    // Mark the DFA node as a initial state if it
+                    // contains NFA initial states 
                     if (ContainsInitialState(q)) {
                         m_DFA.M_Initial = DFAnode;
                     }

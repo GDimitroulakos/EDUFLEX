@@ -56,6 +56,10 @@ namespace Parser.Thompson_Algorithm {
             set => m_closureExpression = value;
         }
 
+        /// <summary>
+        /// Returns a new Serial to be assigned to a newly generated closure
+        /// </summary>
+        /// <returns></returns>
         public static int GetNewClosureSerial() {
             return m_closureCounter++;
         }
@@ -68,22 +72,14 @@ namespace Parser.Thompson_Algorithm {
         public ThompsonInfo(CGraph graph, object key) : base(graph, key) {
 
         }
-
-        public string GetNodeClosureExpression() {
-            return Info().M_ClosureExpression;
-        }
-        public void SetNodeClosureExpression(string expression) {
-            Info().M_ClosureExpression = expression;
+        public void SetNodeClosureExpression(CGraphNode node, string expression) {
+            Info(node).M_ClosureExpression = expression;
         }
         public string GetNodeClosureExpression(CGraphNode node) {
             return Info(node).M_ClosureExpression;
         }
-
         public int GetClosureSerial(CGraphNode node) {
             return (int)Info(node).M_ClosureSerialNumber;
-        }
-        public void SetNodeClosureExpression(CGraphNode node,string expression) {
-            Info(node).M_ClosureExpression = expression;
         }
 
         public bool IsNodeClosureEntrance(CGraphNode node) {

@@ -372,6 +372,10 @@ namespace Parser.UOPCore
         public void SetFANodePrefix(string prefix,CGraphNode node) {
             m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
         }
+        /// <summary>
+        /// All FA nodes are prefixed with the given string
+        /// </summary>
+        /// <param name="prefix"></param>
         public void SetFANodePrefix(string prefix) {
             foreach (CGraphNode node in m_graphNodes) {
                 m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
@@ -387,6 +391,11 @@ namespace Parser.UOPCore
             m_FAInfo.Info(node).AddLineDependency(line);
         }
 
+        /// <summary>
+        /// All nodes of the FA are marked dependent on the given input line
+        /// of the regular expressions input file
+        /// </summary>
+        /// <param name="line"></param>
         public void SetFANodesLineDependency(uint line) {
             foreach (CGraphNode node in m_graphNodes) {
                 m_FAInfo.Info(node).AddLineDependency(line);

@@ -72,6 +72,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
     }
 
     internal FA SynthesizeNoneOrMul(FA synth) {
+        // Create a serial to identify this closure
         int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         // 1. Create new FA
         FA m_currentFA = CreateNewFA(synth);
@@ -91,6 +92,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
     }
 
     internal FA SynthesisOneOrMul(FA synth){
+        // Create a serial to identify this closure
         int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
         // Draw the closure loop edge
@@ -117,6 +119,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
     }
 
     internal FA SynthesizeFinite(FA synth, int lb, int up) {
+        // Create a serial to identify this closure
         int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
        

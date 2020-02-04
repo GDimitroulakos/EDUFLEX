@@ -119,7 +119,7 @@ namespace Parser {
     /// the AcceptIterator and the AcceptIteratorEvents methods
     /// </summary>
     public class CLexerDescription : CASTComposite {
-        public CLexerDescription() :base(NodeType.NT_LEXERDESCRIPTION,null, NodeType.CAT_NA) {
+        public CLexerDescription(string text) :base(NodeType.NT_LEXERDESCRIPTION,null,text, NodeType.CAT_NA) {
         }
         /// <summary>
         /// returns the children of this node
@@ -171,7 +171,7 @@ namespace Parser {
             set => m_containsClosure = value;
         }
 
-        public CRegexpStatement(CASTComposite parent, TextSpan textSpan) : base(NodeType.NT_REGEXPSTATEMENT, parent,
+        public CRegexpStatement(CASTComposite parent, TextSpan textSpan,string text) : base(NodeType.NT_REGEXPSTATEMENT, parent,text,
             NodeType.CAT_NA) {
             m_statementTextSpan = textSpan;
         }
@@ -207,7 +207,7 @@ namespace Parser {
 
     public class CRegexpAlternation : CASTComposite
     {
-        public CRegexpAlternation(CASTComposite parent) : base(NodeType.NT_REGEXPALTERNATION, parent, NodeType.CAT_NA)
+        public CRegexpAlternation(CASTComposite parent,string text) : base(NodeType.NT_REGEXPALTERNATION, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -242,7 +242,7 @@ namespace Parser {
 
     public class CRegexpConcatenation : CASTComposite
     {
-        public CRegexpConcatenation(CASTComposite parent) : base(NodeType.NT_REGEXPCONCATENATION, parent, NodeType.CAT_NA)
+        public CRegexpConcatenation(CASTComposite parent,string text) : base(NodeType.NT_REGEXPCONCATENATION, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -276,7 +276,7 @@ namespace Parser {
     }
 
     public class CActionCode : CASTComposite {
-        public CActionCode(CASTComposite parent) : base(NodeType.NT_ACTIONCODE, parent, NodeType.CAT_NA) {}
+        public CActionCode(CASTComposite parent,string text) : base(NodeType.NT_ACTIONCODE, parent,text, NodeType.CAT_NA) {}
 
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor) {
             IASTAbstractConcreteVisitor<Return> typedVisitor = visitor as IASTAbstractConcreteVisitor<Return>;
@@ -322,7 +322,7 @@ namespace Parser {
         }
              
 
-        public CRegexpClosure(CASTComposite parent) : base(NodeType.NT_REGEXPCLOSURE, parent, NodeType.CAT_NA)
+        public CRegexpClosure(CASTComposite parent, string text) : base(NodeType.NT_REGEXPCLOSURE, parent,text, NodeType.CAT_NA)
         {
         }             
 
@@ -403,7 +403,7 @@ namespace Parser {
             get { return m_label + " " + M_ClosureMultiplicityLB + "-" + (M_ClosureMultiplicityUB == Int32.MaxValue ? "INF" : M_ClosureMultiplicityUB.ToString()); }
         }
 
-        public CClosureRange(CASTComposite parent) : base(NodeType.NT_CLOSURERANGE, parent, NodeType.CAT_NA) { }
+        public CClosureRange(CASTComposite parent, string text) : base(NodeType.NT_CLOSURERANGE, parent,text, NodeType.CAT_NA) { }
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor) {
             IASTAbstractConcreteVisitor<Return> typedVisitor = visitor as IASTAbstractConcreteVisitor<Return>;
             if (typedVisitor != null) return typedVisitor.VisitClosureRange(this);
@@ -429,7 +429,7 @@ namespace Parser {
     }
 
     public class CRegexpbasicParen : CASTComposite {
-        public CRegexpbasicParen(CASTComposite parent) : base(NodeType.NT_REGEXPBASIC_PAREN, parent, NodeType.CAT_NA) {}
+        public CRegexpbasicParen(CASTComposite parent, string text) : base(NodeType.NT_REGEXPBASIC_PAREN, parent,text, NodeType.CAT_NA) {}
         public override Return AcceptVisitor<Return>(CASTAbstractVisitor<Return> visitor) {
             IASTAbstractConcreteVisitor<Return> typedVisitor = visitor as IASTAbstractConcreteVisitor<Return>;
             if (typedVisitor != null) return typedVisitor.VisitRegexpbasicParen(this);
@@ -465,8 +465,8 @@ namespace Parser {
             get { return m_isSetNegation; }
         }
 
-        public CRegexpbasicSet(CASTComposite parent,bool negation) : 
-            base(negation ? NodeType.NT_REGEXPBASIC_SETNEGATION : NodeType.NT_REGEXPBASIC_SET, parent,
+        public CRegexpbasicSet(CASTComposite parent,bool negation, string text) : 
+            base(negation ? NodeType.NT_REGEXPBASIC_SETNEGATION : NodeType.NT_REGEXPBASIC_SET, parent,text,
                 NodeType.CAT_NA) {
             m_isSetNegation = negation;
             m_set = new CCharRangeSet(negation);
@@ -515,7 +515,7 @@ namespace Parser {
     }
     public class CRegexpbasicAnyexcepteol : CASTLeaf<CASTElement>
     {
-        public CRegexpbasicAnyexcepteol(CASTComposite parent) : base(".",NodeType.NT_REGEXPBASIC_ANYEXCEPTEOL,parent)
+        public CRegexpbasicAnyexcepteol(CASTComposite parent, string text) : base(".",NodeType.NT_REGEXPBASIC_ANYEXCEPTEOL,parent,text)
         {
         }
 
@@ -564,7 +564,7 @@ namespace Parser {
 
 
 
-        public CRegexpbasicChar(string charLiteral, CASTComposite parent) : base(charLiteral, NodeType.NT_REGEXPBASIC_CHAR, parent)
+        public CRegexpbasicChar(string charLiteral, CASTComposite parent, string text) : base(charLiteral, NodeType.NT_REGEXPBASIC_CHAR, parent,text)
         {
             m_charRangeSet = new CCharRangeSet(charLiteral[0]);
         }
@@ -595,7 +595,7 @@ namespace Parser {
     }
     public class CRegexpbasicEndofline : CASTLeaf<CASTElement>
     {
-        public CRegexpbasicEndofline(CASTComposite parent) : base("$",NodeType.NT_REGEXPBASIC_ENDOFLINE, parent)
+        public CRegexpbasicEndofline(CASTComposite parent, string text) : base("$",NodeType.NT_REGEXPBASIC_ENDOFLINE, parent,text)
         {
             m_value = this;
             if (m_semanticValueConverter == null) {
@@ -627,7 +627,7 @@ namespace Parser {
     }
     public class CRegexpbasicStartofline : CASTLeaf<CASTElement>
     {
-        public CRegexpbasicStartofline(CASTComposite parent) : base("^",NodeType.NT_REGEXPBASIC_STARTOFLINE,parent)
+        public CRegexpbasicStartofline(CASTComposite parent, string text) : base("^",NodeType.NT_REGEXPBASIC_STARTOFLINE,parent,text)
         {
         }
 
@@ -655,7 +655,7 @@ namespace Parser {
     }
     public class CRegexpbasicAssertions : CASTComposite
     {
-        public CRegexpbasicAssertions() : base(NodeType.NT_REGEXPBASIC_ASSERTIONS, null, NodeType.CAT_NA)
+        public CRegexpbasicAssertions(CASTComposite parent, string text) : base(NodeType.NT_REGEXPBASIC_ASSERTIONS, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -691,7 +691,7 @@ namespace Parser {
     public class CRegexpID : CASTLeaf<string>
     {
         public string M_RegExpID { get; set; }
-        public CRegexpID(string stringLiteral, CASTComposite parent) : base(stringLiteral, NodeType.NT_ID, parent) {
+        public CRegexpID(string stringLiteral, CASTComposite parent, string text) : base(stringLiteral, NodeType.NT_ID, parent,text) {
             M_RegExpID = stringLiteral;
         }
 
@@ -721,7 +721,7 @@ namespace Parser {
 
     public class CRegexpbasicString : CASTLeaf<string>
     {
-        public CRegexpbasicString(string stringLiteral,CASTComposite parent) : base(stringLiteral,NodeType.NT_REGEXPBASIC_STRING,parent) {
+        public CRegexpbasicString(string stringLiteral,CASTComposite parent, string text) : base(stringLiteral,NodeType.NT_REGEXPBASIC_STRING,parent,text) {
         }
 
         protected override void AddChild(CASTElement child, int context, int pos = -1) {
@@ -748,7 +748,7 @@ namespace Parser {
     }
     public class CAssertionFwdpos : CASTComposite
     {
-        public CAssertionFwdpos(CASTComposite parent) : base(NodeType.NT_ASSERTION_FWDPOS, parent, NodeType.CAT_NA)
+        public CAssertionFwdpos(CASTComposite parent, string text) : base(NodeType.NT_ASSERTION_FWDPOS, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -782,7 +782,7 @@ namespace Parser {
     }
     public class CAssertionFwdneg : CASTComposite
     {
-        public CAssertionFwdneg(CASTComposite parent) : base(NodeType.NT_ASSERTION_FWDNEG, parent, NodeType.CAT_NA)
+        public CAssertionFwdneg(CASTComposite parent, string text) : base(NodeType.NT_ASSERTION_FWDNEG, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -816,7 +816,7 @@ namespace Parser {
     }
     public class CAssertionBwdpos : CASTComposite
     {
-        public CAssertionBwdpos(CASTComposite parent) : base(NodeType.NT_ASSERTION_BWDPOS, parent, NodeType.CAT_NA)
+        public CAssertionBwdpos(CASTComposite parent, string text) : base(NodeType.NT_ASSERTION_BWDPOS, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -850,7 +850,7 @@ namespace Parser {
     }
     public class CAssertionBwdneg : CASTComposite
     {
-        public CAssertionBwdneg(CASTComposite parent) : base(NodeType.NT_ASSERTION_BWDNEG, parent, NodeType.CAT_NA)
+        public CAssertionBwdneg(CASTComposite parent, string text) : base(NodeType.NT_ASSERTION_BWDNEG, parent,text, NodeType.CAT_NA)
         {
         }
 
@@ -904,7 +904,7 @@ namespace Parser {
 
         public CCharRange MRange => m_range;
 
-        public CRange(CASTComposite parent) : base(NodeType.NT_RANGE, parent, NodeType.CAT_NA)
+        public CRange(CASTComposite parent, string text) : base(NodeType.NT_RANGE, parent,text, NodeType.CAT_NA)
         {
         }
 
