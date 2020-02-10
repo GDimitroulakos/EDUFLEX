@@ -1,15 +1,27 @@
-digraph G59{
+digraph G10{
 	subgraph cluster0 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
-		label ="b*";
-		L1G59_N444;
-	}"L1G59_N442" [style=filled,fillcolor=green];
-"L1G59_N443" [peripheries=2];
-"L1G59_N444" [peripheries=2];
-"L1G59_N442"->"L1G59_N443" [style = bold, label = "[a]"];
-"L1G59_N443"->"L1G59_N444" [style = bold, label = "[b]"];
-"L1G59_N444"->"L1G59_N444" [style = bold, label = "[b]"];
+		label ="b~{1,3}";
+		L1G10_N64;
+	}	subgraph cluster1 {
+		node [style=filled];
+		style=filled;
+		color=lightgrey;
+		label ="(ab~{1,3}c)~{2,2}";
+		L1G10_N65;L1G10_N66;
+	}"L1G10_N62" [style=filled,fillcolor=green];
+"L1G10_N63";
+"L1G10_N64";
+"L1G10_N65";
+"L1G10_N66" [peripheries=2];
+"L1G10_N62"->"L1G10_N63" [style = bold, label = "[a]"];
+"L1G10_N63"->"L1G10_N64" [style = bold, label = "[b]"];
+"L1G10_N64"->"L1G10_N64" [style = bold, label = "[b]"];
+"L1G10_N64"->"L1G10_N65" [style = bold, label = "[c]"];
+"L1G10_N65"->"L1G10_N63" [style = bold, label = "[a]"];
+"L1G10_N65"->"L1G10_N66" [style = bold, label = "[d]"];
+"L1G10_N66"->"L1G10_N63" [style = bold, label = "[a]"];
 }
 

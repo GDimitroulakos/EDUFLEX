@@ -77,7 +77,7 @@ namespace Parser {
         public override int VisitLexerDescription(RegExpParser.LexerDescriptionContext context) {
 
             // Create new element
-            CASTComposite newNode = new CLexerDescription();
+            CASTComposite newNode = new CLexerDescription(context.GetText());
             //assign it to root
             M_ASTRoot = newNode;
 
@@ -105,7 +105,7 @@ namespace Parser {
             };
 
             // 1. Create new AST node
-            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),textSpan);
+            CRegexpStatement newNode = new CRegexpStatement(m_parents.Peek(),textSpan, context.GetText());
             newNode.M_StatementID = "L" + newNode.M_StatementTextSpan.M_StartLine;
 
             m_currentRERecord = new RERecord() { M_RePosition = textSpan, M_Label = newNode.M_StatementID, M_ReTree = newNode };
@@ -142,7 +142,7 @@ namespace Parser {
 
         public override int VisitRegexp_alternation(RegExpParser.Regexp_alternationContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpAlternation(m_parents.Peek());
+            CASTComposite newNode = new CRegexpAlternation(m_parents.Peek(), context.GetText());
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -163,7 +163,7 @@ namespace Parser {
 
         public override int VisitRegexp_concatenation(RegExpParser.Regexp_concatenationContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpConcatenation(m_parents.Peek());
+            CASTComposite newNode = new CRegexpConcatenation(m_parents.Peek(), context.GetText());
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -182,7 +182,7 @@ namespace Parser {
         }
         public override int VisitRegexp_clos(RegExpParser.Regexp_closContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpClosure(m_parents.Peek());
+            CASTComposite newNode = new CRegexpClosure(m_parents.Peek(), context.GetText());
             // record the text of the closure element
             newNode.M_Text = context.GetText();
 
@@ -208,7 +208,7 @@ namespace Parser {
         
         public override int VisitRegexpbasic_parenthesized(RegExpParser.Regexpbasic_parenthesizedContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpbasicParen(m_parents.Peek());
+            CASTComposite newNode = new CRegexpbasicParen(m_parents.Peek(), context.GetText());
 
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -228,7 +228,7 @@ namespace Parser {
 
         public override int VisitRegexpbasic_any(RegExpParser.Regexpbasic_anyContext context) {
             // 1. Create new AST node
-            CASTLeaf<CASTElement> newNode = new CRegexpbasicAnyexcepteol(m_parents.Peek());
+            CASTLeaf<CASTElement> newNode = new CRegexpbasicAnyexcepteol(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // VISIT CHILDREN
@@ -243,7 +243,7 @@ namespace Parser {
         
         public override int VisitRegexpbasic_eol(RegExpParser.Regexpbasic_eolContext context) {
             // 1. Create new AST node
-            CASTLeaf<CASTElement> newNode = new CRegexpbasicEndofline(m_parents.Peek());
+            CASTLeaf<CASTElement> newNode = new CRegexpbasicEndofline(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // VISIT CHILDREN
@@ -254,7 +254,7 @@ namespace Parser {
         }
         public override int VisitRegexpbasic_sol(RegExpParser.Regexpbasic_solContext context) {
             // 1. Create new AST node
-            CASTLeaf<CASTElement> newNode = new CRegexpbasicStartofline(m_parents.Peek());
+            CASTLeaf<CASTElement> newNode = new CRegexpbasicStartofline(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // VISIT CHILDREN
@@ -269,7 +269,7 @@ namespace Parser {
         public override int VisitRegexpbasic_string(RegExpParser.Regexpbasic_stringContext context) {
             // 1. Create new AST node
             string str = context.STRING().GetText();
-            CASTLeaf<string> newNode = new CRegexpbasicString(str.Substring(0,str.Length-1), m_parents.Peek());
+            CASTLeaf<string> newNode = new CRegexpbasicString(str.Substring(0,str.Length-1), m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // VISIT CHILDREN
@@ -284,7 +284,7 @@ namespace Parser {
 
         public override int VisitAssertion_fwdpos(RegExpParser.Assertion_fwdposContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CAssertionFwdpos(m_parents.Peek());
+            CASTComposite newNode = new CAssertionFwdpos(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // Update parents stack
@@ -302,7 +302,7 @@ namespace Parser {
 
         public override int VisitAssertion_fwdneg(RegExpParser.Assertion_fwdnegContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CAssertionFwdneg(m_parents.Peek());
+            CASTComposite newNode = new CAssertionFwdneg(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // Update parents stack
@@ -320,7 +320,7 @@ namespace Parser {
 
         public override int VisitAssertion_bwdpos(RegExpParser.Assertion_bwdposContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CAssertionBwdpos(m_parents.Peek());
+            CASTComposite newNode = new CAssertionBwdpos(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // Update parents stack
@@ -338,7 +338,7 @@ namespace Parser {
 
         public override int VisitAssertion_bwdneg(RegExpParser.Assertion_bwdnegContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CAssertionBwdneg(m_parents.Peek());
+            CASTComposite newNode = new CAssertionBwdneg(m_parents.Peek(), context.GetText());
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
             // Update parents stack
@@ -357,7 +357,7 @@ namespace Parser {
         public override int VisitFinate_closure_range(RegExpParser.Finate_closure_rangeContext context) {
 
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if (parent == null) {
@@ -385,7 +385,7 @@ namespace Parser {
         public override int VisitQuantifier_oneorzero(RegExpParser.Quantifier_oneorzeroContext context) {
 
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if ( parent == null) {
@@ -409,7 +409,7 @@ namespace Parser {
 
         public override int VisitQuantifier_oneormultiple(RegExpParser.Quantifier_oneormultipleContext context) {
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if (parent == null) {
@@ -432,7 +432,7 @@ namespace Parser {
 
         public override int VisitQuantifier_oneormultipleNG(RegExpParser.Quantifier_oneormultipleNGContext context) {
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if (parent == null) {
@@ -455,7 +455,7 @@ namespace Parser {
 
         public override int VisitQuantifier_noneormultiple(RegExpParser.Quantifier_noneormultipleContext context) {
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if (parent == null) {
@@ -477,7 +477,7 @@ namespace Parser {
 
         public override int VisitQuantifier_noneormultipleNG(RegExpParser.Quantifier_noneormultipleNGContext context) {
             // 1. Create new AST node
-            CClosureRange newNode = new CClosureRange(m_parents.Peek());
+            CClosureRange newNode = new CClosureRange(m_parents.Peek(), context.GetText());
             CRegexpClosure parent = m_parents.Peek() as CRegexpClosure;
 
             if (parent == null) {
@@ -499,7 +499,7 @@ namespace Parser {
         
         public override int VisitSetofitems(RegExpParser.SetofitemsContext context) {
             // 1. Create new AST node
-            CRegexpbasicSet newNode = new CRegexpbasicSet(m_parents.Peek(),false);
+            CRegexpbasicSet newNode = new CRegexpbasicSet(m_parents.Peek(),false, context.GetText());
             
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -518,7 +518,7 @@ namespace Parser {
 
         public override int VisitSetofitems_negation(RegExpParser.Setofitems_negationContext context) {
             // 1. Create new AST node
-            CASTComposite newNode = new CRegexpbasicSet(m_parents.Peek(),true);
+            CASTComposite newNode = new CRegexpbasicSet(m_parents.Peek(),true, context.GetText());
 
             
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -538,7 +538,7 @@ namespace Parser {
         }
 
         public override int VisitAction_code(RegExpParser.Action_codeContext context) {
-            CASTComposite newNode = new CActionCode(m_parents.Peek());
+            CASTComposite newNode = new CActionCode(m_parents.Peek(), context.GetText());
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
 
             m_currentRERecord.M_ActionCode = context.GetText();
@@ -560,7 +560,7 @@ namespace Parser {
             CRegexpbasicSet parent = m_parents.Peek() as CRegexpbasicSet;
             
             // 1. Create new AST node
-           CRange newNode = new CRange(m_parents.Peek());
+           CRange newNode = new CRange(m_parents.Peek(), context.GetText());
             
             // Add new element to the parent's descentants
             m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -590,7 +590,7 @@ namespace Parser {
                 case RegExpLexer.CONTROL_CHARACTERS:
                 case RegExpLexer.SET_LITERAL_CHARACTER:
                 case RegExpLexer.LITERAL_CHARACTER:
-                    CRegexpbasicChar newNode = new CRegexpbasicChar(node.GetText(),parent);
+                    CRegexpbasicChar newNode = new CRegexpbasicChar(node.GetText(),parent,node.GetText());
 
                     // Add new element to the parent's descentants
                     m_parents.Peek().AddChild(newNode, m_currentContext.Peek());
@@ -609,7 +609,7 @@ namespace Parser {
                     break;
                 case RegExpLexer.ID:
                     if (m_currentContext.Peek() == ContextType.CT_REGEXPSTATEMENT_TOKENNAME) {
-                        CRegexpID id = new CRegexpID(node.GetText(),parent);
+                        CRegexpID id = new CRegexpID(node.GetText(),parent,node.GetText());
                         ((CRegexpStatement) m_parents.Peek()).M_StatementID = node.GetText();
                         m_parents.Peek().AddChild(id, m_currentContext.Peek());
                     }

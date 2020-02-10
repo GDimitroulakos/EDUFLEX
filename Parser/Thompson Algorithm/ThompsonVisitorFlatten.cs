@@ -174,6 +174,7 @@ namespace Parser.Thompson_Algorithm
             }
 
             m_NFA = leftFa;
+            m_NFA.UpdateAlphabet();
             m_ReportingServices.ExctractThompsonStep(m_NFA,@"merge.dot", this.GetHashCode());
             if (i > 1) {
                 m_ReportingServices.AddThompsonStepToReporting(m_NFA, this.GetHashCode(), true);

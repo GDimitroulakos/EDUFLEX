@@ -81,12 +81,13 @@ namespace Parser {
         /// Initializes a new instance of the <see cref="CASTElement"/> class.
         /// </summary>
         /// <param name="nodeType">Type of the node.</param>
-        public CASTElement(NodeType nodeType, CASTElement parent, NodeType nodeCategory) {
+        public CASTElement(NodeType nodeType, CASTElement parent, NodeType nodeCategory,string text) {
             m_nodeType = nodeType;
             m_nodeCategory = nodeCategory;
             m_parent = parent;
             m_serialNumber = m_serialNumberCounter++;
             m_label = nodeType.ToString() + "_" + m_serialNumber;
+            m_text= text;
         }
         
         protected abstract void AddChild( CASTElement child, int context, int pos = -1 /*insert last by default*/);
@@ -208,8 +209,8 @@ namespace Parser {
         /// </summary>
         static protected CTokenSemanticValueConverter<T> m_semanticValueConverter=null;
 
-        public CASTLeaf(string literal, NodeType nodetype, CASTElement parent,
-            NodeType nodeCategory= NodeType.CAT_NA) : base(nodetype, parent,nodeCategory) {
+        public CASTLeaf(string literal, NodeType nodetype, CASTElement parent,string text,
+            NodeType nodeCategory= NodeType.CAT_NA) : base(nodetype, parent,nodeCategory,text) {
             m_TokenLiteral = literal;
             m_label += "< " + m_TokenLiteral + " >";
         }
@@ -340,8 +341,8 @@ namespace Parser {
 
         private List<CASTElement>[] m_descentands;
 
-       public CASTComposite(NodeType nodeType, CASTElement parent,
-            NodeType nodeCategory = NodeType.CAT_NA) : base(nodeType, parent,nodeCategory) {
+       public CASTComposite(NodeType nodeType, CASTElement parent,string text,
+            NodeType nodeCategory = NodeType.CAT_NA) : base(nodeType, parent,nodeCategory,text) {
 
             M_NumberOfContexts = CConfigurationSettings.m_nodeTypeConfiguration[nodeType].M_NumberOfContexts;
 

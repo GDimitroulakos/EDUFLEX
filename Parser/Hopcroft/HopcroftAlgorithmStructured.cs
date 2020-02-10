@@ -363,15 +363,20 @@ namespace Parser.Hopcroft {
         }
     }
 
-    // This class represented the Hopcroft Algorithm. The initial DFA has nodes
+    // This class represents the Hopcroft Algorithm. The initial DFA has nodes
     // that store the configuration information under the key m_CONFIGURATIONKEY.
     // The result DFA has nodes representing the algorithm's configuration and
     // store the nodes that represent under the same key m_CONFIGURATIONKEY.
     public class CHopcroftAlgorithmStructured {
+        // The current DFA that is to be minimized
         private FA m_currentDFA;
+        // RE to which the current DFA belongs
         private uint m_currentRE;
+        // The current minimized DFA resulted from given DFA
         private FA m_currentMinimizedDFA;
 
+        // The data structure passed through the algorithms ( Thompson,
+        // Subset Construction, Hopcroft )
         private Dictionary<uint, RERecord> m_inputDFAs;
         // ???
         private HopcroftInputGraphQueryInfo m_currentNodeConfiguration;
@@ -405,7 +410,11 @@ namespace Parser.Hopcroft {
 
         public void Init() {
 
-            // List of DFA nodes in minimized DFA node
+            // Initially the nodes of the given DFA are separated in accepted and non-accepted
+            // These two categories form the initial two states of the minimized DFA. Subsequently
+            // Hopcroft will break these nodes until there are only nodes with compatible initial
+            // DFA nodes. The following two sets represent the initial separation of the given DFA
+            // nodes
             List<CGraphNode> configurationAcc, configurationNonAcc;
 
             // Create configuration (min-DFA node) for accepted nodes
@@ -457,8 +466,12 @@ namespace Parser.Hopcroft {
 
                 // keep the number of nodes before applying a new split
                 nodeCount = m_currentMinimizedDFA.M_NumberOfNodes;
+
                 // ************************* Debug  ***************************
                 CIterationRecord currentIteration = m_reporting.AddIteration(iteration_count);
+                
+                // Iterate over the nodes of the minimized graph as it is before 
+                // splitting starts
                 CIt_GraphNodes minDFA_it = new CIt_GraphNodes(m_currentMinimizedDFA, true);
                 for (minDFA_it.Begin(); !minDFA_it.End(); minDFA_it.Next()) {
 
@@ -649,8 +662,8 @@ namespace Parser.Hopcroft {
                             // maps for the given character
                             // m_CharConfigurationMappings[currentConfiguration[0]] : configuration where the first node
                             // of the currentConfiguration maps for the given character
-                            // Check if node n exhibits the same behaviour with the first node (currentConfiguration[0]) of
-                            // currentConfiguration. The expected behaviour is to have the same 
+                            // Check if node n exhibits the same behavior with the first node (currentConfiguration[0]) of
+                            // currentConfiguration. The expected behavior is to have the same 
                             // target configuration. If not, then they must be separated
 
                             // ********************** debug ***********************
@@ -658,10 +671,10 @@ namespace Parser.Hopcroft {
 
                             if (!m_NodeConfigurationMappings.ContainsKey(m_CharConfigurationMappings[n])) {
                                 // Check if a configuration has already being identified that has 
-                                // the same behaviour with the one identified for node n. That is,
+                                // the same behavior with the one identified for node n. That is,
                                 // There exists a configuration that contains nodes that map to the 
                                 // same configuration as node n for the given character
-                                // If not a new configuration has to created and node n has to transferred there
+                                // If not a new configuration has to be created and node n has to transferred there
 
                                 // Check if node n destination partition already exists. If not created
                                 // and pull node n from the current partition to the newly created one

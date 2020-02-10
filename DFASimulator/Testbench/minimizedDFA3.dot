@@ -1,9 +1,0 @@
-digraph G70{
-"L3G70_N484" [peripheries=2];
-"L3G70_N485" [style=filled,fillcolor=green];
-"L3G70_N486" [peripheries=2];
-"L3G70_N485"->"L3G70_N484" [style = bold, label = "[0]"];
-"L3G70_N485"->"L3G70_N486" [style = bold, label = "[1-9]"];
-"L3G70_N486"->"L3G70_N486" [style = bold, label = "[0-9]"];
-}
-

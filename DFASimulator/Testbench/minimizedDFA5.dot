@@ -1,7 +1,0 @@
-digraph G77{
-"L5G77_N496" [peripheries=2];
-"L5G77_N497" [style=filled,fillcolor=green];
-"L5G77_N496"->"L5G77_N496" [style = bold, label = "[a-b]"];
-"L5G77_N497"->"L5G77_N496" [style = bold, label = "[a-b]"];
-}
-

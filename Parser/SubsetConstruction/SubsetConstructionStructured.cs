@@ -216,7 +216,7 @@ namespace Parser.SubsetConstruction {
                                 wstream.Write("{0},", node.M_Label);
                             }
 
-                            wstream.Write("),");
+                            wstream.WriteLine("),");
                         }
                         else {
                             wstream.Write("{0} (", itf.M_CurrentItem.M_Label);
@@ -236,11 +236,16 @@ namespace Parser.SubsetConstruction {
 
         public class CSubsetConstructionStructuredAlgorithm : CGraphAlgorithm<int> {
             //input/output
+            // NFAs given to by the Thompson algorithm. The output of ( DFAs )
+            // subset construction will also be placed in this data structure
             private Dictionary<uint,RERecord> m_NFAs;
 
             // internal fields
+            // Current DFA derived from the NFA
             private FA m_currentDFA;
+            // Current NFA transformed to DFA
             private FA m_currentNFA;
+            // Line of the current RE to which the NFA corresponds
             private uint m_currentRE;
 
             // Class CConfiguration is associated to the SubsetConstruction algorithm
@@ -251,15 +256,16 @@ namespace Parser.SubsetConstruction {
             // to be forwarded to the Configurations class
             private object m_thompsonInfoKey;
 
-            private List<string> m_alphabet;
+            // This queue holds the configurations as they produced to be handled by the algorithm
+            // in each iteration
             private Queue<HashSet<CGraphNode>> m_workList = new Queue<HashSet<CGraphNode>>();
 
             // GRAPH INFORMATION ACCESSORS
             // Information access for each derived DFA. Stores/Reads DFA related
-            // information to/from the DFA
+            // information to/from the DFA.Accesses the current DFA that the algorithm generates
             private FAGraphQueryInfo m_DFAInfo;
             // Information access for each derived DFA. Stores/Reads Subset Construction related
-            // information to/from the DFA
+            // information to/from the DFA. Accesses the current DFA that the algorithm generates
             private CSubsetConstructionInfo m_subsetInfo;
 
             // DEBUGGING/REPORTING DT
@@ -270,11 +276,21 @@ namespace Parser.SubsetConstruction {
             public Dictionary<uint,RERecord> M_RERecords{
                 get { return m_NFAs; }
             }
-            
+
+            public CSubsetConstructionStructuredAlgorithm(Dictionary<uint, RERecord> NFAs, object thompsonInfoKey) {
+                m_NFAs = NFAs;
+                m_reporting = new CSubsetConstructionReporting();
+                // pass the information from thompson algorithm here
+                m_thompsonInfoKey = thompsonInfoKey;
+            }
+
             public void Start() {
+                // Apply the subset construction algorithm for each given NFA
                 foreach (KeyValuePair<uint, RERecord> keyValuePair in m_NFAs) {
+                    // Set current NFA
                     m_currentNFA = keyValuePair.Value.M_Nfa;
                     m_currentRE = keyValuePair.Key;
+                    // Apply Subset Construction
                     m_NFAs[m_currentRE].M_Dfa= Start0();
 
                     // DEBUG
@@ -288,26 +304,31 @@ namespace Parser.SubsetConstruction {
                 CCharRangeSet set;
                 //q0 ← e-closure({n0});
 
+                // Create the first configuration from the NFA initial node using the E-Closure operation
                 HashSet<CGraphNode> q0 = CEclosureAlgorithm.Init(m_currentNFA, new HashSet<CGraphNode>() { m_currentNFA.M_Initial }).Start();
-
-                m_currentNFA.UpdateAlphabet();
-
-                // Create DFA
+                
+                // Create DFA and initialize DFA information related to the Subset Construction 
+                // algorithm
                 m_currentDFA = new FA();
                 m_subsetInfo = new CSubsetConstructionInfo(m_currentDFA,this.GetHashCode());
                 m_subsetInfo.InitGraphInfo(new CSubsetConstructionGraphInfo());
+                // initialize information accessor in respect to the DFA
+                m_DFAInfo = new FAGraphQueryInfo(m_currentDFA, FA.m_FAINFOKEY);
 
                 // DEBUG 
                 m_reporting.AddDFA(m_currentRE,m_currentDFA);
 
-                m_DFAInfo = new FAGraphQueryInfo(m_currentDFA, FA.m_FAINFOKEY);
+                // Initialize CConfigurations that will manage the creation of new 
+                // DFA nodes in the generated DFA 
                 m_configurations = new CConfigurations(m_currentDFA, m_currentNFA, m_thompsonInfoKey,this.GetHashCode());
+                // Create the first DFA for the initial configuration
                 m_configurations.CreateDFANode(q0);
 
                 /// ******************** DEBUG *************************
                 m_reporting.UpdateConfigurations(m_configurations, m_currentRE);
                 
                 //WorkList ← { q0};
+                // Enqueue the first DFA node to be considered in the algorithm loop
                 m_workList.Enqueue(q0);
 
                 while (m_workList.Count != 0) {
@@ -391,12 +412,7 @@ namespace Parser.SubsetConstruction {
                 //initial configuration
             }
             
-            public CSubsetConstructionStructuredAlgorithm(Dictionary<uint,RERecord> NFAs,object thompsonInfoKey) {
-                m_NFAs = NFAs;
-                m_reporting = new CSubsetConstructionReporting();
-                // pass the information from thompson algorithm here
-                m_thompsonInfoKey = thompsonInfoKey;
-            }
+           
 
             public override int Run() {
                 throw new NotImplementedException();
@@ -443,6 +459,8 @@ namespace Parser.SubsetConstruction {
                 CGraphNode qIsClosureSource =null;
                 CGraphNode qIsClosureExit=null;
                 string prefix = "";
+
+
                 //check if q configuration corresponds to a DFA state
                 DFAnode = GetDFANode(q);
                 //if not create a new DFA node
@@ -450,12 +468,23 @@ namespace Parser.SubsetConstruction {
                     DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
                     m_subsetInfo.InitNodeInfo(DFAnode,new CSubsetConstructionNodeInfo());
 
+                    // Search the configuration's nodes for...
                     foreach (CGraphNode node in q) {
+
+                        // the prefixes derived from the thompson algorithm. Gather the prefixes
+                        // of nodes from the Thompson algorithm to the prefixes set.
+                        // A DFA node involves multiple NFA nodes each one having a prefix depending on 
+                        // the RE from which it is generated. At this point we combine all the prefixes
+                        // from the NFA nodes comprising the DFA node to indicate the RE from which this 
+                        // DFA node is generated
                         if (!prefixes.Contains(m_NFAStateInfo.Info(node).M_NodeLabelPrefix)) {
                             prefixes.Add(m_NFAStateInfo.Info(node).M_NodeLabelPrefix);
+                            // Assign to the current DFA node the identified prefix
                             m_DFAStateInfo.Info(DFAnode).M_NodeLabelPrefix = m_NFAStateInfo.Info(node).M_NodeLabelPrefix;
                         }
-
+                        // Store the dependence of new DFANode on the input file lines
+                        // Likewise we store the dependences of the created DFA node to the lines
+                        // of the input file that reside the REs that generated this DFA node
                         foreach (uint lineDependency in m_NFAStateInfo.Info(node).M_LineDependencies) {
                             m_DFA.SetFANodeLineDependency(lineDependency, DFAnode);
                         }
@@ -473,21 +502,29 @@ namespace Parser.SubsetConstruction {
                     // if configuration contains source and exit closure nodes 
                     // add this information to the current created DFA node
                     if (qIsClosureSource!=null && qIsClosureExit!=null) {
+                        // Mark the DFAnode as a closure node
                         m_subsetInfo.SetClosureNode(DFAnode);
+                        // Mark the DFAnode with the closure expression it participates
                         m_subsetInfo.SetNodeClosureExpression(DFAnode,m_thompsonInfo.GetNodeClosureExpression(qIsClosureSource));
-                       m_subsetInfo.AddClosureNode(m_thompsonInfo.GetClosureSerial(qIsClosureSource),DFAnode);
+                        // Mark the DFAnode with the closure it participates using the 
+                        // serial number of the closure
+                        m_subsetInfo.AddClosureNode(m_thompsonInfo.GetClosureSerial(qIsClosureSource),DFAnode);
                     }
 
+                    // Change the label of the created DFA node to include the 
+                    // identified prefixes 
                     foreach (string s in prefixes) {
                         prefix += s;
                     }
                     m_DFA.PrefixElementLabel(prefix, DFAnode);
 
-
+                    // Mark the DFA node as a final state if it
+                    // contains NFA final states 
                     if (ContainsFinalState(q)) {
                         m_DFA.SetFinalState(DFAnode);
                     }
-
+                    // Mark the DFA node as a initial state if it
+                    // contains NFA initial states 
                     if (ContainsInitialState(q)) {
                         m_DFA.M_Initial = DFAnode;
                     }

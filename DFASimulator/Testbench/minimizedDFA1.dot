@@ -1,7 +1,15 @@
-digraph G64{
-"L1G64_N475" [peripheries=2];
-"L1G64_N476" [style=filled,fillcolor=green];
-"L1G64_N475"->"L1G64_N475" [style = bold, label = "[b]"];
-"L1G64_N476"->"L1G64_N475" [style = bold, label = "[a]"];
+digraph G11{
+"L1G11_N67" [peripheries=2];
+"L1G11_N68" [style=filled,fillcolor=green];
+"L1G11_N69";
+"L1G11_N70";
+"L1G11_N71";
+"L1G11_N67"->"L1G11_N69" [style = bold, label = "[a]"];
+"L1G11_N68"->"L1G11_N69" [style = bold, label = "[a]"];
+"L1G11_N69"->"L1G11_N71" [style = bold, label = "[b]"];
+"L1G11_N70"->"L1G11_N67" [style = bold, label = "[d]"];
+"L1G11_N70"->"L1G11_N69" [style = bold, label = "[a]"];
+"L1G11_N71"->"L1G11_N70" [style = bold, label = "[c]"];
+"L1G11_N71"->"L1G11_N71" [style = bold, label = "[b]"];
 }
 
