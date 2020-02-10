@@ -6,7 +6,6 @@ using Parser;
 using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
-using RangeIntervals;
 
 internal abstract class CThompsonTemplates {
     protected ThompsonInfo m_ThompsonInfo;
@@ -21,38 +20,12 @@ internal abstract class CThompsonTemplates {
     protected CThompsonTemplates(object infokey) {
         m_ThompsonInfoKey = infokey;
     }
-
-    protected FAInfo UpdateClosureInformation(FA synth, FA currentFA, CGraph.CMergeGraphOperation mergeOperation) {
-        FAInfo closureOperandInfo = synth.GetFAInfo();  // get access to the closure operand FA
-        FAInfo currentFAInfo = currentFA.GetFAInfo(); // get access to the current FA info
-        foreach (FALoop faLoop in closureOperandInfo.MLoopsInFa.Values) {
-            FALoop newloop = new FALoop();
-            CGraphNode entry = faLoop.MEntryNode;
-            newloop.MEntryNode = mergeOperation.GetMirrorNode(entry);
-            CGraphNode exit = faLoop.MExitNode;
-            newloop.MExitNode = mergeOperation.GetMirrorNode(exit);
-            foreach (CGraphNode cGraphNode in faLoop.MParticipatingNodes) {
-                newloop.MParticipatingNodes.Add(mergeOperation.GetMirrorNode(cGraphNode));
-            }
-            FALoop.ClosureType closureType = faLoop.MClosureType;
-            Range<int> clsrng = faLoop.MClosureRange;
-            newloop.MClosureRange = new Range<int>(clsrng);
-            newloop.MClosureType = faLoop.MClosureType;
-            newloop.MLoopSerial = faLoop.MLoopSerial;
-            currentFAInfo.AddFALoop(newloop);
-        }
-
-        return currentFAInfo;
-    }
     
 }
 
 internal class CThompsonClosureTemplate : CThompsonTemplates {
     // The text representing the closure in the source text
     private string m_closureText;
-
-    private FALoop m_currentFAloop;
-    private int m_currentClosureSerial;
 
     public string M_ClosureText => m_closureText;
 
@@ -65,10 +38,7 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
     public CThompsonClosureTemplate(object infokey,string closureText) :base(infokey) {
         m_closureText = closureText;
     }
-
-
     private FA CreateNewFA(FA synth) {
-        CGraphNode oldEntryNode, oldExitNode;
         FA m_currentFA = new FA();
         m_ThompsonInfo = new ThompsonInfo(m_currentFA, m_ThompsonInfoKey);
         m_ThompsonInfo.InitFAInfo(new ThompsonFAInfo());
@@ -94,36 +64,16 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_newFATarget, GraphType.GT_DIRECTED);
 
         //4.Create the initial and the final node
-        oldEntryNode = m_mergeOperation.GetMirrorNode(synth.M_Initial);
-        oldExitNode = m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]);
         m_currentFA.M_Initial = m_newFASource;
         m_currentFA.SetFinalState(m_newFATarget);
         m_currentFA.UpdateAlphabet();
-
-        // Update closure information from operand closure
-        FAInfo currentFAInfo = UpdateClosureInformation(synth,m_currentFA,m_mergeOperation);
-        
-        // Update closure information from current closure
-        m_currentFAloop = new FALoop();
-        m_currentFAloop.MEntryNode = oldEntryNode;
-        m_currentFAloop.MExitNode = oldExitNode;
-        m_currentFAloop.MLoopSerial = m_currentClosureSerial;
-        CIt_GraphNodes it = new CIt_GraphNodes(m_currentFA);
-        for (it.Begin(); !it.End(); it.Next()) {
-            if (it.M_CurrentItem != m_currentFA.M_Initial &&
-                it.M_CurrentItem != m_currentFA.GetFinalStates()[0]) {
-                m_currentFAloop.MParticipatingNodes.Add(it.M_CurrentItem);
-            }
-        }
-        // Add new closure to the current FA
-        currentFAInfo.AddFALoop(m_currentFAloop);
 
         return m_currentFA;
     }
 
     internal FA SynthesizeNoneOrMul(FA synth) {
         // Create a serial to identify this closure
-        m_currentClosureSerial = ThompsonFAInfo.GetNewClosureSerial();
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         // 1. Create new FA
         FA m_currentFA = CreateNewFA(synth);
         
@@ -132,14 +82,10 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
         // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
-        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_currentClosureSerial);
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
         m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial),m_closureText);
-        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_currentClosureSerial);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
         m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]),m_closureText);
-
-        // Update current FA closure Info
-        m_currentFAloop.MLoopSerial = m_currentClosureSerial;
-        m_currentFAloop.MClosureType = FALoop.ClosureType.CT_NONEORMULT;
 
         //7.Return result
         return m_currentFA;
@@ -147,20 +93,16 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
 
     internal FA SynthesisOneOrMul(FA synth){
         // Create a serial to identify this closure
-        m_currentClosureSerial = ThompsonFAInfo.GetNewClosureSerial();
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
         // Draw the closure loop edge
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
             GraphType.GT_DIRECTED);
 
-        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),m_currentClosureSerial);
+        m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial),closureSerial);
         m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_closureText);
-        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_currentClosureSerial);
+        m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
         m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_closureText);
-
-        // Update current FA closure Info
-        m_currentFAloop.MLoopSerial = m_currentClosureSerial;
-        m_currentFAloop.MClosureType = FALoop.ClosureType.CT_ONEORMULT;
 
         //7.Return result
         return m_currentFA;
@@ -176,9 +118,9 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
         return m_currentFA;
     }
 
-    internal FA  SynthesizeFinite(FA synth, int lb, int up) {
+    internal FA SynthesizeFinite(FA synth, int lb, int up) {
         // Create a serial to identify this closure
-        m_currentClosureSerial = ThompsonFAInfo.GetNewClosureSerial();
+        int closureSerial = ThompsonFAInfo.GetNewClosureSerial();
         m_currentFA = CreateNewFA(synth);
        
         if (lb == 0) {
@@ -188,16 +130,11 @@ internal class CThompsonClosureTemplate : CThompsonTemplates {
         if (up > 1) {
             m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_mergeOperation.GetMirrorNode(synth.M_Initial),
                 GraphType.GT_DIRECTED);
-            m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_currentClosureSerial);
+            m_ThompsonInfo.SetNodeClosureEntrance(m_mergeOperation.GetMirrorNode(synth.M_Initial), closureSerial);
             m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.M_Initial), m_closureText);
-            m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_currentClosureSerial);
+            m_ThompsonInfo.SetNodeClosureExit(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), closureSerial);
             m_ThompsonInfo.SetNodeClosureExpression(m_mergeOperation.GetMirrorNode(synth.GetFinalStates()[0]), m_closureText);
         }
-
-        // Update current FA closure Info
-        m_currentFAloop.MLoopSerial = m_currentClosureSerial;
-        m_currentFAloop.MClosureType = FALoop.ClosureType.CT_FINITE;
-        m_currentFAloop.MClosureRange=new Range<int>(lb,up);
 
         return m_currentFA;
     }
@@ -208,10 +145,10 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
     }
 
     internal FA Synthesize(FA l, FA r){
-        FA m_currentFA = new FA();
-        m_ThompsonInfo = new ThompsonInfo(m_currentFA, m_ThompsonInfoKey);
+        FA tempFA = new FA();
+        m_ThompsonInfo = new ThompsonInfo(tempFA,m_ThompsonInfoKey);
         //2.Merge left graph
-        CGraph.CMergeGraphOperation lmerge = m_currentFA.Merge(l,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
+        CGraph.CMergeGraphOperation lmerge = tempFA.Merge(l,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
         lmerge.MergeGraphInfo(l, GraphElementType.ET_EDGE, FA.m_FAINFOKEY);
         lmerge.MergeGraphInfo(l, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
         lmerge.MergeGraphInfo(l, GraphElementType.ET_NODE, FA.m_FAINFOKEY);
@@ -224,7 +161,7 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
         CGraphNode fl = lmerge.GetMirrorNode(l.GetFinalStates()[0]);
 
         //3.Merge right graph
-        CGraph.CMergeGraphOperation rmerge = m_currentFA.Merge(r,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
+        CGraph.CMergeGraphOperation rmerge = tempFA.Merge(r,CGraph.CMergeGraphOperation.MergeOptions.MO_DEFAULT);
         rmerge.MergeGraphInfo(r, GraphElementType.ET_EDGE, FA.m_FAINFOKEY);
         rmerge.MergeGraphInfo(r, GraphElementType.ET_GRAPH, FA.m_FAINFOKEY);
         rmerge.MergeGraphInfo(r, GraphElementType.ET_NODE, FA.m_FAINFOKEY);
@@ -237,17 +174,14 @@ internal class CThompsonConcatenationTemplate : CThompsonTemplates
         CGraphNode fr = rmerge.GetMirrorNode(r.GetFinalStates()[0]);
 
         //4.Create the initial and the final node
-        m_currentFA.M_Initial = il;
-        m_currentFA.SetFinalState(fr);
+        tempFA.M_Initial = il;
+        tempFA.SetFinalState(fr);
 
-        m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(fl, ir, GraphType.GT_DIRECTED);
+        tempFA.AddGraphEdge<CGraphEdge, CGraphNode>(fl, ir, GraphType.GT_DIRECTED);
 
-        // Update closure information from operand closure
-        UpdateClosureInformation(l, m_currentFA, lmerge);
-        UpdateClosureInformation(r, m_currentFA, rmerge);
-        
         //7.Return result
-        return m_currentFA;
+        return tempFA;
+
     }
 }
 internal class CThompsonAlternationTemplate : CThompsonTemplates
@@ -301,11 +235,6 @@ internal class CThompsonAlternationTemplate : CThompsonTemplates
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(FAinit, ir, GraphType.GT_DIRECTED);
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(fr, FAfinal, GraphType.GT_DIRECTED);
         m_currentFA.AddGraphEdge<CGraphEdge, CGraphNode>(fl, FAfinal, GraphType.GT_DIRECTED);
-
-        // Update closure information from operand closure
-        // Update closure information from operand closure
-        UpdateClosureInformation(l, m_currentFA, lmerge);
-        UpdateClosureInformation(r, m_currentFA, rmerge);
 
         //7.Return result
         return m_currentFA;
