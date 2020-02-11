@@ -422,7 +422,9 @@ namespace Parser.SubsetConstruction {
                     FALoop newDFALoop = new FALoop();
                     newDFALoop.MLoopSerial = loop.MLoopSerial;
                     newDFALoop.MClosureType = loop.MClosureType;
-                    newDFALoop.MClosureRange = new Range<int>(loop.MClosureRange);
+                    if (newDFALoop.MClosureType == FALoop.ClosureType.CT_FINITE) {
+                        newDFALoop.MClosureRange = new Range<int>(loop.MClosureRange);
+                    }
 
                 }
 
