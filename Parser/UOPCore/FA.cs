@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Parser.UOPCore
         private FA m_NFA = null;    // Result from Thompson
         private FA m_minDFA = null; // Result from Hopcroft
         private TextSpan m_REPosition; // Position of Regular Expression into the code
-        private string m_label = null;   // Regular Expression label;
+        private string m_label = null; // Regular Expression label;
         [NonSerialized]
         private CRegexpStatement m_RETree = null;
         private string m_actionCode;
@@ -61,7 +62,61 @@ namespace Parser.UOPCore
         }
     }
 
+    [Serializable]
+    public class FALoop {
+        public enum ClosureType { CT_NA,CT_NONEORMULT, CT_ONEORMULT, CT_FINITE}
+        private CGraphNode m_entryNode=null;
+        private CGraphNode m_exitNode=null;
+        private HashSet<CGraphNode> m_participatingNodes=new HashSet<CGraphNode>();
+        private Range<int> m_closureRange=null;
+        private ClosureType m_ClosureType=ClosureType.CT_NA;
+        private int m_loopSerial=-1;
 
+        public CGraphNode MEntryNode {
+            get => m_entryNode;
+            set => m_entryNode = value;
+        }
+
+        public CGraphNode MExitNode {
+            get => m_exitNode;
+            set => m_exitNode = value;
+        }
+
+        public HashSet<CGraphNode> MParticipatingNodes {
+            get => m_participatingNodes;
+            set => m_participatingNodes = value;
+        }
+
+        public Range<int> MClosureRange {
+            get => m_closureRange;
+            set => m_closureRange = value;
+        }
+
+        public ClosureType MClosureType {
+            get => m_ClosureType;
+            set => m_ClosureType = value;
+        }
+
+        public int MLoopSerial {
+            get => m_loopSerial;
+            set => m_loopSerial = value;
+        }
+
+        public override string ToString() {
+            StringBuilder s = new StringBuilder();
+            s.Append("Closure Serial : " + MLoopSerial +"\n");
+            s.Append("Closure Type : " + MClosureType + "\n");
+            s.Append("Closure Range : " + MClosureRange + "\n");
+            s.Append("Entry Node : " + MEntryNode.M_Label + "\n");
+            s.Append("Exit Node : " + MExitNode.M_Label + "\n");
+            s.Append("Participating Nodes (" + MParticipatingNodes.Count  +"): ");
+            foreach (CGraphNode node in MParticipatingNodes) {
+                s.Append(" "+node.M_Label+" ");
+            }
+            s.Append("\n");
+            return s.ToString();
+        }
+    } 
 
     public enum FAStateType {
         FT_NA,FT_ACCEPTED,FT_NONACCEPTED
@@ -83,6 +138,14 @@ namespace Parser.UOPCore
 
         public void SetDFAEdgeTransitionCharacterSet(CGraphEdge edge, CCharRangeSet set) {
             Info(edge).M_TransitionCharSet = set;
+        }
+
+        public void AddFALoop(FALoop loop) {
+            Info().AddFALoop(loop);
+        }
+
+        public FALoop GetFaLoop(int serial) {
+            return Info().GetFALoop(serial);
         }
     }
 
@@ -106,13 +169,36 @@ namespace Parser.UOPCore
         private HashSet<CGraphNode> m_final = new HashSet<CGraphNode>();
 
         /// <summary>
+        ///  This member lists the closures' information+ in the FA 
+        /// </summary>
+        private Dictionary<int,FALoop> m_loopsInFA=new Dictionary<int, FALoop>();
+
+        /// <summary>
         /// Records the information referring to each separate regular expression
         /// </summary>
+        
+
 
         internal FAInfo(FA fa) {
             m_fa = fa;
         }
 
+        public Dictionary<int, FALoop> MLoopsInFa {
+            get => m_loopsInFA;
+        }
+
+        public void AddFALoop(FALoop loop) {
+            if (!m_loopsInFA.ContainsKey(loop.MLoopSerial)) {
+                m_loopsInFA[loop.MLoopSerial] = loop;
+            }
+            else {
+                throw new Exception("loop already added");
+            }
+        }
+
+        public FALoop GetFALoop(int serial) {
+            return m_loopsInFA[serial];
+        }
         
         internal CGraphNode M_Initial {
             get => m_initial;
@@ -128,6 +214,21 @@ namespace Parser.UOPCore
             return new List<CGraphNode>(m_final);
         }
 
+        public override string ToString() {
+            StringBuilder s = new StringBuilder();
+            s.Append("Initial: "+ M_Initial.M_Label+"\n");
+            s.Append("Final:");
+            foreach (CGraphNode node in M_Final) {
+                s.Append(" " + node.M_Label + " ");
+                s.Append("\n");
+            }
+            s.Append("\n");
+            foreach (FALoop faLoop in MLoopsInFa.Values) {
+                s.Append(faLoop.ToString());
+                s.Append("\n"); 
+            }
+            return s.ToString();
+        }
     }
 
     /// <summary>
@@ -135,7 +236,7 @@ namespace Parser.UOPCore
     /// the information through methods and properties
     /// </summary>
     [Serializable]
-    public class FAStateInfo :CGraphNode{
+    public class FAStateInfo {
         private FAStateType m_stateType;
         /// <summary>
         /// It is the string prefix applied to the current node of the FA
@@ -184,19 +285,33 @@ namespace Parser.UOPCore
             get => m_stateType;
             set => m_stateType = value;
         }
+        public override string ToString() {
+            StringBuilder s = new StringBuilder();
+            s.Append("State Type: " + m_stateType);
+            s.Append("Prefixes: ");
+            foreach (string s1 in m_nodeLabelsPrefix) {
+                s.Append(" " + s1 + " ");
+            }
+            s.Append("Line Dependencies: ");
+            foreach (uint s1 in m_LineDependencies) {
+                s.Append(" " + s1 + " ");
+            }
+            return s.ToString();
+        }
     }
 
     [Serializable]
     public class FAEdgeInfo {
-        // Represents the closure multiplicity if the edge refers to 
-        // a loop edge of a closure
-        //private RangeSetO<Range<Int32>,Int32> m_closureMultiplicityRange;
-
+        
         private CCharRangeSet m_transitionCharSet;
 
         internal CCharRangeSet M_TransitionCharSet {
             get => m_transitionCharSet;
             set => m_transitionCharSet = value;
+        }
+
+        public override string ToString() {
+            return m_transitionCharSet?.ToString()??"";
         }
     }
     
@@ -337,6 +452,10 @@ namespace Parser.UOPCore
             }
         }
 
+        public FAInfo GetFAInfo() {
+            return m_FAInfo.Info();
+        }
+
         /// <summary>
         /// Returns the character set info associated with a specific FA edge 
         /// </summary>
@@ -374,6 +493,10 @@ namespace Parser.UOPCore
         public void SetFANodePrefix(string prefix,CGraphNode node) {
             m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
         }
+        /// <summary>
+        /// All FA nodes are prefixed with the given string
+        /// </summary>
+        /// <param name="prefix"></param>
         public void SetFANodePrefix(string prefix) {
             foreach (CGraphNode node in m_graphNodes) {
                 m_FAInfo.Info(node).M_NodeLabelPrefix = prefix;
@@ -389,13 +512,48 @@ namespace Parser.UOPCore
             m_FAInfo.Info(node).AddLineDependency(line);
         }
 
+        /// <summary>
+        /// All nodes of the FA are marked dependent on the given input line
+        /// of the regular expressions input file
+        /// </summary>
+        /// <param name="line"></param>
         public void SetFANodesLineDependency(uint line) {
             foreach (CGraphNode node in m_graphNodes) {
                 m_FAInfo.Info(node).AddLineDependency(line);
             }
         }
 
-        
+        public void EmmitToFile(string filename, object[] infokeys=null) {
+            StreamWriter outfile = new StreamWriter(filename);
+            int i;
+            outfile.WriteLine("**************************************");
+            outfile.WriteLine(ToString());
+            outfile.WriteLine("**************************************");
+            outfile.WriteLine("Graph:");
+            for (i = 0; infokeys != null && i < infokeys.Length; i++) {
+                outfile.WriteLine(ToInfoString(infokeys[i]));
+            }
+
+            CIt_GraphNodes it = new CIt_GraphNodes(m_graph);
+            outfile.WriteLine("Nodes:");
+            for (i = 0; infokeys != null && i < infokeys.Length; i++) {
+                for (it.Begin();!it.End();it.Next()) {
+                    outfile.WriteLine(it.M_CurrentItem.ToInfoString(infokeys[i]));
+                }
+            }
+
+            CIt_GraphEdges itg = new CIt_GraphEdges(m_graph);
+            outfile.WriteLine("Edges:");
+            for (i = 0; infokeys != null && i < infokeys.Length; i++) {
+                for (itg.Begin(); !itg.End(); itg.Next()) {
+                    outfile.WriteLine(itg.M_CurrentItem.ToInfoString(infokeys[i]));
+                }
+            }
+
+
+
+            outfile.Close();
+        }
 
         public override string ToString()
         {

@@ -1,0 +1,6 @@
+digraph G4{
+"L1G4_N14" [style=filled,fillcolor=green];
+"L1G4_N15" [peripheries=2];
+"L1G4_N14"->"L1G4_N15" [style = bold, label = "[c]"];
+}
+

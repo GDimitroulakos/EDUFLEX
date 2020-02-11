@@ -1,0 +1,80 @@
+**************************************
+Initial State: L1L1G9_N60
+Final States: L1L1G9_N61;
+FA edges: 
+L1L1G9_N48->L1L1G9_N49;
+L1L1G9_N50->L1L1G9_N51;
+L1L1G9_N52->L1L1G9_N50;
+L1L1G9_N51->L1L1G9_N53;
+L1L1G9_N51->L1L1G9_N50;
+L1L1G9_N49->L1L1G9_N52;
+L1L1G9_N54->L1L1G9_N55;
+L1L1G9_N53->L1L1G9_N54;
+L1L1G9_N56->L1L1G9_N48;
+L1L1G9_N55->L1L1G9_N57;
+L1L1G9_N55->L1L1G9_N48;
+L1L1G9_N58->L1L1G9_N59;
+L1L1G9_N57->L1L1G9_N58;
+L1L1G9_N60->L1L1G9_N56;
+L1L1G9_N59->L1L1G9_N61;
+L1L1G9_N59->L1L1G9_N56;
+
+**************************************
+Graph:
+Initial: L1L1G9_N60
+Final: L1L1G9_N61 
+
+Closure Serial : 0
+Closure Type : CT_FINITE
+Closure Range : Min : 1 -  Max: 3
+Entry Node : L1L1G9_N50
+Exit Node : L1L1G9_N51
+Participating Nodes (2):  L1L1G9_N50  L1L1G9_N51 
+
+Closure Serial : 1
+Closure Type : CT_FINITE
+Closure Range : Min : 2 -  Max: 2
+Entry Node : L1L1G9_N48
+Exit Node : L1L1G9_N55
+Participating Nodes (8):  L1L1G9_N48  L1L1G9_N49  L1L1G9_N50  L1L1G9_N51  L1L1G9_N52  L1L1G9_N53  L1L1G9_N54  L1L1G9_N55 
+
+Closure Serial : 2
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : L1L1G9_N56
+Exit Node : L1L1G9_N59
+Participating Nodes (12):  L1L1G9_N48  L1L1G9_N49  L1L1G9_N50  L1L1G9_N51  L1L1G9_N52  L1L1G9_N53  L1L1G9_N54  L1L1G9_N55  L1L1G9_N56  L1L1G9_N57  L1L1G9_N58  L1L1G9_N59 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+Edges:
+[a]
+[b]
+
+
+
+
+[c]
+
+
+
+
+[d]
+
+
+
+

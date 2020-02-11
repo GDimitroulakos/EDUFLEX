@@ -1,0 +1,6 @@
+digraph G7{
+"L1G7_N34" [style=filled,fillcolor=green];
+"L1G7_N35" [peripheries=2];
+"L1G7_N34"->"L1G7_N35" [style = bold, label = "[d]"];
+}
+

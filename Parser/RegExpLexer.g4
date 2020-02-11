@@ -99,7 +99,7 @@ INTEGER : INT;
 		//    \t    \n    \r
 WS_SET : [ \u0009\u000A\u000D]+ ->skip;
 
-fragment INT : [1-9][0-9]*;
+fragment INT : '0'|[1-9][0-9]*;
 
 mode STRINGMOD;
 STRING :  .*? '\'' {    RegExpLexer.guard_string = true;

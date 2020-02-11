@@ -1,9 +1,0 @@
-digraph G32{
-"L3G32_N136" [peripheries=2];
-"L3G32_N137" [style=filled,fillcolor=green];
-"L3G32_N138" [peripheries=2];
-"L3G32_N137"->"L3G32_N136" [style = bold, label = "[0]"];
-"L3G32_N137"->"L3G32_N138" [style = bold, label = "[1-9]"];
-"L3G32_N138"->"L3G32_N138" [style = bold, label = "[0-9]"];
-}
-
