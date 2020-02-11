@@ -67,7 +67,7 @@ namespace Parser.UOPCore
         public enum ClosureType { CT_NA,CT_NONEORMULT, CT_ONEORMULT, CT_FINITE}
         private CGraphNode m_entryNode=null;
         private CGraphNode m_exitNode=null;
-        private List<CGraphNode> m_participatingNodes=new List<CGraphNode>();
+        private HashSet<CGraphNode> m_participatingNodes=new HashSet<CGraphNode>();
         private Range<int> m_closureRange=null;
         private ClosureType m_ClosureType=ClosureType.CT_NA;
         private int m_loopSerial=-1;
@@ -82,7 +82,7 @@ namespace Parser.UOPCore
             set => m_exitNode = value;
         }
 
-        public List<CGraphNode> MParticipatingNodes {
+        public HashSet<CGraphNode> MParticipatingNodes {
             get => m_participatingNodes;
             set => m_participatingNodes = value;
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Parser.ASTVisitor.ConcreteVisitors;
 using Parser.Thompson_Algorithm;
 using Parser.UOPCore;
+using RangeIntervals;
 
 namespace Parser.SubsetConstruction {
     using System;
@@ -398,6 +399,9 @@ namespace Parser.SubsetConstruction {
                 // on the edges
                 m_currentDFA.UpdateAlphabet();
 
+                // Find the loops in the generated DFA
+                FindLoops();
+
                 //m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
                 m_currentDFA.RegisterGraphPrinter(new SubsetGraphvizPrinter(m_currentDFA,this.GetHashCode()));
                 m_currentDFA.Generate(@"mergeDFA"+m_currentRE+".dot", true);
@@ -408,6 +412,22 @@ namespace Parser.SubsetConstruction {
 
                 return m_currentDFA;
             }
+
+            // Access to each NFA info is done through a common key used in the
+            // Thompson algorithm
+            private void FindLoops() {
+                FAInfo currentNFAInfo = m_currentNFA.GetFAInfo();
+                FAInfo currentDFAInfo = m_currentDFA.GetFAInfo();
+                foreach (FALoop loop in currentNFAInfo.MLoopsInFa.Values) {
+                    FALoop newDFALoop = new FALoop();
+                    newDFALoop.MLoopSerial = loop.MLoopSerial;
+                    newDFALoop.MClosureType = loop.MClosureType;
+                    newDFALoop.MClosureRange = new Range<int>(loop.MClosureRange);
+
+                }
+
+            }
+
             public override void Init() {
                 //initial configuration
             }
@@ -467,6 +487,7 @@ namespace Parser.SubsetConstruction {
                 if (DFAnode == null) {
                     DFAnode = m_DFA.CreateGraphNode<CGraphNode>();
                     m_subsetInfo.InitNodeInfo(DFAnode,new CSubsetConstructionNodeInfo());
+                    m_subsetInfo.SetDFANodeConfiguration(DFAnode,q);
 
                     // Search the configuration's nodes for...
                     foreach (CGraphNode node in q) {

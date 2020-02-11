@@ -9,9 +9,17 @@ namespace Parser.SubsetConstruction {
 
     [Serializable]
     public class CSubsetConstructionNodeInfo {
+        // Nodes of NFA mapped to the current DFA Node
+        private HashSet<CGraphNode> m_configuration=new HashSet<CGraphNode>();
+
         private bool m_isClosureNode =false;
 
         private string m_closureExpression=null;
+
+        public HashSet<CGraphNode> MConfiguration {
+            get => m_configuration;
+            set => m_configuration = value;
+        }
 
         public bool M_IsClosureNode {
             get => m_isClosureNode;
@@ -50,6 +58,14 @@ namespace Parser.SubsetConstruction {
     [Serializable]
     public class CSubsetConstructionInfo :CGraphQueryInfo<CSubsetConstructionNodeInfo, CSubsetConstructionEdgeInfo, CSubsetConstructionGraphInfo> {
         public CSubsetConstructionInfo(CGraph graph, object key) : base(graph, key) {
+        }
+
+        public void SetDFANodeConfiguration(CGraphNode node,HashSet<CGraphNode> q) {
+            Info(node).MConfiguration.UnionWith(q);
+        }
+
+        public HashSet<CGraphNode> GetDFANodeConfiguration(CGraphNode node) {
+            return Info(node).MConfiguration;
         }
 
         public bool IsClosureNode(CGraphNode node) {
