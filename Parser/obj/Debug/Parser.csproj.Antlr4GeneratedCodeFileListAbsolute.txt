@@ -1,6 +1,6 @@
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpLexer.cs
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParser.cs
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserListener.cs
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserBaseListener.cs
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserVisitor.cs
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserBaseVisitor.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpLexer.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParser.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserListener.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserBaseListener.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserVisitor.cs
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\RegExpParserBaseVisitor.cs

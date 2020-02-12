@@ -1,0 +1,50 @@
+**************************************
+Initial State: L1G10_N62
+Final States: L1G10_N66;
+FA edges: 
+L1G10_N62->L1G10_N63;
+L1G10_N63->L1G10_N64;
+L1G10_N64->L1G10_N64;
+L1G10_N64->L1G10_N65;
+L1G10_N65->L1G10_N63;
+L1G10_N65->L1G10_N66;
+L1G10_N66->L1G10_N63;
+
+**************************************
+Graph:
+Initial: L1G10_N62
+Final: L1G10_N66 
+
+Closure Serial : 0
+Closure Type : CT_FINITE
+Closure Range : Min : 1 -  Max: 3
+Entry Node : Exit Node : L1G10_N64
+Participating Nodes (1):  L1G10_N64 
+
+Closure Serial : 1
+Closure Type : CT_FINITE
+Closure Range : Min : 2 -  Max: 2
+Entry Node : Exit Node : L1G10_N65
+Participating Nodes (3):  L1G10_N63  L1G10_N64  L1G10_N65 
+
+Closure Serial : 2
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L1G10_N66
+Participating Nodes (4):  L1G10_N63  L1G10_N64  L1G10_N65  L1G10_N66 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+Edges:
+[a]
+[b]
+[b]
+[c]
+[a]
+[d]
+[a]

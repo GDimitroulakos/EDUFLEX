@@ -405,7 +405,7 @@ namespace Parser.SubsetConstruction {
                 //m_currentDFA.RegisterGraphPrinter(new FAGraphVizPrinter(m_currentDFA, new UOPCore.Options<ThompsonOptions>()));
                 m_currentDFA.RegisterGraphPrinter(new SubsetGraphvizPrinter(m_currentDFA,this.GetHashCode()));
                 m_currentDFA.Generate(@"mergeDFA"+m_currentRE+".dot", true);
-                
+                m_currentDFA.EmmitToFile(@"mergeDFA" + m_currentRE + ".txt",new object[1] { FA.m_FAINFOKEY });
 
                 // DEBUG
                 m_reporting.Report("SubsetREPORT.txt");
@@ -418,6 +418,7 @@ namespace Parser.SubsetConstruction {
             private void FindLoops() {
                 FAInfo currentNFAInfo = m_currentNFA.GetFAInfo();
                 FAInfo currentDFAInfo = m_currentDFA.GetFAInfo();
+                
                 foreach (FALoop loop in currentNFAInfo.MLoopsInFa.Values) {
                     FALoop newDFALoop = new FALoop();
                     newDFALoop.MLoopSerial = loop.MLoopSerial;
@@ -425,9 +426,26 @@ namespace Parser.SubsetConstruction {
                     if (newDFALoop.MClosureType == FALoop.ClosureType.CT_FINITE) {
                         newDFALoop.MClosureRange = new Range<int>(loop.MClosureRange);
                     }
-
+                    // Check which nodes of the DFA belong to the current loop
+                    CIt_GraphNodes it = new CIt_GraphNodes(m_currentDFA);
+                    for (it.Begin(); !it.End(); it.Next()) {
+                        HashSet<CGraphNode> currentNodeConfiguration =
+                            new HashSet<CGraphNode>(m_subsetInfo.GetDFANodeConfiguration(it.M_CurrentItem));
+                        
+                        //a. Check if configuration belongs exclusively to the current loop
+                        currentNodeConfiguration.ExceptWith(loop.MParticipatingNodes);
+                        if ( currentNodeConfiguration.Count==0) {
+                            // Add the current DFA node to the current loop
+                            newDFALoop.MParticipatingNodes.Add(it.M_CurrentItem);
+                        }
+                        //b. Check if the configuration includes an loop exit node 
+                        if (m_subsetInfo.GetDFANodeConfiguration(it.M_CurrentItem).Contains(loop.MExitNode)) {
+                            newDFALoop.MParticipatingNodes.Add(it.M_CurrentItem);
+                            newDFALoop.MExitNode = it.M_CurrentItem;
+                        }
+                    }
+                    m_currentDFA.GetFAInfo().AddFALoop(newDFALoop);
                 }
-
             }
 
             public override void Init() {
