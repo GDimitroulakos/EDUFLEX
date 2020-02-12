@@ -1,37 +1,36 @@
 **************************************
-Initial State: L1G10_N62
-Final States: L1G10_N66;
+Initial State: L1G12_N92
+Final States: L1G12_N97;
 FA edges: 
-L1G10_N62->L1G10_N63;
-L1G10_N63->L1G10_N64;
-L1G10_N64->L1G10_N64;
-L1G10_N64->L1G10_N65;
-L1G10_N65->L1G10_N63;
-L1G10_N65->L1G10_N66;
-L1G10_N66->L1G10_N63;
+L1G12_N92->L1G12_N93;
+L1G12_N93->L1G12_N94;
+L1G12_N93->L1G12_N95;
+L1G12_N94->L1G12_N94;
+L1G12_N94->L1G12_N96;
+L1G12_N95->L1G12_N96;
+L1G12_N96->L1G12_N93;
+L1G12_N96->L1G12_N97;
+L1G12_N97->L1G12_N93;
 
 **************************************
 Graph:
-Initial: L1G10_N62
-Final: L1G10_N66 
+Initial: L1G12_N92
+Final: L1G12_N97 
 
 Closure Serial : 0
 Closure Type : CT_FINITE
 Closure Range : Min : 1 -  Max: 3
-Entry Node : Exit Node : L1G10_N64
-Participating Nodes (1):  L1G10_N64 
+Entry Node : Exit Node : L1G12_N94Participating Nodes (1):  L1G12_N94 
 
 Closure Serial : 1
 Closure Type : CT_FINITE
 Closure Range : Min : 2 -  Max: 2
-Entry Node : Exit Node : L1G10_N65
-Participating Nodes (3):  L1G10_N63  L1G10_N64  L1G10_N65 
+Entry Node : Exit Node : L1G12_N96Participating Nodes (4):  L1G12_N93  L1G12_N94  L1G12_N95  L1G12_N96 
 
 Closure Serial : 2
 Closure Type : CT_ONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L1G10_N66
-Participating Nodes (4):  L1G10_N63  L1G10_N64  L1G10_N65  L1G10_N66 
+Entry Node : Exit Node : L1G12_N97Participating Nodes (5):  L1G12_N93  L1G12_N94  L1G12_N95  L1G12_N96  L1G12_N97 
 
 
 Nodes:
@@ -40,10 +39,13 @@ State Type: FT_NAPrefixes:  L1 Line Dependencies:  1
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
 [a]
 [b]
+[f]
 [b]
+[c]
 [c]
 [a]
 [d]

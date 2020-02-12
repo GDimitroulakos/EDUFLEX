@@ -4,60 +4,74 @@ RE : 1
 
 
 	Iteration : 0
-	Configuration : L1L1G9_N60,L1L1G9_N56,L1L1G9_N48,
-	DFA Node : L1G10_N62
+	Configuration : L1L1G11_N90,L1L1G11_N86,L1L1G11_N74,
+	DFA Node : L1G12_N92
 		Character : [a]
-			Delta Configuration : L1L1G9_N49,
-			Closure Configuration : L1L1G9_N49,L1L1G9_N52,L1L1G9_N50,
-			Target DFA Node : L1G10_N63
+			Delta Configuration : L1L1G11_N75,
+			Closure Configuration : L1L1G11_N75,L1L1G11_N82,L1L1G11_N78,L1L1G11_N76,L1L1G11_N80,
+			Target DFA Node : L1G12_N93
 
 
 	Iteration : 1
-	Configuration : L1L1G9_N49,L1L1G9_N52,L1L1G9_N50,
-	DFA Node : L1G10_N63
+	Configuration : L1L1G11_N75,L1L1G11_N82,L1L1G11_N78,L1L1G11_N76,L1L1G11_N80,
+	DFA Node : L1G12_N93
 		Character : [b]
-			Delta Configuration : L1L1G9_N51,
-			Closure Configuration : L1L1G9_N51,L1L1G9_N53,L1L1G9_N54,L1L1G9_N50,
-			Target DFA Node : L1G10_N64
+			Delta Configuration : L1L1G11_N77,
+			Closure Configuration : L1L1G11_N77,L1L1G11_N79,L1L1G11_N83,L1L1G11_N84,L1L1G11_N76,
+			Target DFA Node : L1G12_N94
+		Character : [f]
+			Delta Configuration : L1L1G11_N81,
+			Closure Configuration : L1L1G11_N81,L1L1G11_N83,L1L1G11_N84,
+			Target DFA Node : L1G12_N95
 
 
 	Iteration : 2
-	Configuration : L1L1G9_N51,L1L1G9_N53,L1L1G9_N54,L1L1G9_N50,
-	DFA Node : L1G10_N64
+	Configuration : L1L1G11_N77,L1L1G11_N79,L1L1G11_N83,L1L1G11_N84,L1L1G11_N76,
+	DFA Node : L1G12_N94
 		Character : [b]
-			Delta Configuration : L1L1G9_N51,
-			Closure Configuration : L1L1G9_N51,L1L1G9_N53,L1L1G9_N54,L1L1G9_N50,
-			Target DFA Node : L1G10_N64
+			Delta Configuration : L1L1G11_N77,
+			Closure Configuration : L1L1G11_N77,L1L1G11_N79,L1L1G11_N83,L1L1G11_N84,L1L1G11_N76,
+			Target DFA Node : L1G12_N94
 		Character : [c]
-			Delta Configuration : L1L1G9_N55,
-			Closure Configuration : L1L1G9_N55,L1L1G9_N57,L1L1G9_N58,L1L1G9_N48,
-			Target DFA Node : L1G10_N65
+			Delta Configuration : L1L1G11_N85,
+			Closure Configuration : L1L1G11_N85,L1L1G11_N87,L1L1G11_N88,L1L1G11_N74,
+			Target DFA Node : L1G12_N96
 
 
 	Iteration : 3
-	Configuration : L1L1G9_N55,L1L1G9_N57,L1L1G9_N58,L1L1G9_N48,
-	DFA Node : L1G10_N65
-		Character : [a]
-			Delta Configuration : L1L1G9_N49,
-			Closure Configuration : L1L1G9_N49,L1L1G9_N52,L1L1G9_N50,
-			Target DFA Node : L1G10_N63
-		Character : [d]
-			Delta Configuration : L1L1G9_N59,
-			Closure Configuration : L1L1G9_N59,L1L1G9_N61,L1L1G9_N56,L1L1G9_N48,
-			Target DFA Node : L1G10_N66
+	Configuration : L1L1G11_N81,L1L1G11_N83,L1L1G11_N84,
+	DFA Node : L1G12_N95
+		Character : [c]
+			Delta Configuration : L1L1G11_N85,
+			Closure Configuration : L1L1G11_N85,L1L1G11_N87,L1L1G11_N88,L1L1G11_N74,
+			Target DFA Node : L1G12_N96
 
 
 	Iteration : 4
-	Configuration : L1L1G9_N59,L1L1G9_N61,L1L1G9_N56,L1L1G9_N48,
-	DFA Node : L1G10_N66
+	Configuration : L1L1G11_N85,L1L1G11_N87,L1L1G11_N88,L1L1G11_N74,
+	DFA Node : L1G12_N96
 		Character : [a]
-			Delta Configuration : L1L1G9_N49,
-			Closure Configuration : L1L1G9_N49,L1L1G9_N52,L1L1G9_N50,
-			Target DFA Node : L1G10_N63
+			Delta Configuration : L1L1G11_N75,
+			Closure Configuration : L1L1G11_N75,L1L1G11_N82,L1L1G11_N78,L1L1G11_N76,L1L1G11_N80,
+			Target DFA Node : L1G12_N93
+		Character : [d]
+			Delta Configuration : L1L1G11_N89,
+			Closure Configuration : L1L1G11_N89,L1L1G11_N91,L1L1G11_N86,L1L1G11_N74,
+			Target DFA Node : L1G12_N97
 
 
-Net RE 1 Result :L1G10_N62 (L1L1G9_N60,L1L1G9_N56,L1L1G9_N48,),
-L1G10_N63 (L1L1G9_N49,L1L1G9_N52,L1L1G9_N50,),
-L1G10_N64 (L1L1G9_N51,L1L1G9_N53,L1L1G9_N54,L1L1G9_N50,),
-L1G10_N65 (L1L1G9_N55,L1L1G9_N57,L1L1G9_N58,L1L1G9_N48,),
-L1G10_N66 (L1L1G9_N59,L1L1G9_N61,L1L1G9_N56,L1L1G9_N48,),
+	Iteration : 5
+	Configuration : L1L1G11_N89,L1L1G11_N91,L1L1G11_N86,L1L1G11_N74,
+	DFA Node : L1G12_N97
+		Character : [a]
+			Delta Configuration : L1L1G11_N75,
+			Closure Configuration : L1L1G11_N75,L1L1G11_N82,L1L1G11_N78,L1L1G11_N76,L1L1G11_N80,
+			Target DFA Node : L1G12_N93
+
+
+Net RE 1 Result :L1G12_N92 (L1L1G11_N90,L1L1G11_N86,L1L1G11_N74,),
+L1G12_N93 (L1L1G11_N75,L1L1G11_N82,L1L1G11_N78,L1L1G11_N76,L1L1G11_N80,),
+L1G12_N94 (L1L1G11_N77,L1L1G11_N79,L1L1G11_N83,L1L1G11_N84,L1L1G11_N76,),
+L1G12_N95 (L1L1G11_N81,L1L1G11_N83,L1L1G11_N84,),
+L1G12_N96 (L1L1G11_N85,L1L1G11_N87,L1L1G11_N88,L1L1G11_N74,),
+L1G12_N97 (L1L1G11_N89,L1L1G11_N91,L1L1G11_N86,L1L1G11_N74,),

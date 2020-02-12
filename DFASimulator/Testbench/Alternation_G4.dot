@@ -1,0 +1,20 @@
+digraph G4{
+"G4_N10" [style=filled,fillcolor=red];
+"G4_N11" [style=filled,fillcolor=purple];
+"G4_N12";
+"G4_N13";
+"G4_N14";
+"G4_N15";
+"G4_N16" [style=filled,fillcolor=green];
+"G4_N17" [peripheries=2];
+"G4_N10"->"G4_N11" [style = bold, label = "[b]"];
+"G4_N12"->"G4_N10";
+"G4_N11"->"G4_N13";
+"G4_N11"->"G4_N10" [color=red,style = bold, label = ""];
+"G4_N14"->"G4_N15" [style = bold, label = "[f]"];
+"G4_N16"->"G4_N12";
+"G4_N16"->"G4_N14";
+"G4_N15"->"G4_N17";
+"G4_N13"->"G4_N17";
+}
+

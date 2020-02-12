@@ -1,107 +1,133 @@
 ***************** Initialization *****************
-Initial Accepted States (L1G11_N67): L1G10_N66, 
+Initial Accepted States (L1G13_N98): L1G12_N97, 
 
-Initial Non-Accepted States (L1G11_N68): L1G10_N62, L1G10_N63, L1G10_N64, L1G10_N65, 
+Initial Non-Accepted States (L1G13_N99): L1G12_N92, L1G12_N93, L1G12_N94, L1G12_N95, L1G12_N96, 
 
 Iteration: 0 
-Nodes to inspect for splitting: L1G11_N67(L1G10_N66,), L1G11_N68(L1G10_N62,L1G10_N63,L1G10_N64,L1G10_N65,), 
+Nodes to inspect for splitting: L1G13_N98(L1G12_N97,), L1G13_N99(L1G12_N92,L1G12_N93,L1G12_N94,L1G12_N95,L1G12_N96,), 
 
 
-		Node to Inspect for Splitting: L1G11_N67
-			L1G11_N67(L1G10_N66)----a--->L1G11_N68(L1G10_N63)
-			L1G11_N67(L1G10_N66)----b--->NULL()
-			L1G11_N67(L1G10_N66)----c--->NULL()
-			L1G11_N67(L1G10_N66)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N98
+			L1G13_N98(L1G12_N97)----a--->L1G13_N99(L1G12_N93)
+			L1G13_N98(L1G12_N97)----b--->NULL()
+			L1G13_N98(L1G12_N97)----c--->NULL()
+			L1G13_N98(L1G12_N97)----d--->NULL()
+			L1G13_N98(L1G12_N97)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N68
-			L1G11_N68(L1G10_N62)----a--->L1G11_N68(L1G10_N63)
-			L1G11_N68(L1G10_N63)----a--->NULL()
-			L1G11_N68(L1G10_N64)----a--->NULL()
-			L1G11_N68(L1G10_N65)----a--->L1G11_N68(L1G10_N63)
-			Split:L1G11_N68----a--->L1G11_N69
-						Resulting Nodes Configuration:L1G11_N68(L1G10_N62,L1G10_N64,L1G10_N65,)   L1G11_N69(L1G10_N63,)
-			Split:L1G11_N68----a--->L1G11_N69
-						Resulting Nodes Configuration:L1G11_N68(L1G10_N62,L1G10_N65,)   L1G11_N69(L1G10_N63,L1G10_N64,)
-			L1G11_N68(L1G10_N62)----b--->NULL()
-			L1G11_N68(L1G10_N65)----b--->NULL()
-			L1G11_N68(L1G10_N62)----c--->NULL()
-			L1G11_N68(L1G10_N65)----c--->NULL()
-			L1G11_N68(L1G10_N62)----d--->NULL()
-			L1G11_N68(L1G10_N65)----d--->L1G11_N67(L1G10_N66)
-			Split:L1G11_N68----d--->L1G11_N70
-						Resulting Nodes Configuration:L1G11_N68(L1G10_N62,)   L1G11_N70(L1G10_N65,)
+		Node to Inspect for Splitting: L1G13_N99
+			L1G13_N99(L1G12_N92)----a--->L1G13_N99(L1G12_N93)
+			L1G13_N99(L1G12_N93)----a--->NULL()
+			L1G13_N99(L1G12_N94)----a--->NULL()
+			L1G13_N99(L1G12_N95)----a--->NULL()
+			L1G13_N99(L1G12_N96)----a--->L1G13_N99(L1G12_N93)
+			Split:L1G13_N99----a--->L1G13_N100
+						Resulting Nodes Configuration:L1G13_N99(L1G12_N92,L1G12_N94,L1G12_N95,L1G12_N96,)   L1G13_N100(L1G12_N93,)
+			Split:L1G13_N99----a--->L1G13_N100
+						Resulting Nodes Configuration:L1G13_N99(L1G12_N92,L1G12_N95,L1G12_N96,)   L1G13_N100(L1G12_N93,L1G12_N94,)
+			Split:L1G13_N99----a--->L1G13_N100
+						Resulting Nodes Configuration:L1G13_N99(L1G12_N92,L1G12_N96,)   L1G13_N100(L1G12_N93,L1G12_N94,L1G12_N95,)
+			L1G13_N99(L1G12_N92)----b--->NULL()
+			L1G13_N99(L1G12_N96)----b--->NULL()
+			L1G13_N99(L1G12_N92)----c--->NULL()
+			L1G13_N99(L1G12_N96)----c--->NULL()
+			L1G13_N99(L1G12_N92)----d--->NULL()
+			L1G13_N99(L1G12_N96)----d--->L1G13_N98(L1G12_N97)
+			Split:L1G13_N99----d--->L1G13_N101
+						Resulting Nodes Configuration:L1G13_N99(L1G12_N92,)   L1G13_N101(L1G12_N96,)
+			L1G13_N99(L1G12_N92)----f--->NULL()
 
 Iteration: 1 
-Nodes to inspect for splitting: L1G11_N67(L1G10_N66,), L1G11_N68(L1G10_N62,), L1G11_N69(L1G10_N63,L1G10_N64,), L1G11_N70(L1G10_N65,), 
+Nodes to inspect for splitting: L1G13_N98(L1G12_N97,), L1G13_N99(L1G12_N92,), L1G13_N100(L1G12_N93,L1G12_N94,L1G12_N95,), L1G13_N101(L1G12_N96,), 
 
 
-		Node to Inspect for Splitting: L1G11_N67
-			L1G11_N67(L1G10_N66)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N67(L1G10_N66)----b--->NULL()
-			L1G11_N67(L1G10_N66)----c--->NULL()
-			L1G11_N67(L1G10_N66)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N98
+			L1G13_N98(L1G12_N97)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N98(L1G12_N97)----b--->NULL()
+			L1G13_N98(L1G12_N97)----c--->NULL()
+			L1G13_N98(L1G12_N97)----d--->NULL()
+			L1G13_N98(L1G12_N97)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N68
-			L1G11_N68(L1G10_N62)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N68(L1G10_N62)----b--->NULL()
-			L1G11_N68(L1G10_N62)----c--->NULL()
-			L1G11_N68(L1G10_N62)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N99
+			L1G13_N99(L1G12_N92)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N99(L1G12_N92)----b--->NULL()
+			L1G13_N99(L1G12_N92)----c--->NULL()
+			L1G13_N99(L1G12_N92)----d--->NULL()
+			L1G13_N99(L1G12_N92)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N69
-			L1G11_N69(L1G10_N63)----a--->NULL()
-			L1G11_N69(L1G10_N64)----a--->NULL()
-			L1G11_N69(L1G10_N63)----b--->L1G11_N69(L1G10_N64)
-			L1G11_N69(L1G10_N64)----b--->L1G11_N69(L1G10_N64)
-			L1G11_N69(L1G10_N63)----c--->NULL()
-			L1G11_N69(L1G10_N64)----c--->L1G11_N70(L1G10_N65)
-			Split:L1G11_N69----c--->L1G11_N71
-						Resulting Nodes Configuration:L1G11_N69(L1G10_N63,)   L1G11_N71(L1G10_N64,)
-			L1G11_N69(L1G10_N63)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N100
+			L1G13_N100(L1G12_N93)----a--->NULL()
+			L1G13_N100(L1G12_N94)----a--->NULL()
+			L1G13_N100(L1G12_N95)----a--->NULL()
+			L1G13_N100(L1G12_N93)----b--->L1G13_N100(L1G12_N94)
+			L1G13_N100(L1G12_N94)----b--->L1G13_N100(L1G12_N94)
+			L1G13_N100(L1G12_N95)----b--->NULL()
+			Split:L1G13_N100----b--->L1G13_N102
+						Resulting Nodes Configuration:L1G13_N100(L1G12_N93,L1G12_N94,)   L1G13_N102(L1G12_N95,)
+			L1G13_N100(L1G12_N93)----c--->NULL()
+			L1G13_N100(L1G12_N94)----c--->L1G13_N101(L1G12_N96)
+			Split:L1G13_N100----c--->L1G13_N103
+						Resulting Nodes Configuration:L1G13_N100(L1G12_N93,)   L1G13_N103(L1G12_N94,)
+			L1G13_N100(L1G12_N93)----d--->NULL()
+			L1G13_N100(L1G12_N93)----f--->L1G13_N102(L1G12_N95)
 
 
-		Node to Inspect for Splitting: L1G11_N70
-			L1G11_N70(L1G10_N65)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N70(L1G10_N65)----b--->NULL()
-			L1G11_N70(L1G10_N65)----c--->NULL()
-			L1G11_N70(L1G10_N65)----d--->L1G11_N67(L1G10_N66)
+		Node to Inspect for Splitting: L1G13_N101
+			L1G13_N101(L1G12_N96)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N101(L1G12_N96)----b--->NULL()
+			L1G13_N101(L1G12_N96)----c--->NULL()
+			L1G13_N101(L1G12_N96)----d--->L1G13_N98(L1G12_N97)
+			L1G13_N101(L1G12_N96)----f--->NULL()
 
 Iteration: 2 
-Nodes to inspect for splitting: L1G11_N67(L1G10_N66,), L1G11_N68(L1G10_N62,), L1G11_N69(L1G10_N63,), L1G11_N70(L1G10_N65,), L1G11_N71(L1G10_N64,), 
+Nodes to inspect for splitting: L1G13_N98(L1G12_N97,), L1G13_N99(L1G12_N92,), L1G13_N100(L1G12_N93,), L1G13_N101(L1G12_N96,), L1G13_N102(L1G12_N95,), L1G13_N103(L1G12_N94,), 
 
 
-		Node to Inspect for Splitting: L1G11_N67
-			L1G11_N67(L1G10_N66)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N67(L1G10_N66)----b--->NULL()
-			L1G11_N67(L1G10_N66)----c--->NULL()
-			L1G11_N67(L1G10_N66)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N98
+			L1G13_N98(L1G12_N97)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N98(L1G12_N97)----b--->NULL()
+			L1G13_N98(L1G12_N97)----c--->NULL()
+			L1G13_N98(L1G12_N97)----d--->NULL()
+			L1G13_N98(L1G12_N97)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N68
-			L1G11_N68(L1G10_N62)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N68(L1G10_N62)----b--->NULL()
-			L1G11_N68(L1G10_N62)----c--->NULL()
-			L1G11_N68(L1G10_N62)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N99
+			L1G13_N99(L1G12_N92)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N99(L1G12_N92)----b--->NULL()
+			L1G13_N99(L1G12_N92)----c--->NULL()
+			L1G13_N99(L1G12_N92)----d--->NULL()
+			L1G13_N99(L1G12_N92)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N69
-			L1G11_N69(L1G10_N63)----a--->NULL()
-			L1G11_N69(L1G10_N63)----b--->L1G11_N71(L1G10_N64)
-			L1G11_N69(L1G10_N63)----c--->NULL()
-			L1G11_N69(L1G10_N63)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N100
+			L1G13_N100(L1G12_N93)----a--->NULL()
+			L1G13_N100(L1G12_N93)----b--->L1G13_N103(L1G12_N94)
+			L1G13_N100(L1G12_N93)----c--->NULL()
+			L1G13_N100(L1G12_N93)----d--->NULL()
+			L1G13_N100(L1G12_N93)----f--->L1G13_N102(L1G12_N95)
 
 
-		Node to Inspect for Splitting: L1G11_N70
-			L1G11_N70(L1G10_N65)----a--->L1G11_N69(L1G10_N63)
-			L1G11_N70(L1G10_N65)----b--->NULL()
-			L1G11_N70(L1G10_N65)----c--->NULL()
-			L1G11_N70(L1G10_N65)----d--->L1G11_N67(L1G10_N66)
+		Node to Inspect for Splitting: L1G13_N101
+			L1G13_N101(L1G12_N96)----a--->L1G13_N100(L1G12_N93)
+			L1G13_N101(L1G12_N96)----b--->NULL()
+			L1G13_N101(L1G12_N96)----c--->NULL()
+			L1G13_N101(L1G12_N96)----d--->L1G13_N98(L1G12_N97)
+			L1G13_N101(L1G12_N96)----f--->NULL()
 
 
-		Node to Inspect for Splitting: L1G11_N71
-			L1G11_N71(L1G10_N64)----a--->NULL()
-			L1G11_N71(L1G10_N64)----b--->L1G11_N71(L1G10_N64)
-			L1G11_N71(L1G10_N64)----c--->L1G11_N70(L1G10_N65)
-			L1G11_N71(L1G10_N64)----d--->NULL()
+		Node to Inspect for Splitting: L1G13_N102
+			L1G13_N102(L1G12_N95)----a--->NULL()
+			L1G13_N102(L1G12_N95)----b--->NULL()
+			L1G13_N102(L1G12_N95)----c--->L1G13_N101(L1G12_N96)
+			L1G13_N102(L1G12_N95)----d--->NULL()
+			L1G13_N102(L1G12_N95)----f--->NULL()
+
+
+		Node to Inspect for Splitting: L1G13_N103
+			L1G13_N103(L1G12_N94)----a--->NULL()
+			L1G13_N103(L1G12_N94)----b--->L1G13_N103(L1G12_N94)
+			L1G13_N103(L1G12_N94)----c--->L1G13_N101(L1G12_N96)
+			L1G13_N103(L1G12_N94)----d--->NULL()
+			L1G13_N103(L1G12_N94)----f--->NULL()

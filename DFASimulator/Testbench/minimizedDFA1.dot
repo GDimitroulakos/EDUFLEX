@@ -1,15 +1,18 @@
-digraph G11{
-"L1G11_N67" [peripheries=2];
-"L1G11_N68" [style=filled,fillcolor=green];
-"L1G11_N69";
-"L1G11_N70";
-"L1G11_N71";
-"L1G11_N67"->"L1G11_N69" [style = bold, label = "[a]"];
-"L1G11_N68"->"L1G11_N69" [style = bold, label = "[a]"];
-"L1G11_N69"->"L1G11_N71" [style = bold, label = "[b]"];
-"L1G11_N70"->"L1G11_N67" [style = bold, label = "[d]"];
-"L1G11_N70"->"L1G11_N69" [style = bold, label = "[a]"];
-"L1G11_N71"->"L1G11_N70" [style = bold, label = "[c]"];
-"L1G11_N71"->"L1G11_N71" [style = bold, label = "[b]"];
+digraph G13{
+"L1G13_N98" [peripheries=2];
+"L1G13_N99" [style=filled,fillcolor=green];
+"L1G13_N100";
+"L1G13_N101";
+"L1G13_N102";
+"L1G13_N103";
+"L1G13_N98"->"L1G13_N100" [style = bold, label = "[a]"];
+"L1G13_N99"->"L1G13_N100" [style = bold, label = "[a]"];
+"L1G13_N100"->"L1G13_N102" [style = bold, label = "[f]"];
+"L1G13_N100"->"L1G13_N103" [style = bold, label = "[b]"];
+"L1G13_N101"->"L1G13_N98" [style = bold, label = "[d]"];
+"L1G13_N101"->"L1G13_N100" [style = bold, label = "[a]"];
+"L1G13_N102"->"L1G13_N101" [style = bold, label = "[c]"];
+"L1G13_N103"->"L1G13_N101" [style = bold, label = "[c]"];
+"L1G13_N103"->"L1G13_N103" [style = bold, label = "[b]"];
 }
 

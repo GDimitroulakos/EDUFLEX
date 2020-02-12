@@ -1,6 +1,6 @@
-digraph G7{
-"L1G7_N34" [style=filled,fillcolor=green];
-"L1G7_N35" [peripheries=2];
-"L1G7_N34"->"L1G7_N35" [style = bold, label = "[d]"];
+digraph G9{
+"L1G9_N56" [style=filled,fillcolor=green];
+"L1G9_N57" [peripheries=2];
+"L1G9_N56"->"L1G9_N57" [style = bold, label = "[d]"];
 }
 

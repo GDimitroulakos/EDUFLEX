@@ -1,19 +1,24 @@
 digraph G5{
-"L1G5_N16" [style=filled,fillcolor=green];
-"L1G5_N17";
-"L1G5_N18" [style=filled,fillcolor=red];
-"L1G5_N19" [style=filled,fillcolor=purple];
-"L1G5_N20";
-"L1G5_N21";
+"L1G5_N18" [style=filled,fillcolor=green];
+"L1G5_N19";
+"L1G5_N20" [style=filled,fillcolor=red];
+"L1G5_N21" [style=filled,fillcolor=purple];
 "L1G5_N22";
-"L1G5_N23" [peripheries=2];
-"L1G5_N16"->"L1G5_N17" [style = bold, label = "[a]"];
-"L1G5_N18"->"L1G5_N19" [style = bold, label = "[b]"];
-"L1G5_N20"->"L1G5_N18";
-"L1G5_N19"->"L1G5_N21";
-"L1G5_N19"->"L1G5_N18" [color=red,style = bold, label = ""];
-"L1G5_N17"->"L1G5_N20";
-"L1G5_N22"->"L1G5_N23" [style = bold, label = "[c]"];
-"L1G5_N21"->"L1G5_N22";
+"L1G5_N23";
+"L1G5_N24";
+"L1G5_N25";
+"L1G5_N26";
+"L1G5_N27" [peripheries=2];
+"L1G5_N18"->"L1G5_N19" [style = bold, label = "[a]"];
+"L1G5_N20"->"L1G5_N21" [style = bold, label = "[b]"];
+"L1G5_N22"->"L1G5_N20";
+"L1G5_N21"->"L1G5_N23";
+"L1G5_N21"->"L1G5_N20" [color=red,style = bold, label = ""];
+"L1G5_N24"->"L1G5_N25" [style = bold, label = "[f]"];
+"L1G5_N26"->"L1G5_N22";
+"L1G5_N26"->"L1G5_N24";
+"L1G5_N25"->"L1G5_N27";
+"L1G5_N23"->"L1G5_N27";
+"L1G5_N19"->"L1G5_N26";
 }
 

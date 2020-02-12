@@ -1,0 +1,33 @@
+digraph G8{
+"L1G8_N42" [style=filled,fillcolor=red];
+"L1G8_N43";
+"L1G8_N44" [style=filled,fillcolor=red];
+"L1G8_N45" [style=filled,fillcolor=purple];
+"L1G8_N46";
+"L1G8_N47";
+"L1G8_N48";
+"L1G8_N49";
+"L1G8_N50";
+"L1G8_N51";
+"L1G8_N52";
+"L1G8_N53" [style=filled,fillcolor=purple];
+"L1G8_N54" [style=filled,fillcolor=green];
+"L1G8_N55" [peripheries=2];
+"L1G8_N42"->"L1G8_N43" [style = bold, label = "[a]"];
+"L1G8_N44"->"L1G8_N45" [style = bold, label = "[b]"];
+"L1G8_N46"->"L1G8_N44";
+"L1G8_N45"->"L1G8_N47";
+"L1G8_N45"->"L1G8_N44" [color=red,style = bold, label = ""];
+"L1G8_N48"->"L1G8_N49" [style = bold, label = "[f]"];
+"L1G8_N50"->"L1G8_N46";
+"L1G8_N50"->"L1G8_N48";
+"L1G8_N49"->"L1G8_N51";
+"L1G8_N47"->"L1G8_N51";
+"L1G8_N43"->"L1G8_N50";
+"L1G8_N52"->"L1G8_N53" [style = bold, label = "[c]"];
+"L1G8_N51"->"L1G8_N52";
+"L1G8_N54"->"L1G8_N42";
+"L1G8_N53"->"L1G8_N55";
+"L1G8_N53"->"L1G8_N42" [color=red,style = bold, label = ""];
+}
+
