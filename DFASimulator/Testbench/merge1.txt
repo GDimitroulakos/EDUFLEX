@@ -36,7 +36,7 @@ Entry Node : L1L1G11_N76Exit Node : L1L1G11_N77Participating Nodes (2):  L1L1G11
 
 Closure Serial : 1
 Closure Type : CT_FINITE
-Closure Range : Min : 2 -  Max: 2
+Closure Range : Min : 2 -  Max: 5
 Entry Node : L1L1G11_N74Exit Node : L1L1G11_N85Participating Nodes (12):  L1L1G11_N74  L1L1G11_N75  L1L1G11_N76  L1L1G11_N77  L1L1G11_N78  L1L1G11_N79  L1L1G11_N80  L1L1G11_N81  L1L1G11_N82  L1L1G11_N83  L1L1G11_N84  L1L1G11_N85 
 
 Closure Serial : 2

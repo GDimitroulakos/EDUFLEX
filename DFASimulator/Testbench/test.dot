@@ -59,7 +59,7 @@ digraph test{
 "Finate_closure_range_56"->"<~{>57";
 "Finate_closure_range_56"->"<2>58";
 "Finate_closure_range_56"->"<,>59";
-"Finate_closure_range_56"->"<2>60";
+"Finate_closure_range_56"->"<5>60";
 "Finate_closure_range_56"->"<}>61";
 "Regexp_concatenation_11"->"Regexp_clos_other_62";
 "Regexp_clos_other_62"->"Regexpbasic_char_63";

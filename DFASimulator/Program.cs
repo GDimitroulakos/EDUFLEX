@@ -44,13 +44,20 @@ namespace DFASimulator {
 
     }
 
+    /// <summary>
+    /// Represents the current state of a state machine assigned the 
+    /// objective to recognize a string satisfying a specific regular expression
+    /// </summary>
     public class DFAState {
         private Stack<CGraphNode> m_stateStack=new Stack<CGraphNode>();
+        // Current state machine state that is a DFA state
         private CGraphNode m_currentState;
         private bool m_deadend;
         private bool m_match;
         private bool m_EOFreached;
+        // Current stream position
         private int m_streamPosition;
+        // Current buffered string
         private StringBuilder m_lexeme=new StringBuilder();
 
         public Stack<CGraphNode> M_StateStack {
@@ -90,16 +97,54 @@ namespace DFASimulator {
 
     }
 
-    public partial class DFASimulatorMulti {
-        
+    public partial class DFASimulatorFinite {
         private Dictionary<uint, RERecord> m_reRecords;
+        private Dictionary<uint, DFAState> m_dfaMultiStates = new Dictionary<uint, DFAState>();
+
+        private int m_streamPointer = 0;
+        private EDUFlexStream m_inputCharStream;
+
+        public DFASimulatorFinite(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputCharStream) {
+            m_reRecords = DeSerializeEDUFLEXOutput("EDUFLEX.out");
+            m_inputCharStream = inputCharStream;
+
+            /*foreach (KeyValuePair<uint, RERecord> pair in reRecords) {
+                m_dfaMultiStates[pair.Key] = new DFAState();
+                ResetDFASimulatorState(pair.Key);
+            }*/
+        }
+
+        public Dictionary<uint, RERecord> DeSerializeEDUFLEXOutput(string filename) {
+
+            BinaryFormatter res = new BinaryFormatter();
+            using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
+                return (Dictionary<uint, RERecord>)(res.Deserialize(stream));
+            }
+        }
+
+        public int yylex() {
+            uint? renum;
+            int nextChar = 0;
+            m_streamPointer = 0;
+            while (!m_inputCharStream.M_EOF) {
+
+            }
+
+            return 0;
+        }
+    }
+
+    public partial class DFASimulatorMulti {
+        /// <summary>
+        /// Holds the DFAs and regular expression related information from the parser
+        /// </summary>
+        private Dictionary<uint, RERecord> m_reRecords;
+
         private Dictionary<uint, DFAState> m_dfaMultiStates=new Dictionary<uint, DFAState>();
 
         private int m_streamPointer=0;
 
         private EDUFlexStream m_inputCharStream;
-
-        StringBuilder m_lexeme = new StringBuilder();
         
         public DFASimulatorMulti(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputStream) {
             m_reRecords = DeSerializeEDUFLEXOutput("EDUFLEX.out");
@@ -132,46 +177,94 @@ namespace DFASimulator {
                     DFAState dfastate = pair.Value;
                     RERecord reRecord = m_reRecords[pair.Key];
                     
-                    // 1. Initialize start point 
+                    // 1. Initialize stream start point to be the point where
+                    // we left from the previous call of yylex()
                     m_inputCharStream.SeekChar(m_streamPointer);
 
                     // 1a. Initialize DFAState for current DFA Simulator
                     nextChar = 0;
+
+                    // Reset DFA Simulator state means: 
+                    // 1. Current state is the initial DFA state 
+                    // 2. Stream position is the position of the next character to be retrieved
+                    // 3. Clear the current buffered string
+                    // 4. Clear the stack
+                    // 5. Reset Deadend flag that indicates potential lexical error
+                    // 6. Reset the M_Match flag that indicates a match
                     ResetDFASimulatorState(pair.Key, m_streamPointer);
 
+                    // draw characters from the stream until a deadend or the EOF is reached
                     while (!dfastate.M_Deadend && nextChar != -1) {
+                        // If the current state is Final clear the stack to trace state
+                        // from the current final(accepted) state and beyong. That is, we ignore 
+                        // any accepted states before the current accept state
                         if (IsFinalState(reRecord.M_MinDfa, dfastate.M_CurrentState)) {
                             dfastate.M_StateStack.Clear();
                         }
-
                         dfastate.M_StateStack.Push(dfastate.M_CurrentState);
+                        // Get next character from stream and advance the stream position
                         nextChar = m_inputCharStream.NextChar();
+                        // Append the character to the current buffered string
                         dfastate.M_Lexeme.Append((char) nextChar);
+                        // Calculate the new simulator state
                         dfastate.M_CurrentState =
                             reRecord.M_MinDfa.GetTransitionTarget(dfastate.M_CurrentState, nextChar);
+                        // If there is no transition for the given character indicate a dead end state
+                        // By setting this flag the while loop exits without updating the simulator 
+                        // state meaning that the current simulator state corresponds to the last valid 
+                        // state
                         if (dfastate.M_CurrentState == null) {
                             dfastate.M_Deadend = true;
                         }
                     }
 
+                    // BACKTRACKING TO THE MOST RECENT ACCEPTED STATE
+                    // If previous loop ended in a non-accepted state the current loop 
+                    // goes backward until the most recent accepted state
                     while (!IsFinalState(reRecord.M_MinDfa, dfastate.M_CurrentState) &&
                            dfastate.M_StateStack.Count != 0) {
+                        // Remove the last state from the stack
                         dfastate.M_CurrentState = dfastate.M_StateStack.Pop();
+                        // Remove the last character from the buffered stream
                         dfastate.M_Lexeme.Remove(dfastate.M_Lexeme.Length - 1, 1);
+                        // Go back one character on the input stream
                         m_inputCharStream.GoBackwards();
                     }
 
+                    // DETECT MATCH OR MISMATCH FOR THE CURRENT REGULAR EXPRESSION
+                    // If after backtracking the simulator is not in an accepted state 
+                    // set the Deadend flag that indicates a mismatch for the current 
+                    // regular expression. Otherwise set the Match flag indicating a
+                    // match of the current buffered string with the current regular
+                    // expression
                     if (!IsFinalState(reRecord.M_MinDfa, dfastate.M_CurrentState)) {
                         dfastate.M_Match = false;
                         dfastate.M_Deadend = true;
                     }
                     else {
                         dfastate.M_Match = true;
-                    }                    
+                    } 
+                    // Loop until all regular expressions have been studied
                 }
 
+                // DETECT MATCH OR LEXICAL ERROR
+                // Find the regular expression that is attributed the match according the 
+                // regular expression language policies
                 renum = DetectMatchRE();
-
+                
+                // If a match is found, execute the code corresponding to the regular expression 
+                // that is attributed the match. Otherwise if a match is not found report a 
+                // lexical error to the user.
+                if (renum != null) {
+                    Console.WriteLine("Match {{{0}}} Detected with RE {1}", m_dfaMultiStates[(uint)renum].M_Lexeme, renum);
+                    nextChar = 0;
+                    if (m_inputCharStream.SeekChar(m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length) != -1) {
+                        m_streamPointer = m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length;
+                    }
+                } else {
+                    Console.WriteLine("Lexical Error !!!");
+                    break;
+                }
                 /*
                  * switch (renum ){
                  *  case 1: 
@@ -184,24 +277,15 @@ namespace DFASimulator {
                  * }
                  * 
                  * */
-
-
-                if (renum != null) {
-                    Console.WriteLine("Match {{{0}}} Detected with RE {1}", m_dfaMultiStates[(uint)renum].M_Lexeme,renum);
-                    nextChar = 0;
-                    if (m_inputCharStream.SeekChar(m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length) != -1) {
-                        m_streamPointer = m_streamPointer + m_dfaMultiStates[(uint)renum].M_Lexeme.Length;
-                    }
-                }
-                else {
-                    Console.WriteLine("Lexical Error !!!");
-                    break;
-                }
             }
             
             return 0;
         }
 
+        // The DetectMatchRE() method enforces the policies 
+        // 1. Among the matches select the longer match ( most characters ) 
+        // 2. Among matches with the same length select the match from the 
+        // regular expression that appears first in the input regular expression file
         public uint? DetectMatchRE() {
             int matchLength = -1;
             uint? renum=null;
@@ -218,7 +302,6 @@ namespace DFASimulator {
                         renum = valuePair.Key;
                     }
                 }
-
             }
             return renum;
         }
