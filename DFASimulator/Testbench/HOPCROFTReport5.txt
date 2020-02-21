@@ -1,0 +1,19 @@
+***************** Initialization *****************
+Initial Accepted States (L5G90_N594): L5G75_N565, L5G75_N566, 
+
+Initial Non-Accepted States (L5G90_N595): L5G75_N564, 
+
+Iteration: 0 
+Nodes to inspect for splitting: L5G90_N594(L5G75_N565,L5G75_N566,), L5G90_N595(L5G75_N564,), 
+
+
+		Node to Inspect for Splitting: L5G90_N594
+			L5G90_N594(L5G75_N565)----a--->L5G90_N594(L5G75_N565)
+			L5G90_N594(L5G75_N566)----a--->L5G90_N594(L5G75_N565)
+			L5G90_N594(L5G75_N565)----b--->L5G90_N594(L5G75_N566)
+			L5G90_N594(L5G75_N566)----b--->L5G90_N594(L5G75_N566)
+
+
+		Node to Inspect for Splitting: L5G90_N595
+			L5G90_N595(L5G75_N564)----a--->L5G90_N594(L5G75_N565)
+			L5G90_N595(L5G75_N564)----b--->L5G90_N594(L5G75_N566)

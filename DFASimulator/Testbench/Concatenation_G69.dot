@@ -1,0 +1,37 @@
+digraph G69{
+"L6G69_N500" [style=filled,fillcolor=red];
+"L6G69_N501";
+"L6G69_N502" [style=filled,fillcolor=red];
+"L6G69_N503" [style=filled,fillcolor=purple];
+"L6G69_N504";
+"L6G69_N505";
+"L6G69_N506";
+"L6G69_N507";
+"L6G69_N508";
+"L6G69_N509";
+"L6G69_N510";
+"L6G69_N511" [style=filled,fillcolor=purple];
+"L6G69_N512" [style=filled,fillcolor=green];
+"L6G69_N513";
+"L6G69_N514";
+"L6G69_N515" [peripheries=2];
+"L6G69_N500"->"L6G69_N501" [style = bold, label = "[a]"];
+"L6G69_N502"->"L6G69_N503" [style = bold, label = "[b]"];
+"L6G69_N504"->"L6G69_N502";
+"L6G69_N503"->"L6G69_N505";
+"L6G69_N503"->"L6G69_N502" [color=red,style = bold, label = ""];
+"L6G69_N506"->"L6G69_N507" [style = bold, label = "[f]"];
+"L6G69_N508"->"L6G69_N504";
+"L6G69_N508"->"L6G69_N506";
+"L6G69_N507"->"L6G69_N509";
+"L6G69_N505"->"L6G69_N509";
+"L6G69_N501"->"L6G69_N508";
+"L6G69_N510"->"L6G69_N511" [style = bold, label = "[c]"];
+"L6G69_N509"->"L6G69_N510";
+"L6G69_N512"->"L6G69_N500";
+"L6G69_N511"->"L6G69_N513";
+"L6G69_N511"->"L6G69_N500" [color=red,style = bold, label = ""];
+"L6G69_N514"->"L6G69_N515" [style = bold, label = "[d]"];
+"L6G69_N513"->"L6G69_N514";
+}
+

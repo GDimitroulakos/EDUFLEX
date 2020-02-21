@@ -1,0 +1,110 @@
+**************************************
+Initial State: L4G74_N550
+Final States: L4G74_N551;L4G74_N562;
+FA edges: 
+L4G74_N550->L4G74_N551;
+L4G74_N550->L4G74_N552;
+L4G74_N552->L4G74_N553;
+L4G74_N552->L4G74_N554;
+L4G74_N553->L4G74_N555;
+L4G74_N553->L4G74_N556;
+L4G74_N553->L4G74_N557;
+L4G74_N554->L4G74_N555;
+L4G74_N554->L4G74_N556;
+L4G74_N554->L4G74_N557;
+L4G74_N555->L4G74_N555;
+L4G74_N555->L4G74_N558;
+L4G74_N556->L4G74_N559;
+L4G74_N557->L4G74_N560;
+L4G74_N557->L4G74_N561;
+L4G74_N558->L4G74_N555;
+L4G74_N558->L4G74_N556;
+L4G74_N558->L4G74_N557;
+L4G74_N558->L4G74_N562;
+L4G74_N559->L4G74_N559;
+L4G74_N559->L4G74_N563;
+L4G74_N560->L4G74_N560;
+L4G74_N560->L4G74_N561;
+L4G74_N561->L4G74_N555;
+L4G74_N561->L4G74_N556;
+L4G74_N561->L4G74_N557;
+L4G74_N561->L4G74_N562;
+L4G74_N563->L4G74_N555;
+L4G74_N563->L4G74_N556;
+L4G74_N563->L4G74_N557;
+L4G74_N563->L4G74_N562;
+
+**************************************
+Graph:
+Initial: L4G74_N550
+Final: L4G74_N551 
+ L4G74_N562 
+
+Closure Serial : 4
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L4G74_N555Participating Nodes (1):  L4G74_N555 
+
+Closure Serial : 5
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L4G74_N559Participating Nodes (1):  L4G74_N559 
+
+Closure Serial : 6
+Closure Type : CT_NONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L4G74_N560Participating Nodes (1):  L4G74_N560 
+
+Closure Serial : 7
+Closure Type : CT_FINITE
+Closure Range : Min : 1 -  Max: 3
+Entry Node : Exit Node : L4G74_N563Participating Nodes (8):  L4G74_N555  L4G74_N556  L4G74_N557  L4G74_N558  L4G74_N559  L4G74_N560  L4G74_N561  L4G74_N563 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+State Type: FT_NAPrefixes:  L4 Line Dependencies:  4 
+Edges:
+[f]
+[g]
+[d]
+[e]
+[a]
+[d]
+[l]
+[a]
+[d]
+[l]
+[a]
+[g]
+[b]
+[c]
+[k]
+[a]
+[d]
+[l]
+[z]
+[b]
+[s]
+[c]
+[k]
+[a]
+[d]
+[l]
+[z]
+[a]
+[d]
+[l]
+[z]

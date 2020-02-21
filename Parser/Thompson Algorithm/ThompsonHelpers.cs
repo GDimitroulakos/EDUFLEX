@@ -36,7 +36,9 @@ internal abstract class CThompsonTemplates {
             }
             FALoop.ClosureType closureType = faLoop.MClosureType;
             Range<int> clsrng = faLoop.MClosureRange;
-            newloop.MClosureRange = new Range<int>(clsrng);
+            if (clsrng != null) {
+                newloop.MClosureRange = new Range<int>(clsrng);
+            }
             newloop.MClosureType = faLoop.MClosureType;
             newloop.MLoopSerial = faLoop.MLoopSerial;
             currentFAInfo.AddFALoop(newloop);

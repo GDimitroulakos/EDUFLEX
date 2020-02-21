@@ -1,0 +1,10 @@
+digraph G13{
+"L2G13_N48" [style=filled,fillcolor=green];
+"L2G13_N49";
+"L2G13_N50";
+"L2G13_N51" [peripheries=2];
+"L2G13_N48"->"L2G13_N49" [style = bold, label = "[0]"];
+"L2G13_N50"->"L2G13_N51" [style = bold, label = "[2]"];
+"L2G13_N49"->"L2G13_N50";
+}
+

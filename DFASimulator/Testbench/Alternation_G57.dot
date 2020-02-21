@@ -1,0 +1,20 @@
+digraph G57{
+"G57_N424";
+"G57_N425";
+"G57_N426" [style=filled,fillcolor=red];
+"G57_N427" [style=filled,fillcolor=purple];
+"G57_N428";
+"G57_N429";
+"G57_N430" [style=filled,fillcolor=green];
+"G57_N431" [peripheries=2];
+"G57_N424"->"G57_N425" [style = bold, label = "[a]"];
+"G57_N426"->"G57_N427" [style = bold, label = "[b]"];
+"G57_N428"->"G57_N426";
+"G57_N427"->"G57_N429";
+"G57_N427"->"G57_N426" [color=red,style = bold, label = ""];
+"G57_N430"->"G57_N424";
+"G57_N430"->"G57_N428";
+"G57_N429"->"G57_N431";
+"G57_N425"->"G57_N431";
+}
+

@@ -1,0 +1,39 @@
+**************************************
+Initial State: L5G75_N564
+Final States: L5G75_N565;L5G75_N566;
+FA edges: 
+L5G75_N564->L5G75_N565;
+L5G75_N564->L5G75_N566;
+L5G75_N565->L5G75_N565;
+L5G75_N565->L5G75_N566;
+L5G75_N566->L5G75_N565;
+L5G75_N566->L5G75_N566;
+
+**************************************
+Graph:
+Initial: L5G75_N564
+Final: L5G75_N565 
+ L5G75_N566 
+
+Closure Serial : 8
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L5G75_N566Participating Nodes (1):  L5G75_N566 
+
+Closure Serial : 9
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L5G75_N566Participating Nodes (2):  L5G75_N565  L5G75_N566 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L5 Line Dependencies:  5 
+State Type: FT_NAPrefixes:  L5 Line Dependencies:  5 
+State Type: FT_NAPrefixes:  L5 Line Dependencies:  5 
+Edges:
+[a]
+[b]
+[a]
+[b]
+[a]
+[b]

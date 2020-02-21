@@ -1,0 +1,25 @@
+digraph G58{
+"L5G58_N432";
+"L5G58_N433";
+"L5G58_N434" [style=filled,fillcolor=red];
+"L5G58_N435" [style=filled,fillcolor=purple];
+"L5G58_N436";
+"L5G58_N437";
+"L5G58_N438" [style=filled,fillcolor=red];
+"L5G58_N439" [style=filled,fillcolor=purple];
+"L5G58_N440" [style=filled,fillcolor=green];
+"L5G58_N441" [peripheries=2];
+"L5G58_N432"->"L5G58_N433" [style = bold, label = "[a]"];
+"L5G58_N434"->"L5G58_N435" [style = bold, label = "[b]"];
+"L5G58_N436"->"L5G58_N434";
+"L5G58_N435"->"L5G58_N437";
+"L5G58_N435"->"L5G58_N434" [color=red,style = bold, label = ""];
+"L5G58_N438"->"L5G58_N432";
+"L5G58_N438"->"L5G58_N436";
+"L5G58_N437"->"L5G58_N439";
+"L5G58_N433"->"L5G58_N439";
+"L5G58_N440"->"L5G58_N438";
+"L5G58_N439"->"L5G58_N441";
+"L5G58_N439"->"L5G58_N438" [color=red,style = bold, label = ""];
+}
+

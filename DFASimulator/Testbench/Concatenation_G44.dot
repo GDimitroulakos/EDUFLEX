@@ -1,0 +1,16 @@
+digraph G44{
+"L4G44_N226" [style=filled,fillcolor=green];
+"L4G44_N227";
+"L4G44_N228" [style=filled,fillcolor=red];
+"L4G44_N229" [style=filled,fillcolor=purple];
+"L4G44_N230";
+"L4G44_N231" [peripheries=2];
+"L4G44_N226"->"L4G44_N227" [style = bold, label = "[l]"];
+"L4G44_N228"->"L4G44_N229" [style = bold, label = "[c]"];
+"L4G44_N230"->"L4G44_N228";
+"L4G44_N229"->"L4G44_N231";
+"L4G44_N230"->"L4G44_N231";
+"L4G44_N229"->"L4G44_N228" [color=red,style = bold, label = ""];
+"L4G44_N227"->"L4G44_N230";
+}
+

@@ -1,0 +1,33 @@
+digraph G67{
+"L6G67_N484" [style=filled,fillcolor=red];
+"L6G67_N485";
+"L6G67_N486" [style=filled,fillcolor=red];
+"L6G67_N487" [style=filled,fillcolor=purple];
+"L6G67_N488";
+"L6G67_N489";
+"L6G67_N490";
+"L6G67_N491";
+"L6G67_N492";
+"L6G67_N493";
+"L6G67_N494";
+"L6G67_N495" [style=filled,fillcolor=purple];
+"L6G67_N496" [style=filled,fillcolor=green];
+"L6G67_N497" [peripheries=2];
+"L6G67_N484"->"L6G67_N485" [style = bold, label = "[a]"];
+"L6G67_N486"->"L6G67_N487" [style = bold, label = "[b]"];
+"L6G67_N488"->"L6G67_N486";
+"L6G67_N487"->"L6G67_N489";
+"L6G67_N487"->"L6G67_N486" [color=red,style = bold, label = ""];
+"L6G67_N490"->"L6G67_N491" [style = bold, label = "[f]"];
+"L6G67_N492"->"L6G67_N488";
+"L6G67_N492"->"L6G67_N490";
+"L6G67_N491"->"L6G67_N493";
+"L6G67_N489"->"L6G67_N493";
+"L6G67_N485"->"L6G67_N492";
+"L6G67_N494"->"L6G67_N495" [style = bold, label = "[c]"];
+"L6G67_N493"->"L6G67_N494";
+"L6G67_N496"->"L6G67_N484";
+"L6G67_N495"->"L6G67_N497";
+"L6G67_N495"->"L6G67_N484" [color=red,style = bold, label = ""];
+}
+

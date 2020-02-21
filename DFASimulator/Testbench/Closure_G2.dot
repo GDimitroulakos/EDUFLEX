@@ -6,6 +6,7 @@ digraph G2{
 "L1G2_N4"->"L1G2_N5" [style = bold, label = "[b]"];
 "L1G2_N6"->"L1G2_N4";
 "L1G2_N5"->"L1G2_N7";
+"L1G2_N6"->"L1G2_N7";
 "L1G2_N5"->"L1G2_N4" [color=red,style = bold, label = ""];
 }
 

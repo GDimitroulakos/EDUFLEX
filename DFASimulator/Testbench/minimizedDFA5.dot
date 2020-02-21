@@ -1,0 +1,7 @@
+digraph G90{
+"L5G90_N594" [peripheries=2];
+"L5G90_N595" [style=filled,fillcolor=green];
+"L5G90_N594"->"L5G90_N594" [style = bold, label = "[a-b]"];
+"L5G90_N595"->"L5G90_N594" [style = bold, label = "[a-b]"];
+}
+

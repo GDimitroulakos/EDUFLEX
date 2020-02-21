@@ -1,0 +1,6 @@
+digraph G50{
+"L4G50_N332" [style=filled,fillcolor=green];
+"L4G50_N333" [peripheries=2];
+"L4G50_N332"->"L4G50_N333" [style = bold, label = "[z]"];
+}
+

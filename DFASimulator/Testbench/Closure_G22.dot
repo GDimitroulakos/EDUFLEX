@@ -1,0 +1,12 @@
+digraph G22{
+"L3G22_N124" [style=filled,fillcolor=red];
+"L3G22_N125" [style=filled,fillcolor=purple];
+"L3G22_N126" [style=filled,fillcolor=green];
+"L3G22_N127" [peripheries=2];
+"L3G22_N124"->"L3G22_N125" [style = bold, label = "[0-9]"];
+"L3G22_N126"->"L3G22_N124";
+"L3G22_N125"->"L3G22_N127";
+"L3G22_N126"->"L3G22_N127";
+"L3G22_N125"->"L3G22_N124" [color=red,style = bold, label = ""];
+}
+

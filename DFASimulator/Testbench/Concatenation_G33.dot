@@ -1,0 +1,15 @@
+digraph G33{
+"L4G33_N172" [style=filled,fillcolor=red];
+"L4G33_N173" [style=filled,fillcolor=purple];
+"L4G33_N174" [style=filled,fillcolor=green];
+"L4G33_N175";
+"L4G33_N176";
+"L4G33_N177" [peripheries=2];
+"L4G33_N172"->"L4G33_N173" [style = bold, label = "[a]"];
+"L4G33_N174"->"L4G33_N172";
+"L4G33_N173"->"L4G33_N175";
+"L4G33_N173"->"L4G33_N172" [color=red,style = bold, label = ""];
+"L4G33_N176"->"L4G33_N177" [style = bold, label = "[g]"];
+"L4G33_N175"->"L4G33_N176";
+}
+

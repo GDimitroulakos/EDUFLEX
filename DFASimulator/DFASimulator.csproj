@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-	<StartWorkingDirectory>$(MSBuildProjectDirectory)\Testbench\</StartWorkingDirectory>
+    <StartWorkingDirectory>$(MSBuildProjectDirectory)\Testbench\</StartWorkingDirectory>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-	<StartWorkingDirectory>$(MSBuildProjectDirectory)\Testbench\</StartWorkingDirectory>
+    <StartWorkingDirectory>$(MSBuildProjectDirectory)\Testbench\</StartWorkingDirectory>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -61,8 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DFASimulator.cs" />
+    <Compile Include="Lexers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

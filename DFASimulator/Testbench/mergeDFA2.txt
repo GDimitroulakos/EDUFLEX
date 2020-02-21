@@ -1,0 +1,68 @@
+**************************************
+Initial State: L2G72_N537
+Final States: L2G72_N538;L2G72_N540;L2G72_N541;L2G72_N542;L2G72_N543;
+FA edges: 
+L2G72_N537->L2G72_N538;
+L2G72_N538->L2G72_N539;
+L2G72_N538->L2G72_N540;
+L2G72_N538->L2G72_N541;
+L2G72_N539->L2G72_N542;
+L2G72_N539->L2G72_N543;
+L2G72_N540->L2G72_N544;
+L2G72_N540->L2G72_N540;
+L2G72_N541->L2G72_N545;
+L2G72_N541->L2G72_N541;
+L2G72_N542->L2G72_N545;
+L2G72_N542->L2G72_N541;
+L2G72_N543->L2G72_N544;
+L2G72_N543->L2G72_N540;
+L2G72_N544->L2G72_N543;
+L2G72_N545->L2G72_N542;
+
+**************************************
+Graph:
+Initial: L2G72_N537
+Final: L2G72_N538 
+ L2G72_N540 
+ L2G72_N541 
+ L2G72_N542 
+ L2G72_N543 
+
+Closure Serial : 1
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L2G72_N542Participating Nodes (3):  L2G72_N541  L2G72_N542  L2G72_N545 
+
+Closure Serial : 2
+Closure Type : CT_NONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L2G72_N543Participating Nodes (3):  L2G72_N540  L2G72_N543  L2G72_N544 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+Edges:
+[d]
+[0]
+[A-Z]
+[a-z]
+[1]
+[2]
+[0]
+[A-Z]
+[0]
+[a-z]
+[0]
+[a-z]
+[0]
+[A-Z]
+[2]
+[1]

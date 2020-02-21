@@ -1,0 +1,15 @@
+digraph G28{
+"G28_N150";
+"G28_N151";
+"G28_N152";
+"G28_N153";
+"G28_N154" [style=filled,fillcolor=green];
+"G28_N155" [peripheries=2];
+"G28_N150"->"G28_N151" [style = bold, label = "[d]"];
+"G28_N152"->"G28_N153" [style = bold, label = "[e]"];
+"G28_N154"->"G28_N150";
+"G28_N154"->"G28_N152";
+"G28_N153"->"G28_N155";
+"G28_N151"->"G28_N155";
+}
+

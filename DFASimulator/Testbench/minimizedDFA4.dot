@@ -1,0 +1,29 @@
+digraph G86{
+"L4G86_N585" [peripheries=2];
+"L4G86_N586" [style=filled,fillcolor=green];
+"L4G86_N587";
+"L4G86_N588";
+"L4G86_N589";
+"L4G86_N590";
+"L4G86_N591";
+"L4G86_N592";
+"L4G86_N593";
+"L4G86_N586"->"L4G86_N585" [style = bold, label = "[f]"];
+"L4G86_N586"->"L4G86_N590" [style = bold, label = "[g]"];
+"L4G86_N587"->"L4G86_N588" [style = bold, label = "[d]"];
+"L4G86_N587"->"L4G86_N589" [style = bold, label = "[l]"];
+"L4G86_N587"->"L4G86_N591" [style = bold, label = "[a]"];
+"L4G86_N588"->"L4G86_N593" [style = bold, label = "[b]"];
+"L4G86_N589"->"L4G86_N589" [style = bold, label = "[c]"];
+"L4G86_N589"->"L4G86_N592" [style = bold, label = "[k]"];
+"L4G86_N590"->"L4G86_N587" [style = bold, label = "[d-e]"];
+"L4G86_N591"->"L4G86_N591" [style = bold, label = "[a]"];
+"L4G86_N591"->"L4G86_N592" [style = bold, label = "[g]"];
+"L4G86_N592"->"L4G86_N585" [style = bold, label = "[z]"];
+"L4G86_N592"->"L4G86_N588" [style = bold, label = "[d]"];
+"L4G86_N592"->"L4G86_N589" [style = bold, label = "[l]"];
+"L4G86_N592"->"L4G86_N591" [style = bold, label = "[a]"];
+"L4G86_N593"->"L4G86_N592" [style = bold, label = "[s]"];
+"L4G86_N593"->"L4G86_N593" [style = bold, label = "[b]"];
+}
+

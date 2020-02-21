@@ -1,0 +1,6 @@
+digraph G38{
+"L4G38_N192" [style=filled,fillcolor=green];
+"L4G38_N193" [peripheries=2];
+"L4G38_N192"->"L4G38_N193" [style = bold, label = "[s]"];
+}
+

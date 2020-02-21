@@ -1,0 +1,11 @@
+digraph G61{
+"L6G61_N446" [style=filled,fillcolor=red];
+"L6G61_N447" [style=filled,fillcolor=purple];
+"L6G61_N448" [style=filled,fillcolor=green];
+"L6G61_N449" [peripheries=2];
+"L6G61_N446"->"L6G61_N447" [style = bold, label = "[b]"];
+"L6G61_N448"->"L6G61_N446";
+"L6G61_N447"->"L6G61_N449";
+"L6G61_N447"->"L6G61_N446" [color=red,style = bold, label = ""];
+}
+

@@ -1,30 +1,15 @@
-digraph G12{
+digraph G71{
 	subgraph cluster0 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
-		label ="b~{1,3}";
-		L1G12_N94;
-	}	subgraph cluster1 {
-		node [style=filled];
-		style=filled;
-		color=lightgrey;
-		label ="(a(b~{1,3}|f)c)~{2,5}";
-		L1G12_N96;L1G12_N97;
-	}"L1G12_N92" [style=filled,fillcolor=green];
-"L1G12_N93";
-"L1G12_N94";
-"L1G12_N95";
-"L1G12_N96";
-"L1G12_N97" [peripheries=2];
-"L1G12_N92"->"L1G12_N93" [style = bold, label = "[a]"];
-"L1G12_N93"->"L1G12_N94" [style = bold, label = "[b]"];
-"L1G12_N93"->"L1G12_N95" [style = bold, label = "[f]"];
-"L1G12_N94"->"L1G12_N94" [style = bold, label = "[b]"];
-"L1G12_N94"->"L1G12_N96" [style = bold, label = "[c]"];
-"L1G12_N95"->"L1G12_N96" [style = bold, label = "[c]"];
-"L1G12_N96"->"L1G12_N93" [style = bold, label = "[a]"];
-"L1G12_N96"->"L1G12_N97" [style = bold, label = "[d]"];
-"L1G12_N97"->"L1G12_N93" [style = bold, label = "[a]"];
+		label ="b*";
+		L1G71_N536;
+	}"L1G71_N534" [style=filled,fillcolor=green];
+"L1G71_N535" [peripheries=2];
+"L1G71_N536" [peripheries=2];
+"L1G71_N534"->"L1G71_N535" [style = bold, label = "[a]"];
+"L1G71_N535"->"L1G71_N536" [style = bold, label = "[b]"];
+"L1G71_N536"->"L1G71_N536" [style = bold, label = "[b]"];
 }
 

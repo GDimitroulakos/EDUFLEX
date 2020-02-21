@@ -1,0 +1,18 @@
+digraph G92{
+"L6G92_N596" [peripheries=2];
+"L6G92_N597" [style=filled,fillcolor=green];
+"L6G92_N598";
+"L6G92_N599";
+"L6G92_N600";
+"L6G92_N601";
+"L6G92_N596"->"L6G92_N598" [style = bold, label = "[a]"];
+"L6G92_N597"->"L6G92_N598" [style = bold, label = "[a]"];
+"L6G92_N598"->"L6G92_N600" [style = bold, label = "[f]"];
+"L6G92_N598"->"L6G92_N601" [style = bold, label = "[b]"];
+"L6G92_N599"->"L6G92_N596" [style = bold, label = "[d]"];
+"L6G92_N599"->"L6G92_N598" [style = bold, label = "[a]"];
+"L6G92_N600"->"L6G92_N599" [style = bold, label = "[c]"];
+"L6G92_N601"->"L6G92_N599" [style = bold, label = "[c]"];
+"L6G92_N601"->"L6G92_N601" [style = bold, label = "[b]"];
+}
+

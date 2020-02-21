@@ -1,52 +1,28 @@
 **************************************
-Initial State: L1G12_N92
-Final States: L1G12_N97;
+Initial State: L1G71_N534
+Final States: L1G71_N535;L1G71_N536;
 FA edges: 
-L1G12_N92->L1G12_N93;
-L1G12_N93->L1G12_N94;
-L1G12_N93->L1G12_N95;
-L1G12_N94->L1G12_N94;
-L1G12_N94->L1G12_N96;
-L1G12_N95->L1G12_N96;
-L1G12_N96->L1G12_N93;
-L1G12_N96->L1G12_N97;
-L1G12_N97->L1G12_N93;
+L1G71_N534->L1G71_N535;
+L1G71_N535->L1G71_N536;
+L1G71_N536->L1G71_N536;
 
 **************************************
 Graph:
-Initial: L1G12_N92
-Final: L1G12_N97 
+Initial: L1G71_N534
+Final: L1G71_N535 
+ L1G71_N536 
 
 Closure Serial : 0
-Closure Type : CT_FINITE
-Closure Range : Min : 1 -  Max: 3
-Entry Node : Exit Node : L1G12_N94Participating Nodes (1):  L1G12_N94 
-
-Closure Serial : 1
-Closure Type : CT_FINITE
-Closure Range : Min : 2 -  Max: 5
-Entry Node : Exit Node : L1G12_N96Participating Nodes (4):  L1G12_N93  L1G12_N94  L1G12_N95  L1G12_N96 
-
-Closure Serial : 2
-Closure Type : CT_ONEORMULT
+Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L1G12_N97Participating Nodes (5):  L1G12_N93  L1G12_N94  L1G12_N95  L1G12_N96  L1G12_N97 
+Entry Node : Exit Node : L1G71_N536Participating Nodes (1):  L1G71_N536 
 
 
 Nodes:
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
-State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
-State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
-State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
 [a]
 [b]
-[f]
 [b]
-[c]
-[c]
-[a]
-[d]
-[a]

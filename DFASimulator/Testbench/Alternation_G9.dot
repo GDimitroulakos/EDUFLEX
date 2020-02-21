@@ -1,0 +1,19 @@
+digraph G9{
+"G9_N26";
+"G9_N27";
+"G9_N28";
+"G9_N29";
+"G9_N30";
+"G9_N31";
+"G9_N32" [style=filled,fillcolor=green];
+"G9_N33" [peripheries=2];
+"G9_N26"->"G9_N27" [style = bold, label = "[0]"];
+"G9_N28"->"G9_N29" [style = bold, label = "[1]"];
+"G9_N27"->"G9_N28";
+"G9_N30"->"G9_N31" [style = bold, label = "[a-z]"];
+"G9_N32"->"G9_N26";
+"G9_N32"->"G9_N30";
+"G9_N31"->"G9_N33";
+"G9_N29"->"G9_N33";
+}
+

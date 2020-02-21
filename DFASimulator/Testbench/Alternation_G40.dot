@@ -1,0 +1,37 @@
+digraph G40{
+"G40_N202" [style=filled,fillcolor=red];
+"G40_N203" [style=filled,fillcolor=purple];
+"G40_N204";
+"G40_N205";
+"G40_N206";
+"G40_N207";
+"G40_N208";
+"G40_N209";
+"G40_N210" [style=filled,fillcolor=red];
+"G40_N211" [style=filled,fillcolor=purple];
+"G40_N212";
+"G40_N213";
+"G40_N214";
+"G40_N215";
+"G40_N216" [style=filled,fillcolor=green];
+"G40_N217" [peripheries=2];
+"G40_N202"->"G40_N203" [style = bold, label = "[a]"];
+"G40_N204"->"G40_N202";
+"G40_N203"->"G40_N205";
+"G40_N203"->"G40_N202" [color=red,style = bold, label = ""];
+"G40_N206"->"G40_N207" [style = bold, label = "[g]"];
+"G40_N205"->"G40_N206";
+"G40_N208"->"G40_N209" [style = bold, label = "[d]"];
+"G40_N210"->"G40_N211" [style = bold, label = "[b]"];
+"G40_N212"->"G40_N210";
+"G40_N211"->"G40_N213";
+"G40_N211"->"G40_N210" [color=red,style = bold, label = ""];
+"G40_N209"->"G40_N212";
+"G40_N214"->"G40_N215" [style = bold, label = "[s]"];
+"G40_N213"->"G40_N214";
+"G40_N216"->"G40_N204";
+"G40_N216"->"G40_N208";
+"G40_N215"->"G40_N217";
+"G40_N207"->"G40_N217";
+}
+

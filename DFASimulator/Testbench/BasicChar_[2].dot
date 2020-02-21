@@ -1,0 +1,6 @@
+digraph G12{
+"L2G12_N46" [style=filled,fillcolor=green];
+"L2G12_N47" [peripheries=2];
+"L2G12_N46"->"L2G12_N47" [style = bold, label = "[2]"];
+}
+

@@ -1,0 +1,11 @@
+digraph G36{
+"L4G36_N182" [style=filled,fillcolor=red];
+"L4G36_N183" [style=filled,fillcolor=purple];
+"L4G36_N184" [style=filled,fillcolor=green];
+"L4G36_N185" [peripheries=2];
+"L4G36_N182"->"L4G36_N183" [style = bold, label = "[b]"];
+"L4G36_N184"->"L4G36_N182";
+"L4G36_N183"->"L4G36_N185";
+"L4G36_N183"->"L4G36_N182" [color=red,style = bold, label = ""];
+}
+

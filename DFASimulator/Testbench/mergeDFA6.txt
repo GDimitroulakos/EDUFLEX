@@ -1,0 +1,52 @@
+**************************************
+Initial State: L6G76_N567
+Final States: L6G76_N572;
+FA edges: 
+L6G76_N567->L6G76_N568;
+L6G76_N568->L6G76_N569;
+L6G76_N568->L6G76_N570;
+L6G76_N569->L6G76_N569;
+L6G76_N569->L6G76_N571;
+L6G76_N570->L6G76_N571;
+L6G76_N571->L6G76_N568;
+L6G76_N571->L6G76_N572;
+L6G76_N572->L6G76_N568;
+
+**************************************
+Graph:
+Initial: L6G76_N567
+Final: L6G76_N572 
+
+Closure Serial : 10
+Closure Type : CT_FINITE
+Closure Range : Min : 1 -  Max: 3
+Entry Node : Exit Node : L6G76_N569Participating Nodes (1):  L6G76_N569 
+
+Closure Serial : 11
+Closure Type : CT_FINITE
+Closure Range : Min : 2 -  Max: 5
+Entry Node : Exit Node : L6G76_N571Participating Nodes (4):  L6G76_N568  L6G76_N569  L6G76_N570  L6G76_N571 
+
+Closure Serial : 12
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : Exit Node : L6G76_N572Participating Nodes (5):  L6G76_N568  L6G76_N569  L6G76_N570  L6G76_N571  L6G76_N572 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+State Type: FT_NAPrefixes:  L6 Line Dependencies:  6 
+Edges:
+[a]
+[b]
+[f]
+[b]
+[c]
+[c]
+[a]
+[d]
+[a]

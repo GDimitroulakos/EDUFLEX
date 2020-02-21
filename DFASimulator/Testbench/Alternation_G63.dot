@@ -1,0 +1,20 @@
+digraph G63{
+"G63_N452" [style=filled,fillcolor=red];
+"G63_N453" [style=filled,fillcolor=purple];
+"G63_N454";
+"G63_N455";
+"G63_N456";
+"G63_N457";
+"G63_N458" [style=filled,fillcolor=green];
+"G63_N459" [peripheries=2];
+"G63_N452"->"G63_N453" [style = bold, label = "[b]"];
+"G63_N454"->"G63_N452";
+"G63_N453"->"G63_N455";
+"G63_N453"->"G63_N452" [color=red,style = bold, label = ""];
+"G63_N456"->"G63_N457" [style = bold, label = "[f]"];
+"G63_N458"->"G63_N454";
+"G63_N458"->"G63_N456";
+"G63_N457"->"G63_N459";
+"G63_N455"->"G63_N459";
+}
+

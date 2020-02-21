@@ -1,0 +1,22 @@
+digraph G79{
+"L2G79_N575" [peripheries=2];
+"L2G79_N576" [style=filled,fillcolor=green];
+"L2G79_N577" [peripheries=2];
+"L2G79_N578" [peripheries=2];
+"L2G79_N579";
+"L2G79_N580";
+"L2G79_N581";
+"L2G79_N575"->"L2G79_N577" [style = bold, label = "[a-z]"];
+"L2G79_N575"->"L2G79_N578" [style = bold, label = "[A-Z]"];
+"L2G79_N575"->"L2G79_N579" [style = bold, label = "[0]"];
+"L2G79_N576"->"L2G79_N575" [style = bold, label = "[d]"];
+"L2G79_N577"->"L2G79_N577" [style = bold, label = "[a-z]"];
+"L2G79_N577"->"L2G79_N581" [style = bold, label = "[0]"];
+"L2G79_N578"->"L2G79_N578" [style = bold, label = "[A-Z]"];
+"L2G79_N578"->"L2G79_N580" [style = bold, label = "[0]"];
+"L2G79_N579"->"L2G79_N577" [style = bold, label = "[1]"];
+"L2G79_N579"->"L2G79_N578" [style = bold, label = "[2]"];
+"L2G79_N580"->"L2G79_N578" [style = bold, label = "[2]"];
+"L2G79_N581"->"L2G79_N577" [style = bold, label = "[1]"];
+}
+

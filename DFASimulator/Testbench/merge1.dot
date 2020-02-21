@@ -1,42 +1,16 @@
-digraph G11{
-"L1G11_N74" [style=filled,fillcolor=red];
-"L1G11_N75";
-"L1G11_N76" [style=filled,fillcolor=red];
-"L1G11_N77" [style=filled,fillcolor=purple];
-"L1G11_N78";
-"L1G11_N79";
-"L1G11_N80";
-"L1G11_N81";
-"L1G11_N82";
-"L1G11_N83";
-"L1G11_N84";
-"L1G11_N85" [style=filled,fillcolor=purple];
-"L1G11_N86" [style=filled,fillcolor=red];
-"L1G11_N87";
-"L1G11_N88";
-"L1G11_N89" [style=filled,fillcolor=purple];
-"L1G11_N90" [style=filled,fillcolor=green];
-"L1G11_N91" [peripheries=2];
-"L1G11_N74"->"L1G11_N75" [style = bold, label = "[a]"];
-"L1G11_N76"->"L1G11_N77" [style = bold, label = "[b]"];
-"L1G11_N78"->"L1G11_N76";
-"L1G11_N77"->"L1G11_N79";
-"L1G11_N77"->"L1G11_N76" [color=red,style = bold, label = ""];
-"L1G11_N80"->"L1G11_N81" [style = bold, label = "[f]"];
-"L1G11_N82"->"L1G11_N78";
-"L1G11_N82"->"L1G11_N80";
-"L1G11_N81"->"L1G11_N83";
-"L1G11_N79"->"L1G11_N83";
-"L1G11_N75"->"L1G11_N82";
-"L1G11_N84"->"L1G11_N85" [style = bold, label = "[c]"];
-"L1G11_N83"->"L1G11_N84";
-"L1G11_N86"->"L1G11_N74";
-"L1G11_N85"->"L1G11_N87";
-"L1G11_N85"->"L1G11_N74" [color=red,style = bold, label = ""];
-"L1G11_N88"->"L1G11_N89" [style = bold, label = "[d]"];
-"L1G11_N87"->"L1G11_N88";
-"L1G11_N90"->"L1G11_N86";
-"L1G11_N89"->"L1G11_N91";
-"L1G11_N89"->"L1G11_N86" [color=red,style = bold, label = ""];
+digraph G3{
+"L1G3_N8" [style=filled,fillcolor=green];
+"L1G3_N9";
+"L1G3_N10" [style=filled,fillcolor=red];
+"L1G3_N11" [style=filled,fillcolor=purple];
+"L1G3_N12";
+"L1G3_N13" [peripheries=2];
+"L1G3_N8"->"L1G3_N9" [style = bold, label = "[a]"];
+"L1G3_N10"->"L1G3_N11" [style = bold, label = "[b]"];
+"L1G3_N12"->"L1G3_N10";
+"L1G3_N11"->"L1G3_N13";
+"L1G3_N12"->"L1G3_N13";
+"L1G3_N11"->"L1G3_N10" [color=red,style = bold, label = ""];
+"L1G3_N9"->"L1G3_N12";
 }
 

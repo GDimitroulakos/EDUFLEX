@@ -1,0 +1,105 @@
+**************************************
+Initial State: L2L2G18_N94
+Final States: L2L2G18_N117;
+FA edges: 
+L2L2G18_N94->L2L2G18_N95;
+L2L2G18_N96->L2L2G18_N97;
+L2L2G18_N98->L2L2G18_N99;
+L2L2G18_N97->L2L2G18_N98;
+L2L2G18_N100->L2L2G18_N101;
+L2L2G18_N102->L2L2G18_N96;
+L2L2G18_N102->L2L2G18_N100;
+L2L2G18_N101->L2L2G18_N103;
+L2L2G18_N99->L2L2G18_N103;
+L2L2G18_N104->L2L2G18_N102;
+L2L2G18_N103->L2L2G18_N105;
+L2L2G18_N103->L2L2G18_N102;
+L2L2G18_N106->L2L2G18_N107;
+L2L2G18_N108->L2L2G18_N109;
+L2L2G18_N107->L2L2G18_N108;
+L2L2G18_N110->L2L2G18_N111;
+L2L2G18_N112->L2L2G18_N106;
+L2L2G18_N112->L2L2G18_N110;
+L2L2G18_N111->L2L2G18_N113;
+L2L2G18_N109->L2L2G18_N113;
+L2L2G18_N114->L2L2G18_N112;
+L2L2G18_N113->L2L2G18_N115;
+L2L2G18_N114->L2L2G18_N115;
+L2L2G18_N113->L2L2G18_N112;
+L2L2G18_N116->L2L2G18_N104;
+L2L2G18_N116->L2L2G18_N114;
+L2L2G18_N115->L2L2G18_N117;
+L2L2G18_N105->L2L2G18_N117;
+L2L2G18_N95->L2L2G18_N116;
+
+**************************************
+Graph:
+Initial: L2L2G18_N94
+Final: L2L2G18_N117 
+
+Closure Serial : 1
+Closure Type : CT_ONEORMULT
+Closure Range : 
+Entry Node : L2L2G18_N102Exit Node : L2L2G18_N103Participating Nodes (8):  L2L2G18_N96  L2L2G18_N97  L2L2G18_N98  L2L2G18_N99  L2L2G18_N100  L2L2G18_N101  L2L2G18_N102  L2L2G18_N103 
+
+Closure Serial : 2
+Closure Type : CT_NONEORMULT
+Closure Range : 
+Entry Node : L2L2G18_N112Exit Node : L2L2G18_N113Participating Nodes (8):  L2L2G18_N106  L2L2G18_N107  L2L2G18_N108  L2L2G18_N109  L2L2G18_N110  L2L2G18_N111  L2L2G18_N112  L2L2G18_N113 
+
+
+Nodes:
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
+Edges:
+[d]
+[0]
+[1]
+
+[a-z]
+
+
+
+
+
+
+
+[0]
+[2]
+
+[A-Z]
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+digraph G46{
+"L4G46_N234" [style=filled,fillcolor=green];
+"L4G46_N235";
+"L4G46_N236" [style=filled,fillcolor=red];
+"L4G46_N237" [style=filled,fillcolor=purple];
+"L4G46_N238";
+"L4G46_N239";
+"L4G46_N240";
+"L4G46_N241" [peripheries=2];
+"L4G46_N234"->"L4G46_N235" [style = bold, label = "[l]"];
+"L4G46_N236"->"L4G46_N237" [style = bold, label = "[c]"];
+"L4G46_N238"->"L4G46_N236";
+"L4G46_N237"->"L4G46_N239";
+"L4G46_N238"->"L4G46_N239";
+"L4G46_N237"->"L4G46_N236" [color=red,style = bold, label = ""];
+"L4G46_N235"->"L4G46_N238";
+"L4G46_N240"->"L4G46_N241" [style = bold, label = "[k]"];
+"L4G46_N239"->"L4G46_N240";
+}
+

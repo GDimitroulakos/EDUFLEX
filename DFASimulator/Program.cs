@@ -16,17 +16,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DFASimulator {
 
-    public interface IEDUFlexStream {
-        int NextChar();
-
-        int GetChar(int index);
-
-        int SeekPosition(int index);
-
-        int Size { get; }
-
-        string SourceName { get; }
-    }
 
     /// <summary>
     /// This class offers buffering for the EduFlex input file. StreamReader class is not
@@ -44,97 +33,13 @@ namespace DFASimulator {
 
     }
 
-    /// <summary>
-    /// Represents the current state of a state machine assigned the 
-    /// objective to recognize a string satisfying a specific regular expression
-    /// </summary>
-    public class DFAState {
-        private Stack<CGraphNode> m_stateStack=new Stack<CGraphNode>();
-        // Current state machine state that is a DFA state
-        private CGraphNode m_currentState;
-        private bool m_deadend;
-        private bool m_match;
-        private bool m_EOFreached;
-        // Current stream position
-        private int m_streamPosition;
-        // Current buffered string
-        private StringBuilder m_lexeme=new StringBuilder();
+    
 
-        public Stack<CGraphNode> M_StateStack {
-            get => m_stateStack;
-            set => m_stateStack = value;
-        }
+   
 
-        public CGraphNode M_CurrentState {
-            get => m_currentState;
-            set => m_currentState = value;
-        }
+   
 
-        public bool M_Deadend {
-            get => m_deadend;
-            set => m_deadend = value;
-        }
-
-        public bool M_Match {
-            get => m_match;
-            set => m_match = value;
-        }
-
-        public int M_StreamPosition {
-            get => m_streamPosition;
-            set => m_streamPosition = value;
-        }
-
-        public StringBuilder M_Lexeme {
-            get => m_lexeme;
-            set => m_lexeme = value;
-        }
-
-        public bool M_EOF {
-            get => m_EOFreached;
-            set => m_EOFreached = value;
-        }
-
-    }
-
-    public partial class DFASimulatorFinite {
-        private Dictionary<uint, RERecord> m_reRecords;
-        private Dictionary<uint, DFAState> m_dfaMultiStates = new Dictionary<uint, DFAState>();
-
-        private int m_streamPointer = 0;
-        private EDUFlexStream m_inputCharStream;
-
-        public DFASimulatorFinite(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputCharStream) {
-            m_reRecords = DeSerializeEDUFLEXOutput("EDUFLEX.out");
-            m_inputCharStream = inputCharStream;
-
-            /*foreach (KeyValuePair<uint, RERecord> pair in reRecords) {
-                m_dfaMultiStates[pair.Key] = new DFAState();
-                ResetDFASimulatorState(pair.Key);
-            }*/
-        }
-
-        public Dictionary<uint, RERecord> DeSerializeEDUFLEXOutput(string filename) {
-
-            BinaryFormatter res = new BinaryFormatter();
-            using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
-                return (Dictionary<uint, RERecord>)(res.Deserialize(stream));
-            }
-        }
-
-        public int yylex() {
-            uint? renum;
-            int nextChar = 0;
-            m_streamPointer = 0;
-            while (!m_inputCharStream.M_EOF) {
-
-            }
-
-            return 0;
-        }
-    }
-
-    public partial class DFASimulatorMulti {
+    /*public partial class DFASimulatorMulti {
         /// <summary>
         /// Holds the DFAs and regular expression related information from the parser
         /// </summary>
@@ -276,7 +181,7 @@ namespace DFASimulator {
                  *  ...
                  * }
                  * 
-                 * */
+                 * #1#
             }
             
             return 0;
@@ -306,11 +211,28 @@ namespace DFASimulator {
             return renum;
         }
 
-
+        /// <summary>
+        /// Returns true if the given state of the specified DFA is accepted state
+        /// </summary>
+        /// <param name="dfa"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public bool IsFinalState(FA dfa, CGraphNode state) {
             return dfa.IsFinalState(state);
         }
 
+        /// <summary>
+        /// Resets the DFA simulator state
+        /// Reset DFA Simulator state means: 
+        /// 1. Current state is the initial DFA state 
+        /// 2. Stream position is the position of the next character to be retrieved
+        /// 3. Clear the current buffered string
+        /// 4. Clear the stack
+        /// 5. Reset Deadend flag that indicates potential lexical error
+        /// 6. Reset the M_Match flag that indicates a match
+        /// </summary>
+        /// <param name="DFAKey"></param>
+        /// <param name="streamPosition"></param>
         private void ResetDFASimulatorState(uint DFAKey,int streamPosition=0) {
 
             DFAState dfastate = m_dfaMultiStates[DFAKey];
@@ -333,11 +255,45 @@ namespace DFASimulator {
             }
             return true;
         }
-       
+    }*/
 
+    public partial class DFASimulatorFinite {
+        private Dictionary<uint, RERecord> m_reRecords;
+        private Dictionary<uint, DFAStateSingleton> m_dfaMultiStates = new Dictionary<uint, DFAStateSingleton>();
+
+        private int m_streamPointer = 0;
+        private EDUFlexStream m_inputCharStream;
+
+        public DFASimulatorFinite(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputCharStream) {
+            m_reRecords = DeSerializeEDUFLEXOutput("EDUFLEX.out");
+            m_inputCharStream = inputCharStream;
+
+            /*foreach (KeyValuePair<uint, RERecord> pair in reRecords) {
+                m_dfaMultiStates[pair.Key] = new DFAState();
+                ResetDFASimulatorState(pair.Key);
+            }*/
+        }
+
+        public Dictionary<uint, RERecord> DeSerializeEDUFLEXOutput(string filename) {
+
+            BinaryFormatter res = new BinaryFormatter();
+            using (Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read)) {
+                return (Dictionary<uint, RERecord>)(res.Deserialize(stream));
+            }
+        }
+
+        public int yylex() {
+            uint? renum;
+            int nextChar = 0;
+            m_streamPointer = 0;
+            while (!m_inputCharStream.M_EOF) {
+
+            }
+            return 0;
+        }
     }
 
-    public partial class DFASimulator {
+    /*public partial class DFASimulator {
         private EDUFlexStream m_inputCharStream;
         private FA m_dfa;
         Stack<CGraphNode> m_stateStack = new Stack<CGraphNode>();
@@ -394,23 +350,22 @@ namespace DFASimulator {
                 return -1;
             }
         }
-    }
+    }*/
 
 
 
     class Program {
         static void Main(string[] args) {
-            EDUFlexStream istream = new EDUFlexStream(new FileStream("source.txt",FileMode.Open));
+            EDUFlexStream istream = new EDUFlexStream(new FileStream("source.txt", FileMode.Open));
 
             Facade.VerifyRegExp(args);
 
             if (Facade.GetOperationModeCode()) {
-                DFASimulatorMulti dfaSimulator = new DFASimulatorMulti(Facade.M_ReRecords, istream);
-                dfaSimulator.yylex();
-            }
-            else {
+                LexerMulti dfaSimulator = new LexerMulti(Facade.M_ReRecords, istream);
+                dfaSimulator.Continue();
+            } else {
                 DFASimulator dfaSimulator = new DFASimulator(Facade.M_ReRecords[0].M_MinDfa, istream);
-                dfaSimulator.yylex();
+                dfaSimulator.Step();
             }
 
 

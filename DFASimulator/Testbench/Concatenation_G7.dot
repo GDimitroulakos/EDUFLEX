@@ -1,28 +1,10 @@
 digraph G7{
-"L1G7_N30" [style=filled,fillcolor=green];
-"L1G7_N31";
-"L1G7_N32" [style=filled,fillcolor=red];
-"L1G7_N33" [style=filled,fillcolor=purple];
-"L1G7_N34";
-"L1G7_N35";
-"L1G7_N36";
-"L1G7_N37";
-"L1G7_N38";
-"L1G7_N39";
-"L1G7_N40";
-"L1G7_N41" [peripheries=2];
-"L1G7_N30"->"L1G7_N31" [style = bold, label = "[a]"];
-"L1G7_N32"->"L1G7_N33" [style = bold, label = "[b]"];
-"L1G7_N34"->"L1G7_N32";
-"L1G7_N33"->"L1G7_N35";
-"L1G7_N33"->"L1G7_N32" [color=red,style = bold, label = ""];
-"L1G7_N36"->"L1G7_N37" [style = bold, label = "[f]"];
-"L1G7_N38"->"L1G7_N34";
-"L1G7_N38"->"L1G7_N36";
-"L1G7_N37"->"L1G7_N39";
-"L1G7_N35"->"L1G7_N39";
-"L1G7_N31"->"L1G7_N38";
-"L1G7_N40"->"L1G7_N41" [style = bold, label = "[c]"];
-"L1G7_N39"->"L1G7_N40";
+"L2G7_N20" [style=filled,fillcolor=green];
+"L2G7_N21";
+"L2G7_N22";
+"L2G7_N23" [peripheries=2];
+"L2G7_N20"->"L2G7_N21" [style = bold, label = "[0]"];
+"L2G7_N22"->"L2G7_N23" [style = bold, label = "[1]"];
+"L2G7_N21"->"L2G7_N22";
 }
 

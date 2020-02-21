@@ -1,0 +1,6 @@
+digraph G20{
+"L3G20_N120" [style=filled,fillcolor=green];
+"L3G20_N121" [peripheries=2];
+"L3G20_N120"->"L3G20_N121" [style = bold, label = "[1-9]"];
+}
+
