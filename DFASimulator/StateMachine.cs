@@ -20,6 +20,7 @@ namespace DFASimulator {
     /// </summary>
     public interface IStateMachine {
         IState M_State { get; }
+        void Continue(Func<IState, object, bool> endCondition=null);
         void Continue();
         void ResetState();
         void Step();
@@ -61,12 +62,13 @@ namespace DFASimulator {
             }
             m_currentSuperState.Add(st);
         }
-        
+
         /// <summary>
         /// This method continues the state machine from the last stop point. This method
         /// assume that state machine executes passing through stop points and resumes
         /// its operation maybe from a new state 
         /// </summary>
+        public abstract void Continue(Func<IState, object, bool> endCondition = null);
         public abstract void Continue();
 
         /// <summary>
@@ -80,10 +82,11 @@ namespace DFASimulator {
         /// <param name="event_"></param>
         public abstract void Step();
 
+       
+
         /// <summary>
         /// This method initializes the state machine state
         /// </summary>
         public abstract void ResetState();
-        
     }
 }

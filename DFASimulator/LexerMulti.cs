@@ -83,16 +83,28 @@ namespace DFASimulator {
             m_currentState.M_StreamPointer = 0;
         }
 
+        public override void Continue() {
+            Continue((_, __) => {
+                var edustream = (EDUFlexStream)__;
+                LexerState state = (LexerState)_;
+                return !edustream.M_EOF && state.M_Match;
+            });
+        }
+
         /// <summary>
         /// The lexer continue() method scans the whole input stream to
-        /// match as many strings it can
+        /// match as many strings as long as the condition calculated
+        /// by the input delegate evaluates to true. The input delegate
+        /// takes the current state machine's state and the input provider
+        /// as parameters
         /// </summary>
-        public override void Continue() {
+        public override void Continue(Func<IState, object, bool> cond=null) {
             ResetState();
-            while (!m_inputCharStream.M_EOF && m_currentState.M_Match) {
+
+            while (cond?.Invoke(m_currentState, m_inputCharStream) ?? false) {
                 Step();
             }
-
+            
             if (!m_currentState.M_Match) {
                 Console.WriteLine("Lexical Error !!!");
             }

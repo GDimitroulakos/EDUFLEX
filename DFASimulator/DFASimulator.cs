@@ -128,6 +128,10 @@ namespace DFASimulator {
             }
         }
 
+        public override void Continue(Func<IState, object, bool> endCondition = null) {
+            throw new NotImplementedException();
+        }
+
         public override void Continue() {
             m_nextChar = 0;
             // 1. Reset DFA Simulator to start new matching procedure

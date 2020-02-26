@@ -362,7 +362,11 @@ namespace DFASimulator {
 
             if (Facade.GetOperationModeCode()) {
                 LexerMulti dfaSimulator = new LexerMulti(Facade.M_ReRecords, istream);
-                dfaSimulator.Continue();
+                dfaSimulator.Continue((_, __) => {
+                    var edustream = (EDUFlexStream) __;
+                    LexerState state = (LexerState) _;
+                    return !edustream.M_EOF && state.M_Match;
+                });
             } else {
                 DFASimulator dfaSimulator = new DFASimulator(Facade.M_ReRecords[0].M_MinDfa, istream);
                 dfaSimulator.Step();
