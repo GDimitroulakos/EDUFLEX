@@ -107,8 +107,8 @@ namespace Parser.UOPCore
             s.Append("Closure Serial : " + MLoopSerial +"\n");
             s.Append("Closure Type : " + MClosureType + "\n");
             s.Append("Closure Range : " + MClosureRange + "\n");
-            s.Append("Entry Node : " + MEntryNode?.M_Label??"" + "\n");
-            s.Append("Exit Node : " + MExitNode?.M_Label??"" + "\n");
+            s.Append("Entry Node : " + (MEntryNode?.M_Label?? "") + "\n");
+            s.Append("Exit Node : " + (MExitNode?.M_Label?? "") + "\n");
             s.Append("Participating Nodes (" + MParticipatingNodes.Count  +"): ");
             foreach (CGraphNode node in MParticipatingNodes) {
                 s.Append(" "+node.M_Label+" ");

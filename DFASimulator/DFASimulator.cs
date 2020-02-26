@@ -92,7 +92,7 @@ namespace DFASimulator {
 
         public DFASimulator(FA resource, EDUFlexStream istream, IStateMachine parent = null) : base(resource, DFAStateSingleton.GetInstance(), parent) {
             m_currentState = DFAStateSingleton.GetInstance();
-            m_resource = resource;
+            m_stateModel = resource;
             m_inputCharStream = istream;
             ResetState();
         }
@@ -103,16 +103,17 @@ namespace DFASimulator {
         public override void Step() {
             // Get next character from stream and advance the stream position
             m_nextChar = m_inputCharStream.NextChar();
+            m_currentState.M_EOF = m_nextChar == -1;
             // Append the character to the current buffered string
             m_currentState.M_Lexeme.Append((char)m_nextChar);
             // Calculate the new simulator state
             m_currentState.M_CurrentState =
-                m_resource.GetTransitionTarget(m_currentState.M_CurrentState, m_nextChar);
+                m_stateModel.GetTransitionTarget(m_currentState.M_CurrentState, m_nextChar);
 
             // If the current state is Final clear the stack to trace state
             // from the current final(accepted) state and beyong. That is, we ignore 
             // any accepted states before the current accept state
-            if (IsFinalState(m_resource, m_currentState.M_CurrentState)) {
+            if (IsFinalState(m_stateModel, m_currentState.M_CurrentState)) {
                 m_currentState.M_StateStack.Clear();
             }
 
@@ -143,7 +144,7 @@ namespace DFASimulator {
             // BACKTRACKING TO THE MOST RECENT ACCEPTED STATE
             // If previous loop ended in a non-accepted state the current loop 
             // goes backward until the most recent accepted state
-            while (!IsFinalState(m_resource, m_currentState.M_CurrentState) &&
+            while (!IsFinalState(m_stateModel, m_currentState.M_CurrentState) &&
                    m_currentState.M_StateStack.Count != 0) {
                 // Remove the last state from the stack
                 m_currentState.M_CurrentState = m_currentState.M_StateStack.Pop();
@@ -159,7 +160,7 @@ namespace DFASimulator {
             // regular expression. Otherwise set the Match flag indicating a
             // match of the current buffered string with the current regular
             // expression
-            if (!IsFinalState(m_resource, m_currentState.M_CurrentState)) {
+            if (!IsFinalState(m_stateModel, m_currentState.M_CurrentState)) {
                 m_currentState.M_Match = false;
                 m_currentState.M_Deadend = true;
             } else {
@@ -175,7 +176,7 @@ namespace DFASimulator {
             // Init Output
             m_currentState.M_Lexeme.Clear();
             // Init State
-            m_currentState.M_CurrentState = m_resource.M_Initial;
+            m_currentState.M_CurrentState = m_stateModel.M_Initial;
             // Init Stack
             m_currentState.M_StateStack.Clear();
             m_currentState.M_StateStack.Push(m_currentState.M_CurrentState);

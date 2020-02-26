@@ -35,7 +35,7 @@ namespace DFASimulator {
     /// <typeparam name="TEvent">Type of event causing the state machine to change state</typeparam>
     public abstract class StateMachine<TStateModel> : IStateMachine {
         // Model on which the state machine decides its state
-        protected TStateModel m_resource;
+        protected TStateModel m_stateModel;
         // The state of current state machine
         protected readonly IState m_currentState;
         // List of nested state machines
@@ -51,7 +51,7 @@ namespace DFASimulator {
         /// <param name="resource"></param>
         /// <param name="parent"></param>
         public StateMachine(TStateModel resource, IState stateDescriptionObject, IStateMachine parent = null) {
-            m_resource = resource;
+            m_stateModel = resource;
             m_parent = parent;
             m_currentState = stateDescriptionObject;
         }

@@ -61,7 +61,7 @@ namespace DFASimulator {
         }
 
         public LexerMulti(Dictionary<uint, RERecord> reRecords, EDUFlexStream inputStream) : base(reRecords, LexerState.GetInstance()) {
-            m_resource = DeSerializeEDUFLEXOutput("EDUFLEX.out");
+            m_stateModel = DeSerializeEDUFLEXOutput("EDUFLEX.out");
             m_inputCharStream = inputStream;
             m_currentState = LexerState.GetInstance();
 
