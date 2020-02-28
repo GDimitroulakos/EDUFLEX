@@ -11,8 +11,12 @@ using Parser.UOPCore;
 namespace DFASimulator {
     public class LexerState : IState {
         private bool m_match;
-
         private int m_streamPointer;
+        private int m_streamPointerLine;
+        private int m_streamPointerColumn;
+        private int m_errorPrefix;
+        private int m_errorLine;
+        private int m_errorColumn;
 
         public int M_StreamPointer {
             get => m_streamPointer;
@@ -22,6 +26,28 @@ namespace DFASimulator {
         public bool M_Match {
             get => m_match;
             set => m_match = value;
+        }
+        public int MErrorPrefix {
+            get => m_errorPrefix;
+            set => m_errorPrefix = value;
+        }
+        public int MStreamPointerLine {
+            get => m_streamPointerLine;
+            set => m_streamPointerLine = value;
+        }
+
+        public int MStreamPointerColumn {
+            get => m_streamPointerColumn;
+            set => m_streamPointerColumn = value;
+        }
+
+        public int MErrorLine {
+            get => m_errorLine;
+            set => m_errorLine = value;
+        }
+        public int MErrorColumn {
+            get => m_errorColumn;
+            set => m_errorColumn = value;
         }
 
         private static LexerState ms_instance;
@@ -81,6 +107,7 @@ namespace DFASimulator {
         public override void ResetState() {
             m_currentState.M_Match = true;      // only for the initialization
             m_currentState.M_StreamPointer = 0;
+            m_currentState.MErrorPrefix = -1;
         }
 
         public override void Continue() {
@@ -106,7 +133,7 @@ namespace DFASimulator {
             }
             
             if (!m_currentState.M_Match) {
-                Console.WriteLine("Lexical Error !!!");
+                Console.WriteLine("Lexical Error !!! Character {0} is not the prefix of any valid strings.",(char)m_currentState.MErrorPrefix);
             }
         }
 
@@ -151,7 +178,9 @@ namespace DFASimulator {
                 }
                 m_currentState.M_Match = true;
             } else {
+                Console.WriteLine("Lexical Error!!! Character {{{0}}} is not a prefix of a valid string", (char)m_currentState.MErrorPrefix);
                 m_currentState.M_Match = false;
+                m_currentState.M_StreamPointer++;
             }
             /*
              * switch (renum ){
@@ -165,7 +194,6 @@ namespace DFASimulator {
              * }
              * 
              * */
-            
         }
 
         // The DetectMatchRE() method enforces the policies 
@@ -187,6 +215,10 @@ namespace DFASimulator {
                         matchLength = sim.Value.M_CurrentState.M_Lexeme.Length;
                         renum = sim.Key;
                     }
+                }
+                else if (!sim.Value.M_CurrentState.M_Match &&
+                          sim.Value.M_CurrentState.MErrorPrefix != -1 ) {
+                    m_currentState.MErrorPrefix = sim.Value.M_CurrentState.MErrorPrefix;
                 }
             }
             return renum;

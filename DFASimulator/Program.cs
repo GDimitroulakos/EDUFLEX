@@ -80,7 +80,8 @@ namespace DFASimulator {
                 dfaSimulator.Continue((_, __) => {
                     var edustream = (EDUFlexStream) __;
                     LexerState state = (LexerState) _;
-                    return !edustream.M_EOF && state.M_Match;
+                    //return !edustream.M_EOF && state.M_Match;
+                    return !edustream.M_EOF;
                 });
             } else {
                 DFASimulator dfaSimulator = new DFASimulator(Facade.M_ReRecords[0].M_MinDfa, istream);

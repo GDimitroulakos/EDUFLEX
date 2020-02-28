@@ -20,7 +20,11 @@ namespace DFASimulator {
         private bool m_EOFreached;
         // Current buffered string
         private StringBuilder m_lexeme = new StringBuilder();
-
+        // The start character of an unrecognized lexeme. 
+        private int m_errorPrefix;
+        private int m_streamPointerLine;
+        private int m_streamPointerColumn;
+        
         private static DFAStateSingleton ms_instance;
 
         public static DFAStateSingleton GetInstance() {
@@ -55,7 +59,21 @@ namespace DFASimulator {
         
         public StringBuilder M_Lexeme {
             get => m_lexeme;
-            set => m_lexeme = value;
+        }
+
+        public int MStreamPointerLine {
+            get => m_streamPointerLine;
+            set => m_streamPointerLine = value;
+        }
+
+        public int MStreamPointerColumn {
+            get => m_streamPointerColumn;
+            set => m_streamPointerColumn = value;
+        }
+
+        public int MErrorPrefix {
+            set => m_errorPrefix = value;
+            get => m_errorPrefix;
         }
 
         public bool M_EOF {
@@ -101,13 +119,15 @@ namespace DFASimulator {
         /// of states until it finds a valid lexeme or a deadend. 
         /// </summary>
         public override void Step() {
-
+            ResetState();
             while (!m_currentState.M_Deadend && m_nextChar != -1) {
                 // Get next character from stream and advance the stream position
                 m_nextChar = m_inputCharStream.NextChar();
                 m_currentState.M_EOF = m_nextChar == -1;
                 // Append the character to the current buffered string
                 m_currentState.M_Lexeme.Append((char) m_nextChar);
+                // Record the last character in case of a lexical error
+                m_currentState.MErrorPrefix = m_nextChar;
                 // Calculate the new simulator state
                 m_currentState.M_CurrentState =
                     m_stateModel.GetTransitionTarget(m_currentState.M_CurrentState, m_nextChar);
@@ -168,7 +188,6 @@ namespace DFASimulator {
         public override void Continue() {
             m_nextChar = 0;
             // 1. Reset DFA Simulator to start new matching procedure
-            ResetState();
             while ( m_nextChar != -1) {
                 Step();
             }
@@ -181,6 +200,7 @@ namespace DFASimulator {
         public override void ResetState() {
             // Init Output
             m_currentState.M_Lexeme.Clear();
+            m_currentState.MErrorPrefix=0;
             // Init State
             m_currentState.M_CurrentState = m_stateModel.M_Initial;
             // Init Stack

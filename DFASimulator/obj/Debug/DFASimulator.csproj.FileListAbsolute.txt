@@ -60,3 +60,4 @@ D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulat
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.pdb
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csprojAssemblyReference.cache
+C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
