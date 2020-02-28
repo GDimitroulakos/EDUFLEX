@@ -1,28 +1,16 @@
 digraph G8{
-"L1G8_N36" [style=filled,fillcolor=red];
-"L1G8_N37";
-"L1G8_N38" [style=filled,fillcolor=red];
-"L1G8_N39" [style=filled,fillcolor=purple];
-"L1G8_N40";
-"L1G8_N41";
-"L1G8_N42";
-"L1G8_N43" [style=filled,fillcolor=purple];
-"L1G8_N44" [style=filled,fillcolor=green];
-"L1G8_N45";
-"L1G8_N46";
-"L1G8_N47" [peripheries=2];
-"L1G8_N36"->"L1G8_N37" [style = bold, label = "[a]"];
-"L1G8_N38"->"L1G8_N39" [style = bold, label = "[b]"];
-"L1G8_N40"->"L1G8_N38";
-"L1G8_N39"->"L1G8_N41";
-"L1G8_N39"->"L1G8_N38" [color=red,style = bold, label = ""];
-"L1G8_N37"->"L1G8_N40";
-"L1G8_N42"->"L1G8_N43" [style = bold, label = "[c]"];
-"L1G8_N41"->"L1G8_N42";
-"L1G8_N44"->"L1G8_N36";
-"L1G8_N43"->"L1G8_N45";
-"L1G8_N43"->"L1G8_N36" [color=red,style = bold, label = ""];
-"L1G8_N46"->"L1G8_N47" [style = bold, label = "[d]"];
-"L1G8_N45"->"L1G8_N46";
+"L2G8_N24" [style=filled,fillcolor=green];
+"L2G8_N25";
+"L2G8_N26" [style=filled,fillcolor=red];
+"L2G8_N27" [style=filled,fillcolor=purple];
+"L2G8_N28";
+"L2G8_N29" [peripheries=2];
+"L2G8_N24"->"L2G8_N25" [style = bold, label = "[1-9]"];
+"L2G8_N26"->"L2G8_N27" [style = bold, label = "[0-9]"];
+"L2G8_N28"->"L2G8_N26";
+"L2G8_N27"->"L2G8_N29";
+"L2G8_N28"->"L2G8_N29";
+"L2G8_N27"->"L2G8_N26" [color=red,style = bold, label = ""];
+"L2G8_N25"->"L2G8_N28";
 }
 

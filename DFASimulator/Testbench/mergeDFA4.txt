@@ -43,22 +43,30 @@ Final: L4G74_N551
 Closure Serial : 4
 Closure Type : CT_ONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L4G74_N555Participating Nodes (1):  L4G74_N555 
+Entry Node : 
+Exit Node : L4G74_N555
+Participating Nodes (1):  L4G74_N555 
 
 Closure Serial : 5
 Closure Type : CT_ONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L4G74_N559Participating Nodes (1):  L4G74_N559 
+Entry Node : 
+Exit Node : L4G74_N559
+Participating Nodes (1):  L4G74_N559 
 
 Closure Serial : 6
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L4G74_N560Participating Nodes (1):  L4G74_N560 
+Entry Node : 
+Exit Node : L4G74_N560
+Participating Nodes (1):  L4G74_N560 
 
 Closure Serial : 7
 Closure Type : CT_FINITE
 Closure Range : Min : 1 -  Max: 3
-Entry Node : Exit Node : L4G74_N563Participating Nodes (8):  L4G74_N555  L4G74_N556  L4G74_N557  L4G74_N558  L4G74_N559  L4G74_N560  L4G74_N561  L4G74_N563 
+Entry Node : 
+Exit Node : L4G74_N563
+Participating Nodes (8):  L4G74_N555  L4G74_N556  L4G74_N557  L4G74_N558  L4G74_N559  L4G74_N560  L4G74_N561  L4G74_N563 
 
 
 Nodes:

@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DFASimulator {
-
-
+    
     public interface IState {
         string ToString();
     }

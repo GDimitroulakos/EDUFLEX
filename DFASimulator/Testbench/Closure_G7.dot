@@ -1,0 +1,12 @@
+digraph G7{
+"L2G7_N20" [style=filled,fillcolor=red];
+"L2G7_N21" [style=filled,fillcolor=purple];
+"L2G7_N22" [style=filled,fillcolor=green];
+"L2G7_N23" [peripheries=2];
+"L2G7_N20"->"L2G7_N21" [style = bold, label = "[0-9]"];
+"L2G7_N22"->"L2G7_N20";
+"L2G7_N21"->"L2G7_N23";
+"L2G7_N22"->"L2G7_N23";
+"L2G7_N21"->"L2G7_N20" [color=red,style = bold, label = ""];
+}
+

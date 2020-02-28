@@ -1,6 +1,6 @@
-digraph G60{
-"L6G60_N444" [style=filled,fillcolor=green];
-"L6G60_N445" [peripheries=2];
-"L6G60_N444"->"L6G60_N445" [style = bold, label = "[b]"];
+digraph G1{
+"L1G1_N2" [style=filled,fillcolor=green];
+"L1G1_N3" [peripheries=2];
+"L1G1_N2"->"L1G1_N3" [style = bold, label = "[b]"];
 }
 

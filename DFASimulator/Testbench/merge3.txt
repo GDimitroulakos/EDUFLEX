@@ -23,7 +23,9 @@ Final: L3G24_N143
 Closure Serial : 3
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : L3G24_N138Exit Node : L3G24_N139Participating Nodes (2):  L3G24_N138  L3G24_N139 
+Entry Node : L3G24_N138
+Exit Node : L3G24_N139
+Participating Nodes (2):  L3G24_N138  L3G24_N139 
 
 
 Nodes:

@@ -98,47 +98,37 @@ namespace DFASimulator {
         }
         /// <summary>
         /// The step() method of DFASimulator has the objective to pass through a series
-        /// of states until it finds a valid lexeme or a deadend
+        /// of states until it finds a valid lexeme or a deadend. 
         /// </summary>
         public override void Step() {
-            // Get next character from stream and advance the stream position
-            m_nextChar = m_inputCharStream.NextChar();
-            m_currentState.M_EOF = m_nextChar == -1;
-            // Append the character to the current buffered string
-            m_currentState.M_Lexeme.Append((char)m_nextChar);
-            // Calculate the new simulator state
-            m_currentState.M_CurrentState =
-                m_stateModel.GetTransitionTarget(m_currentState.M_CurrentState, m_nextChar);
 
-            // If the current state is Final clear the stack to trace state
-            // from the current final(accepted) state and beyong. That is, we ignore 
-            // any accepted states before the current accept state
-            if (IsFinalState(m_stateModel, m_currentState.M_CurrentState)) {
-                m_currentState.M_StateStack.Clear();
-            }
-
-            // If there is no transition for the given character indicate a dead end state
-            // By setting this flag the while loop exits without updating the simulator 
-            // state meaning that the current simulator state corresponds to the last valid 
-            // state
-            if (m_currentState.M_CurrentState == null) {
-                m_currentState.M_Deadend = true;
-            }
-            else {
-                m_currentState.M_StateStack.Push(m_currentState.M_CurrentState);
-            }
-        }
-
-        public override void Continue(Func<IState, object, bool> endCondition = null) {
-            throw new NotImplementedException();
-        }
-
-        public override void Continue() {
-            m_nextChar = 0;
-            // 1. Reset DFA Simulator to start new matching procedure
-            ResetState();
             while (!m_currentState.M_Deadend && m_nextChar != -1) {
-                Step();
+                // Get next character from stream and advance the stream position
+                m_nextChar = m_inputCharStream.NextChar();
+                m_currentState.M_EOF = m_nextChar == -1;
+                // Append the character to the current buffered string
+                m_currentState.M_Lexeme.Append((char) m_nextChar);
+                // Calculate the new simulator state
+                m_currentState.M_CurrentState =
+                    m_stateModel.GetTransitionTarget(m_currentState.M_CurrentState, m_nextChar);
+
+                // If the current state is Final clear the stack to trace state
+                // from the current final(accepted) state and beyong. That is, we ignore 
+                // any accepted states before the current accept state
+                if (IsFinalState(m_stateModel, m_currentState.M_CurrentState)) {
+                    m_currentState.M_StateStack.Clear();
+                }
+
+                // If there is no transition for the given character indicate a dead end state
+                // By setting this flag the while loop exits without updating the simulator 
+                // state meaning that the current simulator state corresponds to the last valid 
+                // state
+                if (m_currentState.M_CurrentState == null) {
+                    m_currentState.M_Deadend = true;
+                }
+                else {
+                    m_currentState.M_StateStack.Push(m_currentState.M_CurrentState);
+                }
             }
 
             // BACKTRACKING TO THE MOST RECENT ACCEPTED STATE
@@ -151,7 +141,10 @@ namespace DFASimulator {
                 // Remove the last character from the buffered stream
                 m_currentState.M_Lexeme.Remove(m_currentState.M_Lexeme.Length - 1, 1);
                 // Go back one character on the input stream
-                m_inputCharStream.GoBackwards();
+                // Update the m_nextChar variable to point to the next character 
+                // after backtracking in order to provide valid input to any subsequent
+                // condition
+                m_nextChar = m_inputCharStream.GoBackwards();
             }
 
             // DETECT MATCH OR MISMATCH FOR THE CURRENT REGULAR EXPRESSION
@@ -165,6 +158,19 @@ namespace DFASimulator {
                 m_currentState.M_Deadend = true;
             } else {
                 m_currentState.M_Match = true;
+            }
+        }
+
+        public override void Continue(Func<IState, object, bool> endCondition = null) {
+            throw new NotImplementedException();
+        }
+
+        public override void Continue() {
+            m_nextChar = 0;
+            // 1. Reset DFA Simulator to start new matching procedure
+            ResetState();
+            while ( m_nextChar != -1) {
+                Step();
             }
         }
 

@@ -126,8 +126,9 @@ namespace DFASimulator {
                 // we left from the previous call of yylex()
                 m_inputCharStream.SeekChar(m_currentState.M_StreamPointer);
                 
-                // 2. Initiate continuation of state machine
-                pair.Value.Continue();
+                // 2. Initiate continuation of state machine for the current 
+                // regular expression
+                pair.Value.Step();
                 
                 // Loop until all regular expressions have been studied
             }

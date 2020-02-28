@@ -1,7 +1,9 @@
-digraph G77{
-"L1G77_N573" [peripheries=2];
-"L1G77_N574" [style=filled,fillcolor=green];
-"L1G77_N573"->"L1G77_N573" [style = bold, label = "[b]"];
-"L1G77_N574"->"L1G77_N573" [style = bold, label = "[a]"];
+digraph G7{
+"L1G7_N30" [peripheries=2];
+"L1G7_N31" [style=filled,fillcolor=green];
+"L1G7_N32" [peripheries=2];
+"L1G7_N31"->"L1G7_N30" [style = bold, label = "[0]"];
+"L1G7_N31"->"L1G7_N32" [style = bold, label = "[1-9]"];
+"L1G7_N32"->"L1G7_N32" [style = bold, label = "[0-9]"];
 }
 

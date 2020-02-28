@@ -39,7 +39,6 @@ C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulat
 C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csproj.CopyComplete
 C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.exe
 C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.pdb
-D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csprojAssemblyReference.cache
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\DFASimulator.exe.config
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\DFASimulator.exe
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\DFASimulator.pdb
@@ -59,3 +58,5 @@ D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Antlr4.Run
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csproj.CopyComplete
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.exe
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.pdb
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csprojAssemblyReference.cache

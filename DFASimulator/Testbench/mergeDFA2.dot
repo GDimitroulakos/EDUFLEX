@@ -1,40 +1,17 @@
-digraph G72{
-	subgraph cluster2 {
+digraph G11{
+	subgraph cluster1 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
-		label ="(02|[A-Z])*";
-		L2G72_N540;L2G72_N543;
-	}	subgraph cluster1 {
-		node [style=filled];
-		style=filled;
-		color=lightgrey;
-		label ="(01|[a-z])+";
-		L2G72_N541;L2G72_N542;
-	}"L2G72_N537" [style=filled,fillcolor=green];
-"L2G72_N538" [peripheries=2];
-"L2G72_N539";
-"L2G72_N540" [peripheries=2];
-"L2G72_N541" [peripheries=2];
-"L2G72_N542" [peripheries=2];
-"L2G72_N543" [peripheries=2];
-"L2G72_N544";
-"L2G72_N545";
-"L2G72_N537"->"L2G72_N538" [style = bold, label = "[d]"];
-"L2G72_N538"->"L2G72_N539" [style = bold, label = "[0]"];
-"L2G72_N538"->"L2G72_N540" [style = bold, label = "[A-Z]"];
-"L2G72_N538"->"L2G72_N541" [style = bold, label = "[a-z]"];
-"L2G72_N539"->"L2G72_N542" [style = bold, label = "[1]"];
-"L2G72_N539"->"L2G72_N543" [style = bold, label = "[2]"];
-"L2G72_N540"->"L2G72_N544" [style = bold, label = "[0]"];
-"L2G72_N540"->"L2G72_N540" [style = bold, label = "[A-Z]"];
-"L2G72_N541"->"L2G72_N545" [style = bold, label = "[0]"];
-"L2G72_N541"->"L2G72_N541" [style = bold, label = "[a-z]"];
-"L2G72_N542"->"L2G72_N545" [style = bold, label = "[0]"];
-"L2G72_N542"->"L2G72_N541" [style = bold, label = "[a-z]"];
-"L2G72_N543"->"L2G72_N544" [style = bold, label = "[0]"];
-"L2G72_N543"->"L2G72_N540" [style = bold, label = "[A-Z]"];
-"L2G72_N544"->"L2G72_N543" [style = bold, label = "[2]"];
-"L2G72_N545"->"L2G72_N542" [style = bold, label = "[1]"];
+		label ="[0-9]*";
+		L2G11_N46;
+	}"L2G11_N43" [style=filled,fillcolor=green];
+"L2G11_N44" [peripheries=2];
+"L2G11_N45" [peripheries=2];
+"L2G11_N46" [peripheries=2];
+"L2G11_N43"->"L2G11_N44" [style = bold, label = "[0]"];
+"L2G11_N43"->"L2G11_N45" [style = bold, label = "[1-9]"];
+"L2G11_N45"->"L2G11_N46" [style = bold, label = "[0-9]"];
+"L2G11_N46"->"L2G11_N46" [style = bold, label = "[0-9]"];
 }
 

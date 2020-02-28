@@ -1,28 +1,34 @@
 **************************************
-Initial State: L1G71_N534
-Final States: L1G71_N535;L1G71_N536;
+Initial State: L1G6_N26
+Final States: L1G6_N27;L1G6_N28;L1G6_N29;
 FA edges: 
-L1G71_N534->L1G71_N535;
-L1G71_N535->L1G71_N536;
-L1G71_N536->L1G71_N536;
+L1G6_N26->L1G6_N27;
+L1G6_N26->L1G6_N28;
+L1G6_N28->L1G6_N29;
+L1G6_N29->L1G6_N29;
 
 **************************************
 Graph:
-Initial: L1G71_N534
-Final: L1G71_N535 
- L1G71_N536 
+Initial: L1G6_N26
+Final: L1G6_N27 
+ L1G6_N28 
+ L1G6_N29 
 
 Closure Serial : 0
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L1G71_N536Participating Nodes (1):  L1G71_N536 
+Entry Node : 
+Exit Node : L1G6_N29
+Participating Nodes (1):  L1G6_N29 
 
 
 Nodes:
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
-[a]
-[b]
-[b]
+[0]
+[1-9]
+[0-9]
+[0-9]

@@ -1,24 +1,31 @@
 **************************************
-Initial State: L1L1G3_N8
-Final States: L1L1G3_N13;
+Initial State: L1G5_N24
+Final States: L1G5_N25;
 FA edges: 
-L1L1G3_N8->L1L1G3_N9;
-L1L1G3_N10->L1L1G3_N11;
-L1L1G3_N12->L1L1G3_N10;
-L1L1G3_N11->L1L1G3_N13;
-L1L1G3_N12->L1L1G3_N13;
-L1L1G3_N11->L1L1G3_N10;
-L1L1G3_N9->L1L1G3_N12;
+L1G5_N16->L1G5_N17;
+L1G5_N18->L1G5_N19;
+L1G5_N20->L1G5_N21;
+L1G5_N22->L1G5_N20;
+L1G5_N21->L1G5_N23;
+L1G5_N22->L1G5_N23;
+L1G5_N21->L1G5_N20;
+L1G5_N19->L1G5_N22;
+L1G5_N24->L1G5_N16;
+L1G5_N24->L1G5_N18;
+L1G5_N23->L1G5_N25;
+L1G5_N17->L1G5_N25;
 
 **************************************
 Graph:
-Initial: L1L1G3_N8
-Final: L1L1G3_N13 
+Initial: L1G5_N24
+Final: L1G5_N25 
 
 Closure Serial : 0
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : L1L1G3_N10Exit Node : L1L1G3_N11Participating Nodes (2):  L1L1G3_N10  L1L1G3_N11 
+Entry Node : L1G5_N20
+Exit Node : L1G5_N21
+Participating Nodes (2):  L1G5_N20  L1G5_N21 
 
 
 Nodes:
@@ -28,9 +35,18 @@ State Type: FT_NAPrefixes:  L1 Line Dependencies:  1
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
+State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
-[a]
-[b]
+[0]
+[1-9]
+[0-9]
+
+
+
+
 
 
 

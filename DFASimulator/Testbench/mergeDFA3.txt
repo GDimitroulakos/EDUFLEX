@@ -17,7 +17,9 @@ Final: L3G73_N547
 Closure Serial : 3
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : Exit Node : L3G73_N549Participating Nodes (1):  L3G73_N549 
+Entry Node : 
+Exit Node : L3G73_N549
+Participating Nodes (1):  L3G73_N549 
 
 
 Nodes:
