@@ -114,6 +114,15 @@ namespace DFASimulator {
             m_inputCharStream = istream;
             ResetState();
         }
+
+        private void AdvanceStreamPosition(int c) {
+
+        }
+
+        private void RetreatStreamPosition(int c) {
+
+        }
+
         /// <summary>
         /// The step() method of DFASimulator has the objective to pass through a series
         /// of states until it finds a valid lexeme or a deadend. 
@@ -124,6 +133,9 @@ namespace DFASimulator {
                 // Get next character from stream and advance the stream position
                 m_nextChar = m_inputCharStream.NextChar();
                 m_currentState.M_EOF = m_nextChar == -1;
+
+                // Update file position coordinates
+                AdvanceStreamPosition(m_nextChar);
                 // Append the character to the current buffered string
                 m_currentState.M_Lexeme.Append((char) m_nextChar);
                 // Record the last character in case of a lexical error
@@ -165,6 +177,8 @@ namespace DFASimulator {
                 // after backtracking in order to provide valid input to any subsequent
                 // condition
                 m_nextChar = m_inputCharStream.GoBackwards();
+                // Update file position coordinates
+                RetreatStreamPosition(m_nextChar);
             }
 
             // DETECT MATCH OR MISMATCH FOR THE CURRENT REGULAR EXPRESSION
