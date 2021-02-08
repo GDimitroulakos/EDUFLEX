@@ -7,6 +7,7 @@ subgraph cluster0 {
  label = "CT_LEXERDESCRIPTION_BODY";
 
 "NT_REGEXPSTATEMENT_1"
+"NT_REGEXPSTATEMENT_10"
 }
 "NT_LEXERDESCRIPTION_0"->"NT_REGEXPSTATEMENT_1"
 subgraph cluster1 {
@@ -30,113 +31,118 @@ subgraph cluster3 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
- label = "CT_REGEXPSTATEMENT_ACTIONCODE";
+ label = "CT_REGEXPSTATEMENT_TOKENNAME";
 
-"NT_ACTIONCODE_16"
 }
+"NT_REGEXPSTATEMENT_1"->"NT_ID_2< L1 >"
+"NT_REGEXPSTATEMENT_1"->"NT_REGEXPALTERNATION_3"
 subgraph cluster4 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPALTERNATION_TERMS";
+
+"NT_REGEXPCONCATENATION_4"
+ [fillcolor = green]"NT_REGEXPBASIC_CHAR_9< c >"
+}
+"NT_REGEXPALTERNATION_3"->"NT_REGEXPCONCATENATION_4"
+subgraph cluster5 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPCONCATENATION_TERMS";
+
+"NT_REGEXPBASIC_CHAR_5< a >"
+"NT_REGEXPCLOSURE_6CLT_NONEORMULTIPLE"
+ [fillcolor = blue]
+}
+"NT_REGEXPCONCATENATION_4"->"NT_REGEXPBASIC_CHAR_5< a >"
+"NT_REGEXPCONCATENATION_4"->"NT_REGEXPCLOSURE_6CLT_NONEORMULTIPLE"
+subgraph cluster6 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPCLOSURE_REGEXP";
+
+"NT_REGEXPBASIC_CHAR_7< b >"
+}
+subgraph cluster7 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPCLOSURE_QUANTIFIER";
+
+"NT_CLOSURERANGE_8 0-INF"
+}
+"NT_REGEXPCLOSURE_6CLT_NONEORMULTIPLE"->"NT_REGEXPBASIC_CHAR_7< b >"
+"NT_REGEXPCLOSURE_6CLT_NONEORMULTIPLE"->"NT_CLOSURERANGE_8 0-INF"
+"NT_REGEXPALTERNATION_3"->"NT_REGEXPBASIC_CHAR_9< c >"
+"NT_LEXERDESCRIPTION_0"->"NT_REGEXPSTATEMENT_10"
+subgraph cluster8 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPSTATEMENT_TOKENNAME";
+
+"NT_ID_11< L2 >"
+}
+subgraph cluster9 {
+ node [style=filled,color=white];
+ style=filled;
+ color=lightgrey;
+ label = "CT_REGEXPSTATEMENT_REGEXP";
+
+"NT_REGEXPALTERNATION_12"
+ [fillcolor = yellow]
+}
+subgraph cluster10 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
  label = "CT_REGEXPSTATEMENT_TOKENNAME";
 
 }
-"NT_REGEXPSTATEMENT_1"->"NT_ID_2< L1 >"
-"NT_REGEXPSTATEMENT_1"->"NT_REGEXPALTERNATION_3"
-subgraph cluster5 {
+"NT_REGEXPSTATEMENT_10"->"NT_ID_11< L2 >"
+"NT_REGEXPSTATEMENT_10"->"NT_REGEXPALTERNATION_12"
+subgraph cluster11 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
  label = "CT_REGEXPALTERNATION_TERMS";
 
-"NT_REGEXPBASIC_CHAR_4< 0 >"
-"NT_REGEXPCONCATENATION_5"
- [fillcolor = green]}
-"NT_REGEXPALTERNATION_3"->"NT_REGEXPBASIC_CHAR_4< 0 >"
-"NT_REGEXPALTERNATION_3"->"NT_REGEXPCONCATENATION_5"
-subgraph cluster6 {
+"NT_REGEXPCONCATENATION_13"
+ [fillcolor = green]"NT_REGEXPBASIC_CHAR_18< c >"
+}
+"NT_REGEXPALTERNATION_12"->"NT_REGEXPCONCATENATION_13"
+subgraph cluster12 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
  label = "CT_REGEXPCONCATENATION_TERMS";
 
-"NT_REGEXPBASIC_SET_6"
-"NT_REGEXPCLOSURE_10CLT_NONEORMULTIPLE"
+"NT_REGEXPCLOSURE_14CLT_NONEORMULTIPLE"
  [fillcolor = blue]
+"NT_REGEXPBASIC_CHAR_17< b >"
 }
-"NT_REGEXPCONCATENATION_5"->"NT_REGEXPBASIC_SET_6"
-subgraph cluster7 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_REGEXPBASIC_SET";
-
-"NT_RANGE_7"
-}
-"NT_REGEXPBASIC_SET_6"->"NT_RANGE_7"
-subgraph cluster8 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_RANGE_MIN";
-
-"NT_REGEXPBASIC_CHAR_8< 1 >"
-}
-subgraph cluster9 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_RANGE_MAX";
-
-"NT_REGEXPBASIC_CHAR_9< 9 >"
-}
-"NT_RANGE_7"->"NT_REGEXPBASIC_CHAR_8< 1 >"
-"NT_RANGE_7"->"NT_REGEXPBASIC_CHAR_9< 9 >"
-"NT_REGEXPCONCATENATION_5"->"NT_REGEXPCLOSURE_10CLT_NONEORMULTIPLE"
-subgraph cluster10 {
+"NT_REGEXPCONCATENATION_13"->"NT_REGEXPCLOSURE_14CLT_NONEORMULTIPLE"
+subgraph cluster13 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
  label = "CT_REGEXPCLOSURE_REGEXP";
 
-"NT_REGEXPBASIC_SET_11"
-}
-subgraph cluster11 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_REGEXPCLOSURE_QUANTIFIER";
-
-"NT_CLOSURERANGE_15 0-INF"
-}
-"NT_REGEXPCLOSURE_10CLT_NONEORMULTIPLE"->"NT_REGEXPBASIC_SET_11"
-subgraph cluster12 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_REGEXPBASIC_SET";
-
-"NT_RANGE_12"
-}
-"NT_REGEXPBASIC_SET_11"->"NT_RANGE_12"
-subgraph cluster13 {
- node [style=filled,color=white];
- style=filled;
- color=lightgrey;
- label = "CT_RANGE_MIN";
-
-"NT_REGEXPBASIC_CHAR_13< 0 >"
+"NT_REGEXPBASIC_CHAR_15< a >"
 }
 subgraph cluster14 {
  node [style=filled,color=white];
  style=filled;
  color=lightgrey;
- label = "CT_RANGE_MAX";
+ label = "CT_REGEXPCLOSURE_QUANTIFIER";
 
-"NT_REGEXPBASIC_CHAR_14< 9 >"
+"NT_CLOSURERANGE_16 0-INF"
 }
-"NT_RANGE_12"->"NT_REGEXPBASIC_CHAR_13< 0 >"
-"NT_RANGE_12"->"NT_REGEXPBASIC_CHAR_14< 9 >"
-"NT_REGEXPCLOSURE_10CLT_NONEORMULTIPLE"->"NT_CLOSURERANGE_15 0-INF"
-"NT_REGEXPSTATEMENT_1"->"NT_ACTIONCODE_16"
+"NT_REGEXPCLOSURE_14CLT_NONEORMULTIPLE"->"NT_REGEXPBASIC_CHAR_15< a >"
+"NT_REGEXPCLOSURE_14CLT_NONEORMULTIPLE"->"NT_CLOSURERANGE_16 0-INF"
+"NT_REGEXPCONCATENATION_13"->"NT_REGEXPBASIC_CHAR_17< b >"
+"NT_REGEXPALTERNATION_12"->"NT_REGEXPBASIC_CHAR_18< c >"
 }

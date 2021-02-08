@@ -1,6 +1,0 @@
-digraph G68{
-"L6G68_N498" [style=filled,fillcolor=green];
-"L6G68_N499" [peripheries=2];
-"L6G68_N498"->"L6G68_N499" [style = bold, label = "[d]"];
-}
-

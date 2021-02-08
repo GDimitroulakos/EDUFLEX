@@ -1,1 +1,1 @@
-L1:0|[1-9][0-9]* { Console.WriteLine("L1");};
+L1:ab*|c;

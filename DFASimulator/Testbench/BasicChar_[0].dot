@@ -1,6 +1,0 @@
-digraph G0{
-"L1G0_N0" [style=filled,fillcolor=green];
-"L1G0_N1" [peripheries=2];
-"L1G0_N0"->"L1G0_N1" [style = bold, label = "[0]"];
-}
-

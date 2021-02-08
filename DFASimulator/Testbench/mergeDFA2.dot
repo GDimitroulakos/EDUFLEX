@@ -1,17 +1,18 @@
-digraph G11{
+digraph G13{
 	subgraph cluster1 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
-		label ="[0-9]*";
-		L2G11_N46;
-	}"L2G11_N43" [style=filled,fillcolor=green];
-"L2G11_N44" [peripheries=2];
-"L2G11_N45" [peripheries=2];
-"L2G11_N46" [peripheries=2];
-"L2G11_N43"->"L2G11_N44" [style = bold, label = "[0]"];
-"L2G11_N43"->"L2G11_N45" [style = bold, label = "[1-9]"];
-"L2G11_N45"->"L2G11_N46" [style = bold, label = "[0-9]"];
-"L2G11_N46"->"L2G11_N46" [style = bold, label = "[0-9]"];
+		label ="a*";
+		L2G13_N57;
+	}"L2G13_N56" [style=filled,fillcolor=green];
+"L2G13_N57";
+"L2G13_N58" [peripheries=2];
+"L2G13_N59" [peripheries=2];
+"L2G13_N56"->"L2G13_N57" [style = bold, label = "[a]"];
+"L2G13_N56"->"L2G13_N58" [style = bold, label = "[b]"];
+"L2G13_N56"->"L2G13_N59" [style = bold, label = "[c]"];
+"L2G13_N57"->"L2G13_N57" [style = bold, label = "[a]"];
+"L2G13_N57"->"L2G13_N58" [style = bold, label = "[b]"];
 }
 

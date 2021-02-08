@@ -1,6 +1,0 @@
-digraph G6{
-"L2G6_N18" [style=filled,fillcolor=green];
-"L2G6_N19" [peripheries=2];
-"L2G6_N18"->"L2G6_N19" [style = bold, label = "[1]"];
-}
-

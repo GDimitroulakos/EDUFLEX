@@ -1,0 +1,12 @@
+digraph G1{
+"L2G1_N2" [style=filled,fillcolor=red];
+"L2G1_N3" [style=filled,fillcolor=purple];
+"L2G1_N4" [style=filled,fillcolor=green];
+"L2G1_N5" [peripheries=2];
+"L2G1_N2"->"L2G1_N3" [style = bold, label = "[a]"];
+"L2G1_N4"->"L2G1_N2";
+"L2G1_N3"->"L2G1_N5";
+"L2G1_N4"->"L2G1_N5";
+"L2G1_N3"->"L2G1_N2" [color=red,style = bold, label = ""];
+}
+

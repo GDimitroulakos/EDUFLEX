@@ -71,11 +71,11 @@ namespace DFASimulator {
 
     class Program {
         static void Main(string[] args) {
-            EDUFlexStream istream = new EDUFlexStream(new FileStream("source.txt", FileMode.Open));
+           // EDUFlexStream istream = new EDUFlexStream(new FileStream("source.txt", FileMode.Open));
 
             Facade.VerifyRegExp(args);
 
-            if (Facade.GetOperationModeCode()) {
+            /*if (Facade.GetOperationModeCode()) {
                 LexerMulti dfaSimulator = new LexerMulti(Facade.M_ReRecords, istream);
                 dfaSimulator.Continue((_, __) => {
                     var edustream = (EDUFlexStream) __;
@@ -86,7 +86,7 @@ namespace DFASimulator {
             } else {
                 DFASimulator dfaSimulator = new DFASimulator(Facade.M_ReRecords[0].M_MinDfa, istream);
                 dfaSimulator.Step();
-            }
+            }*/
 
 
 

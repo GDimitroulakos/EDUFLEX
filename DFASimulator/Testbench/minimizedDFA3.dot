@@ -1,9 +1,0 @@
-digraph G83{
-"L3G83_N582" [peripheries=2];
-"L3G83_N583" [style=filled,fillcolor=green];
-"L3G83_N584" [peripheries=2];
-"L3G83_N583"->"L3G83_N582" [style = bold, label = "[0]"];
-"L3G83_N583"->"L3G83_N584" [style = bold, label = "[1-9]"];
-"L3G83_N584"->"L3G83_N584" [style = bold, label = "[0-9]"];
-}
-

@@ -1,25 +1,25 @@
 **************************************
-Initial State: L2G11_N43
-Final States: L2G11_N44;L2G11_N45;L2G11_N46;
+Initial State: L2G13_N56
+Final States: L2G13_N58;L2G13_N59;
 FA edges: 
-L2G11_N43->L2G11_N44;
-L2G11_N43->L2G11_N45;
-L2G11_N45->L2G11_N46;
-L2G11_N46->L2G11_N46;
+L2G13_N56->L2G13_N57;
+L2G13_N56->L2G13_N58;
+L2G13_N56->L2G13_N59;
+L2G13_N57->L2G13_N57;
+L2G13_N57->L2G13_N58;
 
 **************************************
 Graph:
-Initial: L2G11_N43
-Final: L2G11_N44 
- L2G11_N45 
- L2G11_N46 
+Initial: L2G13_N56
+Final: L2G13_N58 
+ L2G13_N59 
 
 Closure Serial : 1
 Closure Type : CT_NONEORMULT
 Closure Range : 
 Entry Node : 
-Exit Node : L2G11_N46
-Participating Nodes (1):  L2G11_N46 
+Exit Node : L2G13_N57
+Participating Nodes (1):  L2G13_N57 
 
 
 Nodes:
@@ -28,7 +28,8 @@ State Type: FT_NAPrefixes:  L2 Line Dependencies:  2
 State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
 State Type: FT_NAPrefixes:  L2 Line Dependencies:  2 
 Edges:
-[0]
-[1-9]
-[0-9]
-[0-9]
+[a]
+[b]
+[c]
+[a]
+[b]

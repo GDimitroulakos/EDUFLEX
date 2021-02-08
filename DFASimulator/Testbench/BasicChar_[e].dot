@@ -1,6 +1,0 @@
-digraph G27{
-"L4G27_N148" [style=filled,fillcolor=green];
-"L4G27_N149" [peripheries=2];
-"L4G27_N148"->"L4G27_N149" [style = bold, label = "[e]"];
-}
-

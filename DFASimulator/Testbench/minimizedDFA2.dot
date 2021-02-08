@@ -1,9 +1,10 @@
-digraph G14{
-"L2G14_N49" [peripheries=2];
-"L2G14_N50" [style=filled,fillcolor=green];
-"L2G14_N51" [peripheries=2];
-"L2G14_N50"->"L2G14_N49" [style = bold, label = "[0]"];
-"L2G14_N50"->"L2G14_N51" [style = bold, label = "[1-9]"];
-"L2G14_N51"->"L2G14_N51" [style = bold, label = "[0-9]"];
+digraph G17{
+"L2G17_N63" [peripheries=2];
+"L2G17_N64" [style=filled,fillcolor=green];
+"L2G17_N65";
+"L2G17_N64"->"L2G17_N63" [style = bold, label = "[b-c]"];
+"L2G17_N64"->"L2G17_N65" [style = bold, label = "[a]"];
+"L2G17_N65"->"L2G17_N63" [style = bold, label = "[b]"];
+"L2G17_N65"->"L2G17_N65" [style = bold, label = "[a]"];
 }
 

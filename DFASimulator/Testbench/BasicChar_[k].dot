@@ -1,6 +1,0 @@
-digraph G45{
-"L4G45_N232" [style=filled,fillcolor=green];
-"L4G45_N233" [peripheries=2];
-"L4G45_N232"->"L4G45_N233" [style = bold, label = "[k]"];
-}
-

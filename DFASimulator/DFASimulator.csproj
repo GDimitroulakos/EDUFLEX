@@ -72,11 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Testbench\merge1.dot" />
-    <None Include="Testbench\mergeDFA1.dot" />
-    <None Include="Testbench\minimizedDFA1.dot" />
-    <None Include="Testbench\test.dot" />
-    <None Include="Testbench\testAST.dot" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLibrary\GraphLibrary\GraphLibrary.csproj">
@@ -101,18 +96,12 @@
       <Link>source.txt</Link>
     </Content>
     <Content Include="Testbench\HOPCROFTReport1.txt" />
-    <Content Include="Testbench\HopCroft_InitialDFA_1.gif" />
-    <Content Include="Testbench\HopCroft_InitialDFA_1.txt" />
     <Content Include="Testbench\merge1.gif" />
-    <Content Include="Testbench\merge1.txt" />
     <Content Include="Testbench\mergeDFA1.gif" />
-    <Content Include="Testbench\mergeDFA1.txt" />
     <Content Include="Testbench\minimizedDFA1.gif" />
-    <Content Include="Testbench\source.txt" />
     <Content Include="Testbench\SubsetREPORT.txt" />
     <Content Include="Testbench\test.gif" />
     <Content Include="Testbench\test.txt" />
-    <Content Include="Testbench\test1.txt" />
     <Content Include="Testbench\testAST.gif" />
   </ItemGroup>
   <ItemGroup>

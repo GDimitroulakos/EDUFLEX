@@ -1,6 +1,0 @@
-digraph G14{
-"L2G14_N52" [style=filled,fillcolor=green];
-"L2G14_N53" [peripheries=2];
-"L2G14_N52"->"L2G14_N53" [style = bold, label = "[A-Z]"];
-}
-

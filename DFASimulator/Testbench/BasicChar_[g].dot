@@ -1,6 +1,0 @@
-digraph G32{
-"L4G32_N170" [style=filled,fillcolor=green];
-"L4G32_N171" [peripheries=2];
-"L4G32_N170"->"L4G32_N171" [style = bold, label = "[g]"];
-}
-

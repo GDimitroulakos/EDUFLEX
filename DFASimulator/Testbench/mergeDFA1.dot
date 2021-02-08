@@ -1,17 +1,17 @@
-digraph G6{
+digraph G12{
 	subgraph cluster0 {
 		node [style=filled];
 		style=filled;
 		color=lightgrey;
-		label ="[0-9]*";
-		L1G6_N29;
-	}"L1G6_N26" [style=filled,fillcolor=green];
-"L1G6_N27" [peripheries=2];
-"L1G6_N28" [peripheries=2];
-"L1G6_N29" [peripheries=2];
-"L1G6_N26"->"L1G6_N27" [style = bold, label = "[0]"];
-"L1G6_N26"->"L1G6_N28" [style = bold, label = "[1-9]"];
-"L1G6_N28"->"L1G6_N29" [style = bold, label = "[0-9]"];
-"L1G6_N29"->"L1G6_N29" [style = bold, label = "[0-9]"];
+		label ="b*";
+		L1G12_N55;
+	}"L1G12_N52" [style=filled,fillcolor=green];
+"L1G12_N53" [peripheries=2];
+"L1G12_N54" [peripheries=2];
+"L1G12_N55" [peripheries=2];
+"L1G12_N52"->"L1G12_N53" [style = bold, label = "[a]"];
+"L1G12_N52"->"L1G12_N54" [style = bold, label = "[c]"];
+"L1G12_N53"->"L1G12_N55" [style = bold, label = "[b]"];
+"L1G12_N55"->"L1G12_N55" [style = bold, label = "[b]"];
 }
 

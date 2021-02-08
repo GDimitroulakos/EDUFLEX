@@ -1,25 +1,25 @@
 **************************************
-Initial State: L1G6_N26
-Final States: L1G6_N27;L1G6_N28;L1G6_N29;
+Initial State: L1G12_N52
+Final States: L1G12_N53;L1G12_N54;L1G12_N55;
 FA edges: 
-L1G6_N26->L1G6_N27;
-L1G6_N26->L1G6_N28;
-L1G6_N28->L1G6_N29;
-L1G6_N29->L1G6_N29;
+L1G12_N52->L1G12_N53;
+L1G12_N52->L1G12_N54;
+L1G12_N53->L1G12_N55;
+L1G12_N55->L1G12_N55;
 
 **************************************
 Graph:
-Initial: L1G6_N26
-Final: L1G6_N27 
- L1G6_N28 
- L1G6_N29 
+Initial: L1G12_N52
+Final: L1G12_N53 
+ L1G12_N54 
+ L1G12_N55 
 
 Closure Serial : 0
 Closure Type : CT_NONEORMULT
 Closure Range : 
 Entry Node : 
-Exit Node : L1G6_N29
-Participating Nodes (1):  L1G6_N29 
+Exit Node : L1G12_N55
+Participating Nodes (1):  L1G12_N55 
 
 
 Nodes:
@@ -28,7 +28,7 @@ State Type: FT_NAPrefixes:  L1 Line Dependencies:  1
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
-[0]
-[1-9]
-[0-9]
-[0-9]
+[a]
+[c]
+[b]
+[b]

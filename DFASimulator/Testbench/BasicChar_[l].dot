@@ -1,6 +1,0 @@
-digraph G41{
-"L4G41_N218" [style=filled,fillcolor=green];
-"L4G41_N219" [peripheries=2];
-"L4G41_N218"->"L4G41_N219" [style = bold, label = "[l]"];
-}
-

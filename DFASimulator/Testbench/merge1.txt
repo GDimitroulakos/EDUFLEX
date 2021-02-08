@@ -4,16 +4,16 @@ Final States: L1G5_N25;
 FA edges: 
 L1G5_N16->L1G5_N17;
 L1G5_N18->L1G5_N19;
+L1G5_N20->L1G5_N18;
+L1G5_N19->L1G5_N21;
 L1G5_N20->L1G5_N21;
-L1G5_N22->L1G5_N20;
-L1G5_N21->L1G5_N23;
+L1G5_N19->L1G5_N18;
+L1G5_N17->L1G5_N20;
 L1G5_N22->L1G5_N23;
-L1G5_N21->L1G5_N20;
-L1G5_N19->L1G5_N22;
 L1G5_N24->L1G5_N16;
-L1G5_N24->L1G5_N18;
+L1G5_N24->L1G5_N22;
 L1G5_N23->L1G5_N25;
-L1G5_N17->L1G5_N25;
+L1G5_N21->L1G5_N25;
 
 **************************************
 Graph:
@@ -23,9 +23,9 @@ Final: L1G5_N25
 Closure Serial : 0
 Closure Type : CT_NONEORMULT
 Closure Range : 
-Entry Node : L1G5_N20
-Exit Node : L1G5_N21
-Participating Nodes (2):  L1G5_N20  L1G5_N21 
+Entry Node : L1G5_N18
+Exit Node : L1G5_N19
+Participating Nodes (2):  L1G5_N18  L1G5_N19 
 
 
 Nodes:
@@ -40,14 +40,14 @@ State Type: FT_NAPrefixes:  L1 Line Dependencies:  1
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 State Type: FT_NAPrefixes:  L1 Line Dependencies:  1 
 Edges:
-[0]
-[1-9]
-[0-9]
+[a]
+[b]
 
 
 
 
 
+[c]
 
 
 

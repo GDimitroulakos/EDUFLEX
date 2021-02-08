@@ -61,3 +61,17 @@ D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulat
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csprojAssemblyReference.cache
 C:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\cs\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\de\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\es\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\fr\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\it\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\ja\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\ko\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\pl\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\pt-BR\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\ru\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\tr\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\zh-Hans\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\bin\Debug\zh-Hant\Microsoft.QualityTools.Testing.Fakes.resources.dll
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\DFASimulator\obj\Debug\DFASimulator.csproj.CoreCompileInputs.cache

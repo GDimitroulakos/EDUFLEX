@@ -1,0 +1,16 @@
+digraph G9{
+"L2G9_N34" [style=filled,fillcolor=red];
+"L2G9_N35" [style=filled,fillcolor=purple];
+"L2G9_N36" [style=filled,fillcolor=green];
+"L2G9_N37";
+"L2G9_N38";
+"L2G9_N39" [peripheries=2];
+"L2G9_N34"->"L2G9_N35" [style = bold, label = "[a]"];
+"L2G9_N36"->"L2G9_N34";
+"L2G9_N35"->"L2G9_N37";
+"L2G9_N36"->"L2G9_N37";
+"L2G9_N35"->"L2G9_N34" [color=red,style = bold, label = ""];
+"L2G9_N38"->"L2G9_N39" [style = bold, label = "[b]"];
+"L2G9_N37"->"L2G9_N38";
+}
+

@@ -65,3 +65,4 @@ D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\Parser.csproj.An
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\Parser.csproj.CopyComplete
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\Parser.exe
 D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\Parser.pdb
+D:\MyPrivateWork\MyApps\MyApplications\EDUFLEX\Parser\obj\Debug\Parser.csproj.CoreCompileInputs.cache

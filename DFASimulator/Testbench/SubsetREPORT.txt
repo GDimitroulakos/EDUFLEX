@@ -4,42 +4,91 @@ RE : 1
 
 
 	Iteration : 0
-	Configuration : L1G5_N24,L1G5_N16,L1G5_N18,
-	DFA Node : L1G6_N26
-		Character : [0]
+	Configuration : L1G5_N24,L1G5_N16,L1G5_N22,
+	DFA Node : L1G12_N52
+		Character : [a]
 			Delta Configuration : L1G5_N17,
-			Closure Configuration : L1G5_N17,L1G5_N25,
-			Target DFA Node : L1G6_N27
-		Character : [1-9]
-			Delta Configuration : L1G5_N19,
-			Closure Configuration : L1G5_N19,L1G5_N22,L1G5_N20,L1G5_N23,L1G5_N25,
-			Target DFA Node : L1G6_N28
+			Closure Configuration : L1G5_N17,L1G5_N20,L1G5_N18,L1G5_N21,L1G5_N25,
+			Target DFA Node : L1G12_N53
+		Character : [c]
+			Delta Configuration : L1G5_N23,
+			Closure Configuration : L1G5_N23,L1G5_N25,
+			Target DFA Node : L1G12_N54
 
 
 	Iteration : 1
-	Configuration : L1G5_N17,L1G5_N25,
-	DFA Node : L1G6_N27
+	Configuration : L1G5_N17,L1G5_N20,L1G5_N18,L1G5_N21,L1G5_N25,
+	DFA Node : L1G12_N53
+		Character : [b]
+			Delta Configuration : L1G5_N19,
+			Closure Configuration : L1G5_N19,L1G5_N21,L1G5_N25,L1G5_N18,
+			Target DFA Node : L1G12_N55
 
 
 	Iteration : 2
-	Configuration : L1G5_N19,L1G5_N22,L1G5_N20,L1G5_N23,L1G5_N25,
-	DFA Node : L1G6_N28
-		Character : [0-9]
-			Delta Configuration : L1G5_N21,
-			Closure Configuration : L1G5_N21,L1G5_N23,L1G5_N25,L1G5_N20,
-			Target DFA Node : L1G6_N29
+	Configuration : L1G5_N23,L1G5_N25,
+	DFA Node : L1G12_N54
 
 
 	Iteration : 3
-	Configuration : L1G5_N21,L1G5_N23,L1G5_N25,L1G5_N20,
-	DFA Node : L1G6_N29
-		Character : [0-9]
-			Delta Configuration : L1G5_N21,
-			Closure Configuration : L1G5_N21,L1G5_N23,L1G5_N25,L1G5_N20,
-			Target DFA Node : L1G6_N29
+	Configuration : L1G5_N19,L1G5_N21,L1G5_N25,L1G5_N18,
+	DFA Node : L1G12_N55
+		Character : [b]
+			Delta Configuration : L1G5_N19,
+			Closure Configuration : L1G5_N19,L1G5_N21,L1G5_N25,L1G5_N18,
+			Target DFA Node : L1G12_N55
 
 
-Net RE 1 Result :L1G6_N26 (L1G5_N24,L1G5_N16,L1G5_N18,),
-L1G6_N27 (L1G5_N17,L1G5_N25,),
-L1G6_N28 (L1G5_N19,L1G5_N22,L1G5_N20,L1G5_N23,L1G5_N25,),
-L1G6_N29 (L1G5_N21,L1G5_N23,L1G5_N25,L1G5_N20,),
+Net RE 1 Result :L1G12_N52 (L1G5_N24,L1G5_N16,L1G5_N22,),
+L1G12_N53 (L1G5_N17,L1G5_N20,L1G5_N18,L1G5_N21,L1G5_N25,),
+L1G12_N54 (L1G5_N23,L1G5_N25,),
+L1G12_N55 (L1G5_N19,L1G5_N21,L1G5_N25,L1G5_N18,),
+
+
+RE : 2
+
+
+	Iteration : 0
+	Configuration : L2G11_N50,L2G11_N44,L2G11_N42,L2G11_N45,L2G11_N46,L2G11_N48,
+	DFA Node : L2G13_N56
+		Character : [a]
+			Delta Configuration : L2G11_N43,
+			Closure Configuration : L2G11_N43,L2G11_N45,L2G11_N46,L2G11_N42,
+			Target DFA Node : L2G13_N57
+		Character : [b]
+			Delta Configuration : L2G11_N47,
+			Closure Configuration : L2G11_N47,L2G11_N51,
+			Target DFA Node : L2G13_N58
+		Character : [c]
+			Delta Configuration : L2G11_N49,
+			Closure Configuration : L2G11_N49,L2G11_N51,
+			Target DFA Node : L2G13_N59
+
+
+	Iteration : 1
+	Configuration : L2G11_N43,L2G11_N45,L2G11_N46,L2G11_N42,
+	DFA Node : L2G13_N57
+		Character : [a]
+			Delta Configuration : L2G11_N43,
+			Closure Configuration : L2G11_N43,L2G11_N45,L2G11_N46,L2G11_N42,
+			Target DFA Node : L2G13_N57
+		Character : [b]
+			Delta Configuration : L2G11_N47,
+			Closure Configuration : L2G11_N47,L2G11_N51,
+			Target DFA Node : L2G13_N58
+
+
+	Iteration : 2
+	Configuration : L2G11_N47,L2G11_N51,
+	DFA Node : L2G13_N58
+
+
+	Iteration : 3
+	Configuration : L2G11_N49,L2G11_N51,
+	DFA Node : L2G13_N59
+
+
+Net RE 2 Result :L2G13_N56 (L2G11_N50,L2G11_N44,L2G11_N42,L2G11_N45,L2G11_N46,L2G11_N48,),
+L2G13_N57 (L2G11_N43,L2G11_N45,L2G11_N46,L2G11_N42,),
+L2G13_N58 (L2G11_N47,L2G11_N51,),
+L2G13_N59 (L2G11_N49,L2G11_N51,),
